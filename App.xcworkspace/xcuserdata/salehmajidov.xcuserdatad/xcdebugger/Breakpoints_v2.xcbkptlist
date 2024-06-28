@@ -1,0 +1,488 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "46EA01A3-34E6-4690-B30A-5C7F10D393D1"
+   type = "0"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "466B573C-1AFC-4C70-8542-9272C872DF9D"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "AutoParkingNetwork/AutoParkingNetwork/Network/Helpers/AuthPlugin.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "95"
+            endingLineNumber = "95"
+            landmarkName = "prepare(_:target:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "466B573C-1AFC-4C70-8542-9272C872DF9D - 4f410a90f599ecc1"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "AutoParkingNetwork.AuthPlugin.prepare(_: Foundation.URLRequest, target: Moya.TargetType) -&gt; Foundation.URLRequest"
+                  moduleName = "AutoParkingNetwork"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/salehmajidov/Desktop/Startup/AutoParkingUIkit/AutoParkingNetwork/AutoParkingNetwork/Network/Helpers/AuthPlugin.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "95"
+                  endingLineNumber = "95"
+                  offsetFromSymbolStart = "884">
+               </Location>
+               <Location
+                  uuid = "466B573C-1AFC-4C70-8542-9272C872DF9D - 4f410a90f599ecc1"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "AutoParkingNetwork.AuthPlugin.prepare(_: Foundation.URLRequest, target: Moya.TargetType) -&gt; Foundation.URLRequest"
+                  moduleName = "AutoParkingNetwork"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/salehmajidov/Desktop/Startup/AutoParkingUIkit/AutoParkingNetwork/AutoParkingNetwork/Network/Helpers/AuthPlugin.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "95"
+                  endingLineNumber = "95"
+                  offsetFromSymbolStart = "940">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "725208C1-C287-4C1C-9756-DF96FA7EB4A7"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "AutoParkingNetwork/AutoParkingNetwork/Network/Helpers/AuthPlugin.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "100"
+            endingLineNumber = "100"
+            landmarkName = "prepare(_:target:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "7719D156-7DB1-46E7-A1B5-465B414EBF4E"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "AutoParking/AutoParking/App/AppDelegate.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "15"
+            endingLineNumber = "15"
+            landmarkName = "application(_:didFinishLaunchingWithOptions:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "73C04946-E547-4D7A-BE76-F93408F56F84"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "AutoParking/AutoParking/Managers/AppManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "51"
+            endingLineNumber = "51"
+            landmarkName = "getAccessToken()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "AD091A04-3381-4C96-A612-D828E5CCD1B2"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "AutoParkingNetwork/AutoParkingNetwork/Network/Base/Service.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "76"
+            endingLineNumber = "76"
+            landmarkName = "getAccessToken()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "A407F4CD-5FC9-4B68-8544-A8143DD3B9B7"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "AutoParkingNetwork/AutoParkingNetwork/Network/Base/BaseService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "48"
+            endingLineNumber = "48"
+            landmarkName = "init()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "832E124C-839C-45DE-97F8-9170826180ED"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "AutoParkingNetwork/AutoParkingNetwork/Network/Base/BaseService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "46"
+            endingLineNumber = "46"
+            landmarkName = "init()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C3FB3F6F-008C-4420-B93C-708168925166"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "AutoParking/AutoParking/Scenes/Auth/Verify/VerifyInteractor.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "39"
+            endingLineNumber = "39"
+            landmarkName = "verify(request:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "C3FB3F6F-008C-4420-B93C-708168925166 - cc26b704d24eaaee"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "AutoParking.VerifyInteractor.verify(request: AutoParking.Verify.CheckOTP.Request) -&gt; ()"
+                  moduleName = "AutoParking"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/salehmajidov/Desktop/Startup/AutoParkingUIkit/AutoParking/AutoParking/Scenes/Auth/Verify/VerifyInteractor.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "39"
+                  endingLineNumber = "39"
+                  offsetFromSymbolStart = "64">
+               </Location>
+               <Location
+                  uuid = "C3FB3F6F-008C-4420-B93C-708168925166 - b64a70033e40222c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;AutoParkingNetwork.Step2Response&gt;, Swift.Optional&lt;Swift.String&gt;) -&gt; () in AutoParking.VerifyInteractor.verify(request: AutoParking.Verify.CheckOTP.Request) -&gt; ()"
+                  moduleName = "AutoParking"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/salehmajidov/Desktop/Startup/AutoParkingUIkit/AutoParking/AutoParking/Scenes/Auth/Verify/VerifyInteractor.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "39"
+                  endingLineNumber = "39"
+                  offsetFromSymbolStart = "76">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "EB367091-97A5-4A9B-8114-DB59C4C4617A"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "AutoParking/AutoParking/Scenes/Auth/SignIn/SignInRouter.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "48"
+            endingLineNumber = "48"
+            landmarkName = "passDataToVerify(source:destination:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "EB367091-97A5-4A9B-8114-DB59C4C4617A - 29b48a047f0e1000"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "AutoParking.SignInRouter.passDataToVerify(source: AutoParking.SignInDataStore, destination: inout AutoParking.VerifyDataStore) -&gt; ()"
+                  moduleName = "AutoParking"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/salehmajidov/Desktop/Startup/AutoParkingUIkit/AutoParking/AutoParking/Scenes/Auth/SignIn/SignInRouter.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "48"
+                  endingLineNumber = "48"
+                  offsetFromSymbolStart = "116">
+               </Location>
+               <Location
+                  uuid = "EB367091-97A5-4A9B-8114-DB59C4C4617A - 29b48a047f0e1000"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "AutoParking.SignInRouter.passDataToVerify(source: AutoParking.SignInDataStore, destination: inout AutoParking.VerifyDataStore) -&gt; ()"
+                  moduleName = "AutoParking"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/salehmajidov/Desktop/Startup/AutoParkingUIkit/AutoParking/AutoParking/Scenes/Auth/SignIn/SignInRouter.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "48"
+                  endingLineNumber = "48"
+                  offsetFromSymbolStart = "136">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E108846E-8556-4A58-847E-85595E88641F"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "AutoParking/AutoParking/Scenes/ActiveParking/ActiveParkingViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "88"
+            endingLineNumber = "88"
+            landmarkName = "tableView(_:numberOfRowsInSection:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "04C48B9C-CD2B-49B9-BB7A-34A1E924D7F9"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "AutoParking/AutoParking/Scenes/ActiveParking/ActiveParkingViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "71"
+            endingLineNumber = "71"
+            landmarkName = "displayBookingList(viewModel:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "A6DBB10F-EAC0-48F2-A9A1-9B8942914C19"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "AutoParking/AutoParking/Scenes/ParkList/ParkListViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "69"
+            endingLineNumber = "69"
+            landmarkName = "displaygetParkList(viewModel:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "2F7C0B83-A281-41B0-9917-6CBB797ABB7D"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "AutoParking/AutoParking/Scenes/ParkList/ParkListViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "48"
+            endingLineNumber = "48"
+            landmarkName = "viewDidLoad()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "CFC6FC42-2A10-4C1F-8820-96CE5680BD67"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "AutoParking/AutoParking/Scenes/Profile/ProfileView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "119"
+            endingLineNumber = "119"
+            landmarkName = "setupUI()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B759B20B-B490-4961-959D-2CEB20414008"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "AutoParking/AutoParking/Scenes/Auth/Verify/VerifyInteractor.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "44"
+            endingLineNumber = "44"
+            landmarkName = "verify(request:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "B759B20B-B490-4961-959D-2CEB20414008 - b64a70033e403d83"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;AutoParkingNetwork.Step2Response&gt;, Swift.Optional&lt;Swift.String&gt;) -&gt; () in AutoParking.VerifyInteractor.verify(request: AutoParking.Verify.CheckOTP.Request) -&gt; ()"
+                  moduleName = "AutoParking"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/salehmajidov/Desktop/Startup/AutoParkingUIkit/AutoParking/AutoParking/Scenes/Auth/Verify/VerifyInteractor.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "44"
+                  endingLineNumber = "44"
+                  offsetFromSymbolStart = "212">
+               </Location>
+               <Location
+                  uuid = "B759B20B-B490-4961-959D-2CEB20414008 - b64a70033e403d83"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;AutoParkingNetwork.Step2Response&gt;, Swift.Optional&lt;Swift.String&gt;) -&gt; () in AutoParking.VerifyInteractor.verify(request: AutoParking.Verify.CheckOTP.Request) -&gt; ()"
+                  moduleName = "AutoParking"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/salehmajidov/Desktop/Startup/AutoParkingUIkit/AutoParking/AutoParking/Scenes/Auth/Verify/VerifyInteractor.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "44"
+                  endingLineNumber = "44"
+                  offsetFromSymbolStart = "272">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "62729FBA-6076-4F90-8D62-B554B3421F18"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "AutoParking/AutoParking/Scenes/Auth/Verify/VerifyInteractor.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "48"
+            endingLineNumber = "48"
+            landmarkName = "verify(request:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "4E14CD59-08D8-44B9-9CC8-7FC3BA1D2F02"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "AutoParking/AutoParking/Scenes/MyCars/MyCarsViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "78"
+            endingLineNumber = "78"
+            landmarkName = "saveOrUpdateVehicle(selectedCarId:deviceName:carName:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "2819A172-2191-4F4D-9DAE-875BF6B63CAE"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "AutoParking/AutoParking/Scenes/Profile/ProfileViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "89"
+            endingLineNumber = "89"
+            landmarkName = "displayLoad(viewModel:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "113378C3-F2BB-450A-8FEF-C8A26F03BF42"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "AutoParking/AutoParking/Scenes/ParkList/ParkListInteractor.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "55"
+            endingLineNumber = "55"
+            landmarkName = "getParkList(request:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "113378C3-F2BB-450A-8FEF-C8A26F03BF42 - 9ca865c0740b1912"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;Swift.Array&lt;AutoParkingNetwork.Park&gt;&gt;, Swift.Optional&lt;Swift.String&gt;) -&gt; () in AutoParking.ParkListInteractor.getParkList(request: AutoParking.ParkList.ParkList.Request) -&gt; ()"
+                  moduleName = "AutoParking"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/salehmajidov/Desktop/Startup/AutoParkingUIkit/AutoParking/AutoParking/Scenes/ParkList/ParkListInteractor.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "46"
+                  endingLineNumber = "46"
+                  offsetFromSymbolStart = "296">
+               </Location>
+               <Location
+                  uuid = "113378C3-F2BB-450A-8FEF-C8A26F03BF42 - 9ca865c0740b182b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;Swift.Array&lt;AutoParkingNetwork.Park&gt;&gt;, Swift.Optional&lt;Swift.String&gt;) -&gt; () in AutoParking.ParkListInteractor.getParkList(request: AutoParking.ParkList.ParkList.Request) -&gt; ()"
+                  moduleName = "AutoParking"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/salehmajidov/Desktop/Startup/AutoParkingUIkit/AutoParking/AutoParking/Scenes/ParkList/ParkListInteractor.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "55"
+                  endingLineNumber = "55"
+                  offsetFromSymbolStart = "296">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "4EA0E052-C121-4F34-98EA-A5EBBB53BE41"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "AutoParking/AutoParking/Managers/LocationManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "233"
+            endingLineNumber = "233"
+            landmarkName = "locationManager(_:didUpdateLocations:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>
