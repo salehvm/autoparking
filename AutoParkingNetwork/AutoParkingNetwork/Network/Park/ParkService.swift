@@ -28,7 +28,7 @@ public class ParkService: BaseService, ParkServiceProtocol {
             let networkLoggerPlugin = NetworkLoggerPlugin(configuration: NetworkLoggerPlugin.Configuration(logOptions: .verbose))
             self.provider = MoyaProvider<ParkAPI>(plugins: [self.authPlugin, networkLoggerPlugin])
             #else
-            self.provider = MoyaProvider<ParkAPI>(plugins: [self.authPlugin, self.languagePlugin])
+//            self.provider = MoyaProvider<ParkAPI>(plugins: [self.authPlugin, self.languagePlugin])
             #endif
 
         

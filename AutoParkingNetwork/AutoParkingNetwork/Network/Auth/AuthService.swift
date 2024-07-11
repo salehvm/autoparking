@@ -35,7 +35,7 @@ public class AuthService: BaseService, AuthServiceProtocol {
             let networkLoggerPlugin = NetworkLoggerPlugin(configuration: NetworkLoggerPlugin.Configuration(logOptions: .verbose))
             self.provider = MoyaProvider<AuthAPI>(plugins: [self.authPlugin, networkLoggerPlugin])
             #else
-            self.provider = MoyaProvider<AuthAPI>(plugins: [self.authPlugin, self.languagePlugin])
+//            self.provider = MoyaProvider<AuthAPI>(plugins: [self.authPlugin, self.languagePlugin])
             #endif
 
         
