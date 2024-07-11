@@ -56,7 +56,6 @@ final class MyCarsViewController: UIViewController {
         }
     }
 
-    
     func updateDeviceName(forVehicleId id: String, deviceName: String) {
         let realm = try! Realm()
         if let vehicle = realm.object(ofType: VehicleRealm.self, forPrimaryKey: id) {

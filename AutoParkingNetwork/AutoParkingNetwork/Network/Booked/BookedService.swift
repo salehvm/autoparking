@@ -25,7 +25,7 @@ public class BookedService: BaseService, BookedServiceProtocol {
             let networkLoggerPlugin = NetworkLoggerPlugin(configuration: NetworkLoggerPlugin.Configuration(logOptions: .verbose))
             self.provider = MoyaProvider<BookedAPI>(plugins: [self.authPlugin, networkLoggerPlugin])
             #else
-//            self.provider = MoyaProvider<BookedAPI>(plugins: [self.authPlugin, self.languagePlugin])
+            self.provider = MoyaProvider<BookedAPI>(plugins: [self.authPlugin])
             #endif
 
         

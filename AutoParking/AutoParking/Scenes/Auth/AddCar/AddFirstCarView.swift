@@ -13,12 +13,23 @@ protocol AddFirstCarViewDelegate: AnyObject {
     func didTapAddCar(selectedCar: Vehicle?, deviceName: String)
 }
 
+// ...
+
 final class AddFirstCarView: UIView {
     
     weak var delegate: AddFirstCarViewDelegate?
     
-    var cars: [Vehicle] = []
+    var cars: [Vehicle] = [] {
+        didSet {
+            self.carPicker.reloadAllComponents()
+            if !cars.isEmpty {
+                self.carPicker.selectRow(selectedCarIndex, inComponent: 0, animated: false)
+                self.selectedCar = cars[selectedCarIndex]
+            }
+        }
+    }
     
+    private var selectedCarIndex: Int = 0 // Add this variable to store the selected index
     private var selectedCar: Vehicle?
     
     private let titleLabel: UILabel = {
@@ -68,7 +79,6 @@ final class AddFirstCarView: UIView {
         
         self.carPicker.delegate = self
         self.carPicker.dataSource = self
-        
     }
     
     required init?(coder: NSCoder) {
@@ -112,7 +122,6 @@ final class AddFirstCarView: UIView {
             make.leading.trailing.equalToSuperview().inset(16)
             make.height.equalTo(50)
         }
-        
     }
     
     private func setupActions() {
@@ -124,7 +133,6 @@ final class AddFirstCarView: UIView {
             delegate.didTapAddCar(selectedCar: selectedCar, deviceName: self.deviceNameTextField.text ?? "")
         }
     }
-    
 }
 
 extension AddFirstCarView: UIPickerViewDelegate, UIPickerViewDataSource {
@@ -153,6 +161,7 @@ extension AddFirstCarView: UIPickerViewDelegate, UIPickerViewDataSource {
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        selectedCarIndex = row 
         selectedCar = cars[row]
     }
 }

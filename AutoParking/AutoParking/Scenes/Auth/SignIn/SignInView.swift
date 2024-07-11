@@ -36,8 +36,10 @@ final class SignInView: UIView {
             updateCodePicker()
         }
     }
+    private var selectedCodeIndex: Int = 0 // Add this variable to store the selected index
+    
     private var selectedCode: String {
-        return selectedOperator.codes.first ?? ""
+        return selectedOperator.codes[selectedCodeIndex]
     }
     
     private let operatorSegmentedControl: UISegmentedControl = {
@@ -121,6 +123,8 @@ final class SignInView: UIView {
     @objc private func operatorChanged() {
         let index = self.operatorSegmentedControl.selectedSegmentIndex
         self.selectedOperator = OperatorValue.allCases[index]
+        self.selectedCodeIndex = 0 // Reset to the first code
+        self.numberTextField.text = self.selectedCode // Set the numberTextField to the first code
     }
     
     @objc private func getVerificationCodeTapped() {
@@ -133,6 +137,8 @@ final class SignInView: UIView {
     
     private func updateCodePicker() {
         self.codePicker.reloadAllComponents()
+        self.codePicker.selectRow(selectedCodeIndex, inComponent: 0, animated: false)
+        self.numberTextField.text = self.selectedCode // Update numberTextField with the selected code
     }
 }
 
@@ -150,6 +156,7 @@ extension SignInView: UIPickerViewDelegate, UIPickerViewDataSource {
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        self.selectedCodeIndex = row
         let selectedCode = self.selectedOperator.codes[row]
         self.numberTextField.text = selectedCode
     }

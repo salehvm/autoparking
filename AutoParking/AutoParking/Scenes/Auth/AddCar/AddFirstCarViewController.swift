@@ -89,10 +89,8 @@ extension AddFirstCarViewController: AddFirstCarDisplayLogic {
        do {
            try realm.write {
                realm.add(newVehicle)
-               App.router.main()
                print("Added new car with device name: \(deviceName)")
            }
-           
            
            printAllCars()
            print("Added new car with device name: \(deviceName)")
@@ -120,33 +118,34 @@ extension AddFirstCarViewController: AddFirstCarDisplayLogic {
 
 extension AddFirstCarViewController: AddFirstCarViewDelegate {
 
-       func didTapAddCar(selectedCar: Vehicle?, deviceName: String) {
-        
-        guard !deviceName.isEmpty else {
-            showAlert("Device name is required.")
-            return
-        }
-        
-        guard let car = selectedCar else {
-            print("Error: Car information is incomplete or not provided.")
-            return
-        }
-
-        let realm = try! Realm()
-        let newVehicle = VehicleRealm()
-           newVehicle.id = car.id ?? ""
-        newVehicle.deviceName = deviceName
-        newVehicle.number = car.number ?? ""
-        newVehicle.markLabel = car.mark?.label ?? ""
-        newVehicle.modelLabel = car.model?.label ?? ""
-
-        do {
-            try realm.write {
-                realm.add(newVehicle, update: .all)
-                print("Added new car with device name: \(deviceName)")
+    func didTapAddCar(selectedCar: Vehicle?, deviceName: String) {
+            
+            guard !deviceName.isEmpty else {
+                showAlert("Device name is required.")
+                return
             }
-        } catch {
-            print("Failed to add new car to Realm: \(error)")
+            
+            guard let car = selectedCar else {
+                print("Error: Car information is incomplete or not provided.")
+                return
+            }
+
+            let realm = try! Realm()
+            let newVehicle = VehicleRealm()
+            newVehicle.id = car.id ?? ""
+            newVehicle.deviceName = deviceName
+            newVehicle.number = car.number ?? ""
+            newVehicle.markLabel = car.mark?.label ?? ""
+            newVehicle.modelLabel = car.model?.label ?? ""
+
+            do {
+                try realm.write {
+                    realm.add(newVehicle, update: .all)
+                    print("Added new car with device name: \(deviceName)")
+                }
+                App.router.main()
+            } catch {
+                print("Failed to add new car to Realm: \(error)")
+            }
         }
-    }
 }
