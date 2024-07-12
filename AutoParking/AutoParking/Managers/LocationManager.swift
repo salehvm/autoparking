@@ -128,7 +128,6 @@ final class LocationManager: NSObject {
         
         self.sendPushNotification(title: "Parks List", body: "\(parkObject?.code ?? "") \(minDistance)")
         
-        
         self.userLocationLat = userLocation.latitude
         self.userLocationLong = userLocation.longitude
         
@@ -137,17 +136,12 @@ final class LocationManager: NSObject {
     
     private func closestPoint(on polyline: [Coordinates], to location: CLLocationCoordinate2D) -> Double? {
         guard polyline.count > 1 else { return nil }
-
-        var smallestDistance: Double = .greatestFiniteMagnitude
         
         let point = Turf.Point(location)
         
         let line = Turf.LineString([.init(latitude: polyline.first?.latitude ?? 0.0, longitude: polyline.first?.longitude ?? 0.0),.init(latitude: polyline.last?.latitude ?? 0.0, longitude: polyline.last?.longitude ?? 0.0)])
         
         let linePoint = line.closestCoordinate(to: point.coordinates)
-        
-//        print("linePoint distance")
-//        print(linePoint?.coordinate.distance(to: point.coordinates))
 
         return linePoint?.coordinate.distance(to: point.coordinates)
     }
@@ -157,7 +151,7 @@ final class LocationManager: NSObject {
     }
 
     private func haversineDistance(lat1: Double, lng1: Double, lat2: Double, lng2: Double) -> Double {
-        let R = 6371e3 // Earth's radius in meters
+        let R = 6371e3
         let φ1 = toRadians(lat1)
         let φ2 = toRadians(lat2)
         let Δφ = toRadians(lat2 - lat1)
@@ -168,7 +162,7 @@ final class LocationManager: NSObject {
                 sin(Δλ / 2) * sin(Δλ / 2)
         let c = 2 * atan2(sqrt(a), sqrt(1 - a))
 
-        return R * c // distance in meters
+        return R * c
     }
 
     private func distancePointToSegment(point: CLLocationCoordinate2D, segmentStart: CLLocationCoordinate2D, segmentEnd: CLLocationCoordinate2D) -> Double {
@@ -205,14 +199,12 @@ final class LocationManager: NSObject {
 extension LocationManager: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-            if status == .authorizedWhenInUse || status == .authorizedAlways {
-                
-                self.userLocationLat = manager.location?.coordinate.latitude
-                self.userLocationLong = manager.location?.coordinate.longitude
-//                locationManager.startUpdatingLocation()
-            }
+        if status == .authorizedWhenInUse || status == .authorizedAlways {
+            
+            self.userLocationLat = manager.location?.coordinate.latitude
+            self.userLocationLong = manager.location?.coordinate.longitude
         }
-    
+    }
     
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         switch manager.authorizationStatus {
@@ -220,27 +212,11 @@ extension LocationManager: CLLocationManagerDelegate {
             manager.requestWhenInUseAuthorization()
         case .authorizedWhenInUse, .authorizedAlways:
             break
-//            manager.startUpdatingLocation()
-//            manager.stopUpdatingLocation()
         case .restricted, .denied:
-            // Handle restricted or denied status
             break
         default:
             break
         }
-    }
-
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-//        guard let bestLocation = locations.last, bestLocation.horizontalAccuracy > 0 else {
-//            print("Failed to get a valid location")
-//            return
-//        }
-//        print("Received new location: \(bestLocation)")
-        
-//        print(bestLocation)
-        
-//        calculateClosestPoints(location: bestLocation, parks: self.parks ?? [])
-        
     }
 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {

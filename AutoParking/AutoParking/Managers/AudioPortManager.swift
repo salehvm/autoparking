@@ -34,6 +34,9 @@ final class AudioPortManager: NSObject, CLLocationManagerDelegate {
     
     let delegates = MulticastDelegate<AudioPortManagerDelegate>()
     
+    @objc dynamic var currentOutput: String = "No device connected"
+    @objc dynamic var currentType: String = "No device connected"
+    @objc dynamic var routeChangeMessage: String = "Listening for changes..."
     
     private var service: ServiceProtocol = App.service
     
@@ -77,10 +80,6 @@ final class AudioPortManager: NSObject, CLLocationManagerDelegate {
         }
     }
     
-    @objc dynamic var currentOutput: String = "No device connected"
-    @objc dynamic var currentType: String = "No device connected"
-    @objc dynamic var routeChangeMessage: String = "Listening for changes..."
-    
     override init() {
         super.init()
         setupAudioSession()
@@ -111,10 +110,8 @@ final class AudioPortManager: NSObject, CLLocationManagerDelegate {
     }
     
     private func requestCurrentLocation(completion: @escaping (CLLocation?) -> Void) {
+        
         locationManager.requestLocation()
-        
-        
-        // Check for location updates in a reasonable time frame
         completion(self.location)
     }
     
@@ -252,48 +249,47 @@ final class AudioPortManager: NSObject, CLLocationManagerDelegate {
     }
     
     private func updateCurrentOutput() {
-            let currentRoute = AVAudioSession.sharedInstance().currentRoute
-            if let output = currentRoute.outputs.first {
-                currentOutput = output.portName
-                currentType = output.portType.rawValue
+        let currentRoute = AVAudioSession.sharedInstance().currentRoute
+        if let output = currentRoute.outputs.first {
+            currentOutput = output.portName
+            currentType = output.portType.rawValue
 
-                let realm = try! Realm()
-                cars = realm.objects(VehicleRealm.self)
+            let realm = try! Realm()
+            cars = realm.objects(VehicleRealm.self)
 
-                if cars.isEmpty {
-                    print("No vehicle found with device name: \(output.portName)")
-                } else {
-                    for car in cars {
-                        self.printAllCars()
-                        if output.portName == car.deviceName {
-                            self.activeCar = car
-                            print("equal")
-                            fetchAndStopBooking(for: car)
-                        } else {
-                            if self.activeCar?.id == car.id {
-                                locationManager.requestLocation()                         }
+            if cars.isEmpty {
+                print("No vehicle found with device name: \(output.portName)")
+            } else {
+                for car in cars {
+                    self.printAllCars()
+                    if output.portName == car.deviceName {
+                        self.activeCar = car
+                        print("equal")
+                        fetchAndStopBooking(for: car)
+                    } else {
+                        if self.activeCar?.id == car.id {
+                            locationManager.requestLocation()
                         }
                     }
                 }
-            } else {
-                currentOutput = "No device connected"
-                currentType = "No device connected"
             }
-            print("Current output: \(currentOutput)")
-            print("Current output type: \(currentType)")
+        } else {
+            currentOutput = "No device connected"
+            currentType = "No device connected"
         }
+        print("Current output: \(currentOutput)")
+        print("Current output type: \(currentType)")
+    }
     
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-            guard let bestLocation = locations.last, bestLocation.horizontalAccuracy > 0 else {
-                print("Failed to get a valid location")
-                return
-            }
-            self.location = bestLocation
-            print("Best location updated: \(bestLocation)")
+        guard let bestLocation = locations.last, bestLocation.horizontalAccuracy > 0 else {
+            print("Failed to get a valid location")
+            return
+        }
+        self.location = bestLocation
+        print("Best location updated: \(bestLocation)")
             
-            // Notify the listener
-        
         let token = SessionManager.shared.accessToken ?? ""
         self.service.auth.getPaymentCards(token: token) { result in
             switch result {
@@ -319,58 +315,44 @@ final class AudioPortManager: NSObject, CLLocationManagerDelegate {
             }
         }
 
-        }
+    }
 
-        func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-            print("Failed to get current location: \(error.localizedDescription)")
-        }
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("Failed to get current location: \(error.localizedDescription)")
+    }
 
-    
     @objc private func handleRouteChange(notification: Notification) {
-            guard let userInfo = notification.userInfo,
-                  let reasonValue = userInfo[AVAudioSessionRouteChangeReasonKey] as? UInt,
-                  let reason = AVAudioSession.RouteChangeReason(rawValue: reasonValue) else {
-                return
-            }
-
-            switch reason {
-            case .newDeviceAvailable:
-                requestCurrentLocation { [weak self] location in
-                    guard let self = self, let location = location else {
-                        print("Failed to get current location")
-                        return
-                    }
-                    self.updateCurrentOutput()
-                }
-                routeChangeMessage = "New device available, such as headphones or a Bluetooth audio device."
-            case .oldDeviceUnavailable:
-                requestCurrentLocation { [weak self] location in
-                    guard let self = self, let location = location else {
-                        print("Failed to get current location")
-                        return
-                    }
-                    self.updateCurrentOutput()
-                }
-                routeChangeMessage = "Old device unavailable, such as headphones or a Bluetooth audio device being disconnected."
-            case .categoryChange:
-                routeChangeMessage = "Category change"
-            default:
-                routeChangeMessage = "Audio route changed"
-            }
-            
-            delegate?.didChangeAudioRoute(output: currentOutput, type: currentType, message: routeChangeMessage)
+        guard let userInfo = notification.userInfo,
+              let reasonValue = userInfo[AVAudioSessionRouteChangeReasonKey] as? UInt,
+              let reason = AVAudioSession.RouteChangeReason(rawValue: reasonValue) else {
+            return
         }
-    
-    // CLLocationManagerDelegate Methods
-//    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-//        guard let bestLocation = locations.last, bestLocation.horizontalAccuracy > 0 else {
-//            print("Failed to get a valid location")
-//            return
-//        }
-//        self.location = bestLocation
-//    }
-//    
-//    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-//        print("Failed to get current location: \(error.localizedDescription)")
-//    }
+
+        switch reason {
+        case .newDeviceAvailable:
+            requestCurrentLocation { [weak self] location in
+                guard let self = self, let location = location else {
+                    print("Failed to get current location")
+                    return
+                }
+                self.updateCurrentOutput()
+            }
+            routeChangeMessage = "New device available, such as headphones or a Bluetooth audio device."
+        case .oldDeviceUnavailable:
+            requestCurrentLocation { [weak self] location in
+                guard let self = self, let location = location else {
+                    print("Failed to get current location")
+                    return
+                }
+                self.updateCurrentOutput()
+            }
+            routeChangeMessage = "Old device unavailable, such as headphones or a Bluetooth audio device being disconnected."
+        case .categoryChange:
+            routeChangeMessage = "Category change"
+        default:
+            routeChangeMessage = "Audio route changed"
+        }
+        
+        delegate?.didChangeAudioRoute(output: currentOutput, type: currentType, message: routeChangeMessage)
+    }
 }
