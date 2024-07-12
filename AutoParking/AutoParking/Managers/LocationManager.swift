@@ -9,6 +9,7 @@ import Foundation
 import AutoParkingNetwork
 import CoreLocation
 import Turf
+import UserNotifications
 
 protocol LocationManagerDelegate {
     
@@ -28,7 +29,7 @@ final class LocationManager: NSObject {
     private var locationManager = CLLocationManager()
     var location: CLLocation?
     var locationError: Error?
-    var minKey: String?
+    var parkId: String?
     var userLocationLat: Double?
     var userLocationLong: Double?
     
@@ -47,7 +48,6 @@ final class LocationManager: NSObject {
             print("Location is nil, cannot fetch parks")
             return
         }
-//        print("Fetching parks for location: \(location)")
         self.service.park.getParkList(token: token, location: location) { [weak self] result in
             guard let self = self else { return }
             
@@ -88,41 +88,51 @@ final class LocationManager: NSObject {
         locationManager.startUpdatingLocation()
     }
     
-    func calculateClosestPoints(location: CLLocation, parks: [Park]) {
+    private func sendPushNotification(title: String, body: String) {
+        let content = UNMutableNotificationContent()
+        content.title = title
+        content.body = body
+        content.sound = .default
+        content.badge = NSNumber(value: 1)
+        
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+        
+        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+        
+        UNUserNotificationCenter.current().add(request) { error in
+            if let error = error {
+                print("Failed to add notification request: \(error)")
+            } else {
+                print("Notification scheduled: \(title) - \(body)")
+            }
+        }
+    }
+    
+    func calculateClosestPoints(location: CLLocation, parks: [Park]) -> Park? {
         let userLocation = location.coordinate
         var minDistance: Double = .greatestFiniteMagnitude
         var closestCoordinates: [String: Double] = [:]
-
+        var parkObject: Park?
+        
         for park in parks {
             if let closestPoint = closestPoint(on: park.polylineCoords ?? [], to: userLocation) {
                 closestCoordinates[park.code ?? ""] = closestPoint
                 
-                // make sure distance 10 metres to find minkey
-                
-//                if closestPoint < 10.0 {
-                    if closestPoint < minDistance {
-                        minDistance = closestPoint
-                        minKey = park.id
-                        
-                    }
-//                }
+                if closestPoint < minDistance {
+                    minDistance = closestPoint
+                    parkObject = park
+                    
+                }
             }
         }
-
-//        print("minKey")
-//        print(minKey)
-//        
-//        print("\(self.userLocationLat) \(self.userLocationLong) user loct")
+        
+        self.sendPushNotification(title: "Parks List", body: "\(parkObject?.code ?? "") \(minDistance)")
+        
         
         self.userLocationLat = userLocation.latitude
         self.userLocationLong = userLocation.longitude
-
-//        print("closes calculate func -> \(closestCoordinates)")
-//        print(closestCoordinates.keys)
-//        print(closestCoordinates.values)
-//        print("closes calculate func -> \(closestCoordinates)")
-//        print("userLocation")
-//        print(userLocation)
+        
+        return parkObject
     }
     
     private func closestPoint(on polyline: [Coordinates], to location: CLLocationCoordinate2D) -> Double? {
@@ -199,7 +209,7 @@ extension LocationManager: CLLocationManagerDelegate {
                 
                 self.userLocationLat = manager.location?.coordinate.latitude
                 self.userLocationLong = manager.location?.coordinate.longitude
-                locationManager.startUpdatingLocation()
+//                locationManager.startUpdatingLocation()
             }
         }
     
@@ -209,7 +219,9 @@ extension LocationManager: CLLocationManagerDelegate {
         case .notDetermined:
             manager.requestWhenInUseAuthorization()
         case .authorizedWhenInUse, .authorizedAlways:
-            manager.startUpdatingLocation()
+            break
+//            manager.startUpdatingLocation()
+//            manager.stopUpdatingLocation()
         case .restricted, .denied:
             // Handle restricted or denied status
             break
@@ -219,18 +231,16 @@ extension LocationManager: CLLocationManagerDelegate {
     }
 
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let bestLocation = locations.last, bestLocation.horizontalAccuracy > 0 else {
-            print("Failed to get a valid location")
-            return
-        }
+//        guard let bestLocation = locations.last, bestLocation.horizontalAccuracy > 0 else {
+//            print("Failed to get a valid location")
+//            return
+//        }
 //        print("Received new location: \(bestLocation)")
         
 //        print(bestLocation)
-        location = bestLocation
-//        fetchParks() { success in
-//            print("Fetch parks completed with status: \(success)")
-//        }
-        calculateClosestPoints(location: bestLocation, parks: self.parks ?? [])
+        
+//        calculateClosestPoints(location: bestLocation, parks: self.parks ?? [])
+        
     }
 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {

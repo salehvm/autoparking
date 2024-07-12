@@ -37,6 +37,7 @@
 		C606393E2C3B1E4400CA7605 /* FirebaseVertexAI-Preview in Frameworks */ = {isa = PBXBuildFile; productRef = C606393D2C3B1E4400CA7605 /* FirebaseVertexAI-Preview */; };
 		C64007202C2D6F1600BCA056 /* MulticastDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C640071F2C2D6F1600BCA056 /* MulticastDelegate.swift */; };
 		C64007222C2D83FA00BCA056 /* AudioPortManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C64007212C2D83FA00BCA056 /* AudioPortManager.swift */; };
+		C65B98B62C4158680057D40F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C65B98B52C4158680057D40F /* GoogleService-Info.plist */; };
 		C67B6CA92C299B9D004FF395 /* AddFirstCarPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67B6CA12C299B9D004FF395 /* AddFirstCarPresenter.swift */; };
 		C67B6CAA2C299B9D004FF395 /* AddFirstCarWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67B6CA22C299B9D004FF395 /* AddFirstCarWorker.swift */; };
 		C67B6CAB2C299B9D004FF395 /* AddFirstCarRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67B6CA32C299B9D004FF395 /* AddFirstCarRouter.swift */; };
@@ -165,6 +166,7 @@
 		C606393F2C3B21A800CA7605 /* AutoParking.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AutoParking.entitlements; sourceTree = "<group>"; };
 		C640071F2C2D6F1600BCA056 /* MulticastDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MulticastDelegate.swift; sourceTree = "<group>"; };
 		C64007212C2D83FA00BCA056 /* AudioPortManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPortManager.swift; sourceTree = "<group>"; };
+		C65B98B52C4158680057D40F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C67B6CA12C299B9D004FF395 /* AddFirstCarPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFirstCarPresenter.swift; sourceTree = "<group>"; };
 		C67B6CA22C299B9D004FF395 /* AddFirstCarWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFirstCarWorker.swift; sourceTree = "<group>"; };
 		C67B6CA32C299B9D004FF395 /* AddFirstCarRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFirstCarRouter.swift; sourceTree = "<group>"; };
@@ -405,6 +407,7 @@
 		C691A11D2C28D126004192D7 /* AutoParking */ = {
 			isa = PBXGroup;
 			children = (
+				C65B98B52C4158680057D40F /* GoogleService-Info.plist */,
 				C606393F2C3B21A800CA7605 /* AutoParking.entitlements */,
 				C691A2552C28E665004192D7 /* Info.plist */,
 				C691A20C2C28DE2C004192D7 /* Supporting */,
@@ -749,6 +752,7 @@
 			files = (
 				C691A12B2C28D127004192D7 /* LaunchScreen.storyboard in Resources */,
 				C691A1282C28D127004192D7 /* Assets.xcassets in Resources */,
+				C65B98B62C4158680057D40F /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -999,7 +1003,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = AutoParking/AutoParking.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = 5QNRM4SY3X;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AutoParking/Info.plist;
@@ -1031,7 +1035,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = AutoParking/AutoParking.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = 5QNRM4SY3X;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AutoParking/Info.plist;

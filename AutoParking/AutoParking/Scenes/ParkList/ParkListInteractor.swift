@@ -14,26 +14,25 @@ protocol ParkListBusinessLogic {
     func getParkList(request: ParkList.ParkList.Request)
 }
 
-protocol ParkListDataStore {
-    
-    //var name: String { get set }
-}
+protocol ParkListDataStore {}
 
 final class ParkListInteractor: ParkListBusinessLogic, ParkListDataStore {
     
     var presenter: ParkListPresentationLogic?
     lazy var worker: ParkListWorkingLogic = ParkListWorker()
-    //var name: String = ""
   
     var locationManager = LocationManager.shared
+    var audioPortManager = AudioPortManager.shared
     
     
     init() {
         self.locationManager.delegates.add(delegate: self)
+        self.audioPortManager.delegates.add(delegate: self)
     }
     
     deinit {
         self.locationManager.delegates.remove(delegate: self)
+        self.audioPortManager.delegates.remove(delegate: self)
     }
     
     // MARK: Business Logic
@@ -61,7 +60,7 @@ final class ParkListInteractor: ParkListBusinessLogic, ParkListDataStore {
     }
     
     func getParkList() {
-        var parks = LocationManager.shared.parks
+        let parks = LocationManager.shared.parks
         
         let response = ParkList.ParkList.Response(data: parks ?? [])
         self.presenter?.presentGetParkList(response: response)
@@ -74,6 +73,12 @@ extension ParkListInteractor: LocationManagerDelegate {
             self.getParkList()
         }
     }
-    
-    
+}
+
+extension ParkListInteractor: AudioPortManagerDelegate {
+    func fetchParksAudioCompletion(status: Bool) {
+        if status {
+            self.getParkList()
+        }
+    }
 }
