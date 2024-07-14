@@ -27,7 +27,6 @@ final class ActiveParkingViewController: UIViewController {
         }
     }
   
-    
     // MARK: - Lifecycle Methods
 
     override func loadView() {
@@ -49,7 +48,6 @@ final class ActiveParkingViewController: UIViewController {
         self.bookedList()
     }
   
-    
     // MARK: - Public Methods
   
     func load() {
@@ -102,11 +100,6 @@ extension ActiveParkingViewController: UITableViewDataSource, UITableViewDelegat
 
 extension ActiveParkingViewController: AudioRouteChangeDelegate {
     
-    func didChangeAudioRoute(output: String, type: String, message: String) {
-        print("change audio route")
-        print(output)
-        print(type)
-        print(message)
-    }
+    func didChangeAudioRoute(output: String, type: String, message: String) { }
     
 }

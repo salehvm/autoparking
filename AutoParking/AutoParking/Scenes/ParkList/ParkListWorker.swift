@@ -25,8 +25,6 @@ final class ParkListWorker: ParkListWorkingLogic {
     
     func getParkList(token: String, completion: @escaping ([Park]?, String?) -> Void) {
         
-//        let ts = Int(Date().timeIntervalSince1970).description
-        
         let location = locationManager.location
         
         guard let location = location else { return }

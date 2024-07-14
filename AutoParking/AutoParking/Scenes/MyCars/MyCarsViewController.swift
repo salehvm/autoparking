@@ -77,20 +77,20 @@ final class MyCarsViewController: UIViewController {
         if let existingVehicle = realm.object(ofType: VehicleRealm.self, forPrimaryKey: selectedCarId) {
             try! realm.write {
                 existingVehicle.deviceName = deviceName
-                existingVehicle.markLabel = carName  // Make sure this line is executing
+                existingVehicle.markLabel = carName 
                 print("Updated \(selectedCarId) with device name \(deviceName) and car name \(carName)")
             }
         } else {
             let newVehicle = VehicleRealm()
             newVehicle.id = selectedCarId
             newVehicle.deviceName = deviceName
-            newVehicle.markLabel = carName  // Ensure this is set for new entries
+            newVehicle.markLabel = carName
             try! realm.write {
                 realm.add(newVehicle)
                 print("Added new vehicle with ID \(selectedCarId), device name \(deviceName), and car name \(carName)")
             }
         }
-        self.loadCars()  // Make sure this is called to refresh the list
+        self.loadCars()
     }
 
     

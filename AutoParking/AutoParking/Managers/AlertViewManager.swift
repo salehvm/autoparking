@@ -23,19 +23,16 @@ public class AlertViewManager: NSObject {
     
     fileprivate var alertCtrls = [AlertControllerInfo]()
     
-    //Displays Alert Message with the OK button
     public func showOkAlert(_ title: String?, message: String?, handler: ((UIAlertAction) -> Void)?) {
         let okAction = UIAlertAction.init(title: "OK", style: UIAlertAction.Style.cancel, handler: handler)
         
         self.showAlert(title, message: message, actions: [okAction], style: UIAlertController.Style.alert, view: nil)
     }
     
-    //Displays Alert Message from the ERROR object
     public func showErrorAlert(error: Error) {
         self.showOkAlert("Error!", message: error.localizedDescription, handler: nil)
     }
     
-    //Displays RequestError Alert Message
     public func showRequestError(_ isNoInternet: Bool, completion: ((Bool) -> ())?) {
         let title = isNoInternet ? "Şəbəkə bağlantısı yoxdur" : "Gözlənilməz xəta baş verdi!"
         let message = isNoInternet ? "Lütfən, internet bağlantınızı yoxlayın və yenidən cəhd edin." : "Bir daha cəhd edin."
@@ -57,8 +54,7 @@ public class AlertViewManager: NSObject {
             }
         }
     }
-
-    //Dismisses all alerts
+    
     func cancelAllAlerts() {
         for alertCtrl in alertCtrls {
             if alertCtrl.alertController.presentingViewController != nil {
@@ -122,7 +118,6 @@ public class AlertViewManager: NSObject {
     fileprivate func presentAlertController(_ alertController : UIAlertController, presentingViewController : UIViewController) {
         DispatchQueue.main.async { () -> Void in
             
-            // Handle modal VC scenarios
             if let presentedModalVC = presentingViewController.presentedViewController {
                 presentedModalVC.present(alertController, animated: true, completion: nil)
                 self.alertCtrls.append(AlertControllerInfo(presentingVC:presentedModalVC, alertController: alertController))

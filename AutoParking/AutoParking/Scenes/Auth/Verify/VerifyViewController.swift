@@ -20,7 +20,6 @@ final class VerifyViewController: UIViewController {
     var interactor: VerifyBusinessLogic?
     var router: (VerifyRoutingLogic & VerifyDataPassing)?
   
-    
     // MARK: - Lifecycle Methods
 
     override func loadView() {
@@ -39,7 +38,6 @@ final class VerifyViewController: UIViewController {
         self.hideKeyboardWhenTappedAround()
         self.load()
     }
-  
     
     // MARK: - Public Methods
   

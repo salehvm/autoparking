@@ -30,7 +30,7 @@ enum TabBarModels {
 }
 
 extension TabBarModels {
-    ///title for tabbar item
+    
     var tabbarItemTitle: String? {
         switch self {
         case .activeParking:
@@ -45,7 +45,7 @@ extension TabBarModels {
             return "Profile"
         }
     }
-    ///icon for tabbar item
+    
     var tabbarItemImage: UIImage? {
         switch self {
         case .activeParking:

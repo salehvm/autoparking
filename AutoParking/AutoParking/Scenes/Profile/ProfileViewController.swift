@@ -103,7 +103,6 @@ extension ProfileViewController: ProfileViewDelegate {
                 print("Updated isAutoCheck to \(isOn)")
             }
         } else {
-            // If no AutoNotification object exists, create a new one
             let newAutoNotification = AutoNotification()
             newAutoNotification.isAutoCheck = isOn
             try! realm.write {

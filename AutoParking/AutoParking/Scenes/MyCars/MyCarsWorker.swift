@@ -9,6 +9,7 @@ import UIKit
 import AutoParkingNetwork
 
 protocol MyCarsWorkingLogic {
+    
     func getCarList(token: String, completion: @escaping (VehicleResponse?) -> Void)
 }
 

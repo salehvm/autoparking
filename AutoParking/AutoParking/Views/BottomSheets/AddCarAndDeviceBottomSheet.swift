@@ -148,7 +148,6 @@ final class AddCarAndDeviceBottomSheet: UIViewController, ThemeableViewControlle
         
         self.updateViewConstraints()
         
-        
     }
     
     private func setupUI() {
@@ -171,8 +170,6 @@ final class AddCarAndDeviceBottomSheet: UIViewController, ThemeableViewControlle
             if let selectedCar = self.selectedCar {
                 self.selectCompletion(self.editTextField.text ?? "", selectedCar)
             }
-            
-            
         }
     }
 }

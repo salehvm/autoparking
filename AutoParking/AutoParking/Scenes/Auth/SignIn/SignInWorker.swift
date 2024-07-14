@@ -9,11 +9,14 @@ import UIKit
 import AutoParkingNetwork
 
 protocol SignInWorkingLogic {
+    
     func sign(operatorValue: String, number: String, completion: @escaping (Step1Response?) -> Void)
 }
 
 final class SignInWorker: SignInWorkingLogic {
+    
     // MARK: - Private Properties
+    
     private let service: ServiceProtocol = App.service
 
     // MARK: - Working Logic

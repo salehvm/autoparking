@@ -11,6 +11,7 @@ import RealmSwift
 public class CacheManager {
     
     public  static let shared = CacheManager()
+    
     //TODO: generic
     
     public func saveData<T: Object>(data: T) {
@@ -25,8 +26,6 @@ public class CacheManager {
         let data = realm.objects(T.self)
         return data
     }
-    
-    // edit
 }
 
 

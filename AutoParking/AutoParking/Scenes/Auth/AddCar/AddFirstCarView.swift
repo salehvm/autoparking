@@ -13,8 +13,6 @@ protocol AddFirstCarViewDelegate: AnyObject {
     func didTapAddCar(selectedCar: Vehicle?, deviceName: String)
 }
 
-// ...
-
 final class AddFirstCarView: UIView {
     
     weak var delegate: AddFirstCarViewDelegate?
@@ -29,7 +27,7 @@ final class AddFirstCarView: UIView {
         }
     }
     
-    private var selectedCarIndex: Int = 0 // Add this variable to store the selected index
+    private var selectedCarIndex: Int = 0
     private var selectedCar: Vehicle?
     
     private let titleLabel: UILabel = {

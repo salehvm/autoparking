@@ -17,8 +17,6 @@ final class VerifyView: UIView {
     
     weak var delegate: VerifyViewDelegate?
     
-//    private var hash: String
-    
     private let otpTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "Enter OTP"
@@ -44,7 +42,6 @@ final class VerifyView: UIView {
     }()
     
     init() {
-//        self.hash = hash
         super.init(frame: .zero)
         setupUI()
         setupConstraints()

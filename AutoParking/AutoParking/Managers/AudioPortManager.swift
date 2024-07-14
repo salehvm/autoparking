@@ -241,7 +241,6 @@ final class AudioPortManager: NSObject, CLLocationManagerDelegate {
             currentOutput = output.portName
             currentType = output.portType.rawValue
 
-            // Log output and type
             print("Output port name: \(output.portName)")
             print("Output port type: \(output.portType.rawValue)")
 

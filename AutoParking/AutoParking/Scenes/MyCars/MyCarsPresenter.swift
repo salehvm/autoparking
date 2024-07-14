@@ -18,7 +18,6 @@ final class MyCarsPresenter: MyCarsPresentationLogic {
     
     weak var viewController: MyCarsDisplayLogic?
   
-    
     // MARK: Presentation
   
     func presentLoad(response: MyCars.Load.Response) {

@@ -71,7 +71,6 @@ final class MyCarsView: UIView {
         super.updateConstraints()
     }
     
-    
     // MARK: - Private
     
     private func addSubviews() {

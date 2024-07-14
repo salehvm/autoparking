@@ -91,14 +91,11 @@ final class ParkListCell: UITableViewCell, ThemeableView {
             make.bottom.equalToSuperview().offset(-8)
             make.leading.equalToSuperview().offset(8)
         }
-        
-        
     }
     
     deinit {
         self.data = nil
     }
-    
     
     // MARK: - Private
     

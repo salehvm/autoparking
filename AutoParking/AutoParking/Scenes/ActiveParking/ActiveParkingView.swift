@@ -52,7 +52,6 @@ final class ActiveParkingView: UIView {
         super.updateConstraints()
     }
     
-    
     // MARK: - Private
     
     private func addSubviews() {

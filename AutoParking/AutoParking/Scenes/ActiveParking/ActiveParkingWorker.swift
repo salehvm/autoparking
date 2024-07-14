@@ -18,9 +18,7 @@ final class ActiveParkingWorker: ActiveParkingWorkingLogic {
     
     private let service: ServiceProtocol = App.service
 
-    
     // MARK: - Working Logic
-    
     
     func getBookedList(token: String, completion: @escaping (BookingListResponse?, String?) -> Void) {
         

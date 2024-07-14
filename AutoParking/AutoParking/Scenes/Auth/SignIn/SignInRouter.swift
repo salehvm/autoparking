@@ -21,7 +21,6 @@ final class SignInRouter: NSObject, SignInRoutingLogic, SignInDataPassing {
     weak var viewController: SignInViewController?
     var dataStore: SignInDataStore?
   
-    
     // MARK: Routing
 
     func routeToVerify() {
@@ -33,14 +32,12 @@ final class SignInRouter: NSObject, SignInRoutingLogic, SignInDataPassing {
 
         navigateToVerify(source: viewController!, destination: destinationVC)
     }
-
     
     // MARK: Navigation
 
     func navigateToVerify(source: SignInViewController, destination: VerifyViewController) {
         source.show(destination, sender: nil)
     }
-
     
     // MARK: Passing data
 

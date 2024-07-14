@@ -41,7 +41,6 @@ final class LocationManager: NSObject {
         self.delegates.invoke(invocation: { $0.fetchParksCompletion(status: status) })
     }
     
-    
     func fetchParks(completion: ((Bool) -> ())? = nil) {
         let token = SessionManager.shared.accessToken ?? ""
         guard let location = self.location else {

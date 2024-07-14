@@ -25,10 +25,7 @@ final class SessionManager: NSObject, SessionManagerProtocol {
     
     static let shared = SessionManager()
     
-//    weak var delegate: SessionManagerDelegate?
-    
     var user: UserData? = nil
-    
     
     var hasLogin: Bool {
         get {
@@ -47,7 +44,6 @@ final class SessionManager: NSObject, SessionManagerProtocol {
             AppDefaults.setBool(key: AppKeys.App.Onboarding, value: newValue)
         }
     }
-    
     
     var accessToken: String? {
         get {
@@ -94,7 +90,6 @@ final class SessionManager: NSObject, SessionManagerProtocol {
         super.init()
     }
     
-    
     // MARK: - Public
     
     func logout() {
@@ -104,15 +99,6 @@ final class SessionManager: NSObject, SessionManagerProtocol {
         
         self.phoneNumber = nil
         self.userId = nil
-        
-//        AccountManager.shared.reset()
-//        AddressManager.shared.reset()
-//        
-//        NotificationManager.shared.deleteToken()
-        
-//        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now()+0.5) {
-//            self.delegate?.userLogout()
-//        }
     }
 }
 
@@ -125,8 +111,6 @@ struct AppKeys {
         
         static let PhoneNumber = "phone_number"
         static let UserId = "user_id"
-        
-        
     }
     
     struct App {

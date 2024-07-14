@@ -14,12 +14,15 @@ enum Verify {
     enum Load {
         
         struct Request {
+            
         }
         
         struct Response {
+            
         }
         
         struct ViewModel {
+            
         }
     }
     

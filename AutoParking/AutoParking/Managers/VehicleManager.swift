@@ -32,17 +32,13 @@ class VehicleDataManager {
                 for apiVehicle in vehicles {
                     let storedVehicle = realm.object(ofType: VehicleRealm.self, forPrimaryKey: apiVehicle.id)
                     if let storedVehicle = storedVehicle {
-                        // Update existing
                         storedVehicle.numberId = apiVehicle.numberId ?? 0
                         storedVehicle.number = apiVehicle.number ?? ""
-                        // Other fields...
                     } else {
-                        // Add new
                         let newVehicle = VehicleRealm()
                         newVehicle.id = apiVehicle.id ?? ""
                         newVehicle.numberId = apiVehicle.numberId ?? 0
                         newVehicle.number = apiVehicle.number ?? ""
-                        // Other fields...
                         realm.add(newVehicle)
                     }
                 }

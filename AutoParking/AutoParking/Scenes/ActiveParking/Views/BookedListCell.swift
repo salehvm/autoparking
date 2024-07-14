@@ -66,13 +66,11 @@ final class BookedListCell: UITableViewCell, ThemeableView {
             make.top.equalToSuperview()
             make.trailing.equalToSuperview()
         }
-        
     }
     
     deinit {
         self.data = nil
     }
-    
     
     // MARK: - Private
     

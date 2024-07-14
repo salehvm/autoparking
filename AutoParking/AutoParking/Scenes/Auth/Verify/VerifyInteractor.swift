@@ -26,7 +26,6 @@ final class VerifyInteractor: VerifyBusinessLogic, VerifyDataStore {
     
     var hash: String?
   
-    
     // MARK: Business Logic
   
     func load(request: Verify.Load.Request) {

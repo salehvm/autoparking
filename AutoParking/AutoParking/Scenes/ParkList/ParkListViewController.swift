@@ -27,7 +27,6 @@ final class ParkListViewController: UIViewController {
         }
     }
   
-    
     // MARK: - Lifecycle Methods
 
     override func loadView() {

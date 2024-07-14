@@ -52,7 +52,6 @@ final class ParkListView: UIView {
         super.updateConstraints()
     }
     
-    
     // MARK: - Private
     
     private func addSubviews() {

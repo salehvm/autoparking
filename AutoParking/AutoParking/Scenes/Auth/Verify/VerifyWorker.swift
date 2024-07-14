@@ -19,9 +19,7 @@ final class VerifyWorker: VerifyWorkingLogic {
     
     private let service: ServiceProtocol = App.service
 
-    
     // MARK: - Working Logic
-    
     
     func verifyOTP(otp: String, hash: String, completion: @escaping (Step2Response?, String?) -> Void) {
         

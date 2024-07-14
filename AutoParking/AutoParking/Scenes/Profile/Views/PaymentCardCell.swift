@@ -19,7 +19,6 @@ final class PaymentCardCell: UICollectionViewCell, ThemeableView {
     
     weak var delegate: PaymentCardCellDelegate?
     
-
     // MARK: - View Components
    
     lazy var bodyView: UIView = {
@@ -64,7 +63,6 @@ final class PaymentCardCell: UICollectionViewCell, ThemeableView {
         super.updateConstraints()
     }
     
-    
     // MARK: - Private
     
     private func addSubviews() {
@@ -78,7 +76,6 @@ final class PaymentCardCell: UICollectionViewCell, ThemeableView {
     private func setupUI() {
         self.contentView.backgroundColor = .clear
     }
-    
     
 }
 
