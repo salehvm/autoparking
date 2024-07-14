@@ -62,10 +62,15 @@ class VehicleRealm: Object {
     @objc dynamic var markLabel: String = ""
     @objc dynamic var modelValue: String = ""
     @objc dynamic var modelLabel: String = ""
-    @objc dynamic var deviceName: String = "" // User editable field
+    @objc dynamic var deviceName: String = "" 
     @objc dynamic var carName: String = ""
+    
 
     override static func primaryKey() -> String? {
         return "id"
     }
+}
+
+class AutoNotification: Object {
+    @objc dynamic var isAutoCheck: Bool = true
 }

@@ -7,13 +7,11 @@
 
 import UIKit
 import AutoParkingNetwork
+import RealmSwift
 
 protocol ProfileDisplayLogic: AnyObject {
-    
     func displayLoad(viewModel: Profile.Load.ViewModel)
-    
     func displayLogout(viewModel: Profile.Logout.ViewModel)
-    
     func displayPaymentList(viewModel: Profile.PaymentCardList.ViewModel)
 }
 
@@ -35,21 +33,17 @@ final class ProfileViewController: UIViewController {
 
     override func loadView() {
         super.loadView()
-        
         self.view = mainView
         mainView?.delegate = self
-        
         self.mainView?.collectionView.dataSource = self
         self.mainView?.collectionView.delegate = self
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.load()
     }
   
-    
     // MARK: - Public Methods
   
     func load() {
@@ -87,6 +81,13 @@ extension ProfileViewController: ProfileDisplayLogic {
     
     func displayLoad(viewModel: Profile.Load.ViewModel) {
         self.paymentCardList()
+        
+        let realm = try! Realm()
+        if let autoNotification = realm.objects(AutoNotification.self).first {
+            self.mainView?.switchBtn.isOn = autoNotification.isAutoCheck
+        } else {
+            print("No AutoNotification found")
+        }
     }
 }
 
@@ -94,10 +95,27 @@ extension ProfileViewController: ProfileDisplayLogic {
 
 extension ProfileViewController: ProfileViewDelegate {
     
+    func manageAutoSwcViewChange(_ isOn: Bool) {
+        let realm = try! Realm()
+        if let autoNotification = realm.objects(AutoNotification.self).first {
+            try! realm.write {
+                autoNotification.isAutoCheck = isOn
+                print("Updated isAutoCheck to \(isOn)")
+            }
+        } else {
+            // If no AutoNotification object exists, create a new one
+            let newAutoNotification = AutoNotification()
+            newAutoNotification.isAutoCheck = isOn
+            try! realm.write {
+                realm.add(newAutoNotification)
+                print("Created new AutoNotification with isAutoCheck: \(isOn)")
+            }
+        }
+    }
+    
     func logout() {
         self.logoutApi()
     }
-    
 }
 
 extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -128,5 +146,4 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
        
     }
-    
 }

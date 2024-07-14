@@ -16,14 +16,15 @@ final class AppRouter {
     
     func start() {
         self.splash()
-
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            self.checkStart()
+        }
     }
     
     func checkStart() {
         if SessionManager.shared.hasLogin {
             self.main()
-        }
-        else {
+        } else {
             self.signIn()
         }
     }
@@ -55,6 +56,29 @@ final class AppRouter {
         self.window.makeKeyAndVisible()
     }
 }
+
+
+extension AppRouter {
+    func topMostViewController() -> UIViewController? {
+        guard let rootViewController = window.rootViewController else {
+            return nil
+        }
+        return topMostViewController(of: rootViewController)
+    }
+
+    private func topMostViewController(of viewController: UIViewController) -> UIViewController {
+        if let presentedViewController = viewController.presentedViewController {
+            return topMostViewController(of: presentedViewController)
+        } else if let navigationController = viewController as? UINavigationController {
+            return topMostViewController(of: navigationController.visibleViewController ?? viewController)
+        } else if let tabBarController = viewController as? UITabBarController {
+            return topMostViewController(of: tabBarController.selectedViewController ?? viewController)
+        } else {
+            return viewController
+        }
+    }
+}
+
 
 
 
