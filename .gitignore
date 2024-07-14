@@ -11,6 +11,11 @@ xcuserdata/
 *.xcuserdatad
 *.xcscmblueprint
 
+# User-specific Xcode files
+xcuserdata/
+*.xcuserdatad
+*.xcuserstate
+
 # Workspace-specific files
 xcshareddata/
 *.xccheckout
