@@ -9,6 +9,7 @@ import UIKit
 
 protocol ProfileViewDelegate: AnyObject {
     func logout()
+    func manageAutoSwcViewChange(_ isOn: Bool)
 }
 
 final class ProfileView: UIView {
@@ -50,6 +51,12 @@ final class ProfileView: UIView {
         return collectionView
     }()
     
+    lazy var switchBtn: UISwitch = {
+        let switchBtn = UISwitch()
+        switchBtn.addTarget(self, action: #selector(stateChange(_:)), for: .valueChanged)
+        return switchBtn
+    }()
+    
     private lazy var logoutButton: UIButton = {
         let button = UIButton()
         button.setTitle("Logout", for: .normal)
@@ -89,6 +96,13 @@ final class ProfileView: UIView {
             make.height.equalTo(80)
         }
         
+        self.switchBtn.snp.updateConstraints { make in
+            make.width.equalTo(80)
+            make.height.equalTo(24)
+            make.trailing.equalToSuperview().offset(-16)
+            make.top.equalTo(self.collectionView.snp.bottom).offset(16)
+        }
+        
         self.logoutButton.snp.updateConstraints { make in
             make.height.equalTo(58)
             make.width.equalTo(250)
@@ -107,6 +121,7 @@ final class ProfileView: UIView {
         self.addSubview(self.userName)
         self.addSubview(self.number)
         self.addSubview(self.collectionView)
+        self.addSubview(self.switchBtn)
         self.addSubview(self.logoutButton)
         self.updateConstraints()
     }
@@ -118,6 +133,12 @@ final class ProfileView: UIView {
         
         self.userName.text = "\(session.user?.firstname ?? "") \(session.user?.lastname ?? "")"
         self.number.text = session.user?.msisdn ?? ""
+    }
+    
+    @objc func stateChange(_ swc: UISwitch) {
+        if let delegate = delegate {
+            delegate.manageAutoSwcViewChange(swc.isOn)
+        }
     }
     
     @objc func logoutAction() {

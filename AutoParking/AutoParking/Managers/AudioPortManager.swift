@@ -4,7 +4,6 @@
 //
 //  Created by Saleh Majidov on 27/06/2024.
 //
-
 import Foundation
 import AVFoundation
 import RealmSwift
@@ -20,23 +19,14 @@ protocol AudioPortManagerDelegate {
     func fetchParksAudioCompletion(status: Bool)
 }
 
-extension AudioPortManagerDelegate {}
-
 final class AudioPortManager: NSObject, CLLocationManagerDelegate {
     
     static let shared = AudioPortManager()
     
+    weak var delegate: AudioRouteChangeDelegate?
     private var locationManager = CLLocationManager()
     
     private var location: CLLocation?
-    
-    weak var delegate: AudioRouteChangeDelegate?
-    
-    let delegates = MulticastDelegate<AudioPortManagerDelegate>()
-    
-    @objc dynamic var currentOutput: String = "No device connected"
-    @objc dynamic var currentType: String = "No device connected"
-    @objc dynamic var routeChangeMessage: String = "Listening for changes..."
     
     private var service: ServiceProtocol = App.service
     
@@ -47,6 +37,66 @@ final class AudioPortManager: NSObject, CLLocationManagerDelegate {
     var activeCar: VehicleRealm?
     
     var parks: [Park]? = []
+    
+    let delegates = MulticastDelegate<AudioPortManagerDelegate>()
+    
+    @objc dynamic var currentOutput: String = "No device connected"
+    @objc dynamic var currentType: String = "No device connected"
+    @objc dynamic var routeChangeMessage: String = "Listening for changes..."
+    
+    override init() {
+        super.init()
+        setupAudioSession()
+        setupLocationManager()
+        NotificationCenter.default.addObserver(self, selector: #selector(handleRouteChange(notification:)), name: AVAudioSession.routeChangeNotification, object: nil)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: AVAudioSession.routeChangeNotification, object: nil)
+    }
+    
+    private func setupAudioSession() {
+        do {
+            let audioSession = AVAudioSession.sharedInstance()
+            try audioSession.setCategory(.playAndRecord, options: [.allowBluetooth, .allowBluetoothA2DP])
+            try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
+            updateCurrentOutput()
+        } catch {
+            print("Failed to activate audio session: \(error)")
+        }
+    }
+    
+    private func setupLocationManager() {
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+    }
+    
+    private func requestCurrentLocation(completion: @escaping (CLLocation?) -> Void) {
+        locationManager.requestLocation()
+        completion(self.location)
+    }
+    
+    private func sendPushNotification(title: String, body: String, parkId: String) {
+        let content = UNMutableNotificationContent()
+        content.title = title
+        content.body = body
+        content.sound = .default
+        content.badge = NSNumber(value: 1)
+        content.userInfo = ["parkId": parkId] 
+        
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+        
+        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+        
+        UNUserNotificationCenter.current().add(request) { error in
+            if let error = error {
+                print("Failed to add notification request: \(error)")
+            } else {
+                print("Notification scheduled: \(title) - \(body)")
+            }
+        }
+    }
     
     private func fetchParksAudioCompletion(status: Bool) {
         self.delegates.invoke(invocation: { $0.fetchParksAudioCompletion(status: status) })
@@ -80,61 +130,6 @@ final class AudioPortManager: NSObject, CLLocationManagerDelegate {
         }
     }
     
-    override init() {
-        super.init()
-        setupAudioSession()
-        setupLocationManager()
-        NotificationCenter.default.addObserver(self, selector: #selector(handleRouteChange(notification:)), name: AVAudioSession.routeChangeNotification, object: nil)
-    }
-    
-    deinit {
-        NotificationCenter.default.removeObserver(self, name: AVAudioSession.routeChangeNotification, object: nil)
-    }
-    
-    private func setupAudioSession() {
-        do {
-            let audioSession = AVAudioSession.sharedInstance()
-            try audioSession.setCategory(.playAndRecord, options: [.allowBluetooth, .allowBluetoothA2DP])
-            try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
-            updateCurrentOutput()
-        } catch {
-            print("Failed to activate audio session: \(error)")
-        }
-    }
-    
-    private func setupLocationManager() {
-        locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        
-    }
-    
-    private func requestCurrentLocation(completion: @escaping (CLLocation?) -> Void) {
-        
-        locationManager.requestLocation()
-        completion(self.location)
-    }
-    
-    private func sendPushNotification(title: String, body: String) {
-        let content = UNMutableNotificationContent()
-        content.title = title
-        content.body = body
-        content.sound = .default
-        content.badge = NSNumber(value: 1)
-        
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
-        
-        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
-        
-        UNUserNotificationCenter.current().add(request) { error in
-            if let error = error {
-                print("Failed to add notification request: \(error)")
-            } else {
-                print("Notification scheduled: \(title) - \(body)")
-            }
-        }
-    }
-    
     func startBook(selectedCardId: String, parkId: String, completion: ((Bool) -> ())? = nil) {
         guard let token = SessionManager.shared.accessToken else {
             print("Authentication token or park location key is missing.")
@@ -149,7 +144,7 @@ final class AudioPortManager: NSObject, CLLocationManagerDelegate {
                 switch result {
                 case .success(let response):
                     print("success response start book")
-                    self?.sendPushNotification(title: "Start Booked Park", body: "Your parking session has started successfully.")
+                    
                     completion?(true)
                 case .failure(let error):
                     print("Booking failed with error: \(error.localizedDescription)")
@@ -177,7 +172,7 @@ final class AudioPortManager: NSObject, CLLocationManagerDelegate {
             switch result {
             case .success(let response):
                 print("success response stop book")
-                self.sendPushNotification(title: "Successfully Stopped Park", body: "Your parking session has ended successfully.")
+                self.sendPushNotification(title: "Successfully Stopped Park", body: "Your parking session has ended successfully.", parkId: userParkId)
                 completion?(true)
             case .failure(let error):
                 print("Booking failed with error: \(error.localizedDescription)")
@@ -239,14 +234,6 @@ final class AudioPortManager: NSObject, CLLocationManagerDelegate {
             }
         }
     }
-
-    private func printAllCars() {
-        let realm = try! Realm()
-        let allVehicles = realm.objects(VehicleRealm.self)
-        allVehicles.forEach { vehicle in
-            print("Car: \(vehicle.number), Device: \(vehicle.deviceName)")
-        }
-    }
     
     private func updateCurrentOutput() {
         let currentRoute = AVAudioSession.sharedInstance().currentRoute
@@ -254,17 +241,23 @@ final class AudioPortManager: NSObject, CLLocationManagerDelegate {
             currentOutput = output.portName
             currentType = output.portType.rawValue
 
+            // Log output and type
+            print("Output port name: \(output.portName)")
+            print("Output port type: \(output.portType.rawValue)")
+
             let realm = try! Realm()
             cars = realm.objects(VehicleRealm.self)
+            
+            print("cars list")
+            print(cars)
 
             if cars.isEmpty {
                 print("No vehicle found with device name: \(output.portName)")
             } else {
                 for car in cars {
-                    self.printAllCars()
                     if output.portName == car.deviceName {
                         self.activeCar = car
-                        print("equal")
+                        print("Matching vehicle found: \(car.deviceName)")
                         fetchAndStopBooking(for: car)
                     } else {
                         if self.activeCar?.id == car.id {
@@ -274,13 +267,16 @@ final class AudioPortManager: NSObject, CLLocationManagerDelegate {
                 }
             }
         } else {
-            currentOutput = "No device connected"
-            currentType = "No device connected"
+            currentOutput = "Built-in Receiver"
+            currentType = AVAudioSession.Port.builtInReceiver.rawValue
+            self.activeCar = nil
         }
+        
         print("Current output: \(currentOutput)")
         print("Current output type: \(currentType)")
+        
+        delegate?.didChangeAudioRoute(output: currentOutput, type: currentType, message: routeChangeMessage)
     }
-    
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let bestLocation = locations.last, bestLocation.horizontalAccuracy > 0 else {
@@ -301,7 +297,15 @@ final class AudioPortManager: NSObject, CLLocationManagerDelegate {
                     if success,
                        let closestPark = LocationManager.shared.calculateClosestPoints(location: bestLocation, parks: data) {
                         print("Closest park id found: \(closestPark.id ?? "No park found")")
-                        self.startBook(selectedCardId: self.activeCar?.id ?? "", parkId: closestPark.id ?? "")
+                        
+                        let realm = try! Realm()
+                        if let autoNotification = realm.objects(AutoNotification.self).first, !autoNotification.isAutoCheck {
+                            self.sendPushNotification(title: "For you", body: "We detect you stay here \(closestPark.code ?? "") if you want us to park for you, let us", parkId: closestPark.id ?? "")
+                        } else {
+                            self.sendPushNotification(title: "Start Booked Park", body: "Your parking session has started successfully.", parkId: closestPark.id ?? "")
+                            self.startBook(selectedCardId: self.activeCar?.id ?? "", parkId: closestPark.id ?? "")
+                        }
+                        
                     } else {
                         print("Failed to find the closest park or fetch parks")
                     }
@@ -321,6 +325,7 @@ final class AudioPortManager: NSObject, CLLocationManagerDelegate {
         print("Failed to get current location: \(error.localizedDescription)")
     }
 
+    
     @objc private func handleRouteChange(notification: Notification) {
         guard let userInfo = notification.userInfo,
               let reasonValue = userInfo[AVAudioSessionRouteChangeReasonKey] as? UInt,
@@ -329,30 +334,17 @@ final class AudioPortManager: NSObject, CLLocationManagerDelegate {
         }
 
         switch reason {
-        case .newDeviceAvailable:
-            requestCurrentLocation { [weak self] location in
-                guard let self = self, let location = location else {
-                    print("Failed to get current location")
-                    return
-                }
-                self.updateCurrentOutput()
-            }
+        case .newDeviceAvailable,  .categoryChange:
+            updateCurrentOutput()
             routeChangeMessage = "New device available, such as headphones or a Bluetooth audio device."
+            
         case .oldDeviceUnavailable:
-            requestCurrentLocation { [weak self] location in
-                guard let self = self, let location = location else {
-                    print("Failed to get current location")
-                    return
-                }
-                self.updateCurrentOutput()
-            }
+            updateCurrentOutput()
             routeChangeMessage = "Old device unavailable, such as headphones or a Bluetooth audio device being disconnected."
-        case .categoryChange:
-            routeChangeMessage = "Category change"
         default:
             routeChangeMessage = "Audio route changed"
         }
-        
+
         delegate?.didChangeAudioRoute(output: currentOutput, type: currentType, message: routeChangeMessage)
     }
 }

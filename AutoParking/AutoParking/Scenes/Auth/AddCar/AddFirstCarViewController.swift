@@ -10,9 +10,7 @@ import AutoParkingNetwork
 import RealmSwift
 
 protocol AddFirstCarDisplayLogic: AnyObject {
-    
     func displayLoad(viewModel: AddFirstCar.Load.ViewModel)
-    
     func displayGetCarList(viewModel: AddFirstCar.VehicleList.ViewModel)
 }
 
@@ -21,16 +19,13 @@ final class AddFirstCarViewController: UIViewController {
     var mainView: AddFirstCarView?
     var interactor: AddFirstCarBusinessLogic?
     var router: (AddFirstCarRoutingLogic & AddFirstCarDataPassing)?
-  
     
     // MARK: - Lifecycle Methods
 
     override func loadView() {
         super.loadView()
-        
         self.view = mainView
         mainView?.delegate = self
-        
         self.showBackButton = false
         self.title = "Add First Car"
     }
@@ -41,7 +36,6 @@ final class AddFirstCarViewController: UIViewController {
         self.load()
     }
   
-    
     // MARK: - Public Methods
   
     func load() {
@@ -66,17 +60,15 @@ extension AddFirstCarViewController: AddFirstCarDisplayLogic {
     func displayGetCarList(viewModel: AddFirstCar.VehicleList.ViewModel) {
         DispatchQueue.main.async {
             self.mainView?.cars = viewModel.data
-            self.mainView?.carPicker.reloadAllComponents() 
+            self.mainView?.carPicker.reloadAllComponents()
         }
     }
     
     private func addNewCarToDevice(car: Vehicle?, deviceName: String) {
-        
-        
-           guard let car = car else {
-           print("Error: Car information is incomplete or not provided.")
-           return
-       }
+        guard let car = car else {
+            print("Error: Car information is incomplete or not provided.")
+            return
+        }
 
         let realm = try! Realm()
         let newVehicle = VehicleRealm()
@@ -86,18 +78,20 @@ extension AddFirstCarViewController: AddFirstCarDisplayLogic {
         newVehicle.markLabel = car.mark?.label ?? ""
         newVehicle.modelLabel = car.model?.label ?? ""
 
-       do {
-           try realm.write {
-               realm.add(newVehicle)
-               print("Added new car with device name: \(deviceName)")
-           }
-           
-           printAllCars()
-           print("Added new car with device name: \(deviceName)")
-       } catch {
-           print("Failed to add new car to Realm: \(error)")
-       }
-   }
+        let autoNotification = AutoNotification()
+        autoNotification.isAutoCheck = true
+
+        do {
+            try realm.write {
+                realm.add(newVehicle, update: .all)
+                realm.add(autoNotification)
+                print("Added new car with device name: \(deviceName) and isAutoCheck: \(autoNotification.isAutoCheck)")
+            }
+            printAllCars()
+        } catch {
+            print("Failed to add new car to Realm: \(error)")
+        }
+    }
     
     private func printAllCars() {
         let realm = try! Realm()
@@ -119,33 +113,11 @@ extension AddFirstCarViewController: AddFirstCarDisplayLogic {
 extension AddFirstCarViewController: AddFirstCarViewDelegate {
 
     func didTapAddCar(selectedCar: Vehicle?, deviceName: String) {
-            
-            guard !deviceName.isEmpty else {
-                showAlert("Device name is required.")
-                return
-            }
-            
-            guard let car = selectedCar else {
-                print("Error: Car information is incomplete or not provided.")
-                return
-            }
-
-            let realm = try! Realm()
-            let newVehicle = VehicleRealm()
-            newVehicle.id = car.id ?? ""
-            newVehicle.deviceName = deviceName
-            newVehicle.number = car.number ?? ""
-            newVehicle.markLabel = car.mark?.label ?? ""
-            newVehicle.modelLabel = car.model?.label ?? ""
-
-            do {
-                try realm.write {
-                    realm.add(newVehicle, update: .all)
-                    print("Added new car with device name: \(deviceName)")
-                }
-                App.router.main()
-            } catch {
-                print("Failed to add new car to Realm: \(error)")
-            }
+        guard !deviceName.isEmpty else {
+            showAlert("Device name is required.")
+            return
         }
+        addNewCarToDevice(car: selectedCar, deviceName: deviceName)
+        App.router.main()
+    }
 }
