@@ -14,7 +14,7 @@ import UserNotifications
 class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUserNotificationCenterDelegate {
     
     var window: UIWindow?
-    let router = AppRouter() 
+    let router = AppRouter()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
