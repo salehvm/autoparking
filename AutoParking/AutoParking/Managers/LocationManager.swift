@@ -117,15 +117,30 @@ final class LocationManager: NSObject {
             if let closestPoint = closestPoint(on: park.polylineCoords ?? [], to: userLocation) {
                 closestCoordinates[park.code ?? ""] = closestPoint
                 
-                if closestPoint < minDistance {
-                    minDistance = closestPoint
-                    parkObject = park
-                    
+                print(" park code: \(park.code) --- closestPoint: \(closestPoint)")
+                
+                if closestPoint < 10 {
+                    if closestPoint < minDistance {
+                        minDistance = closestPoint
+                        parkObject = park
+                        
+                    }
                 }
             }
         }
         
-        self.sendPushNotification(title: "Parks List", body: "\(parkObject?.code ?? "") \(minDistance)")
+        
+        
+        print("parkObject -> \(parkObject)")
+        
+        
+        let formattedDistance = String(format: "%.2f", minDistance)
+        
+        
+        if let parkOBJ = parkObject {
+            self.sendPushNotification(title: "Parks List", body: "\(parkOBJ.code ?? "") \(formattedDistance)")
+        }
+        
         
         self.userLocationLat = userLocation.latitude
         self.userLocationLong = userLocation.longitude

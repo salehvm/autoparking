@@ -20,6 +20,12 @@ final class ParkListCell: UITableViewCell, ThemeableView {
         }
     }
     
+    var dataLocation: CustomModelLocation? {
+        didSet {
+            self.configure()
+        }
+    }
+    
     private lazy var bodyView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
@@ -29,22 +35,28 @@ final class ParkListCell: UITableViewCell, ThemeableView {
         return view
     }()
     
+    lazy var idName: UILabel = {
+        let label = UILabel()
+        label.font = .boldSystemFont(ofSize: 18)
+        return label
+    }()
+    
     private lazy var streetName: UILabel = {
         let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 20)
+        label.font = .boldSystemFont(ofSize: 18)
         return label
     }()
     
     private lazy var code: UILabel = {
         let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 24)
+        label.font = .boldSystemFont(ofSize: 18)
         label.textColor = .systemGreen
         return label
     }()
     
     private lazy var location: UILabel = {
         let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 20)
+        label.font = .boldSystemFont(ofSize: 18)
         return label
     }()
     
@@ -77,9 +89,15 @@ final class ParkListCell: UITableViewCell, ThemeableView {
             make.height.equalTo(100)
         }
         
+        self.idName.snp.updateConstraints { make in
+            make.leading.equalToSuperview().offset(6)
+            make.top.equalToSuperview().offset(6)
+            
+        }
+        
         self.streetName.snp.updateConstraints { make in
             make.leading.equalToSuperview().offset(8)
-            make.top.equalToSuperview().offset(8)
+            make.top.equalTo(self.idName.snp.bottom).offset(4)
         }
         
         self.code.snp.updateConstraints { make in
@@ -101,6 +119,7 @@ final class ParkListCell: UITableViewCell, ThemeableView {
     
     private func addSubviews() {
         
+        self.bodyView.addSubview(self.idName)
         self.bodyView.addSubview(self.streetName)
         self.bodyView.addSubview(self.code)
         self.bodyView.addSubview(self.location)
@@ -116,10 +135,8 @@ final class ParkListCell: UITableViewCell, ThemeableView {
     }
     
     private func configure() {
-        if let data = self.data {
-            self.code.text = data.code
-            self.streetName.text = data.address
-            self.location.text = "\(data.distance ?? 0.0) \(data.distanceUnit ?? "")"
+        if let data = self.dataLocation {
+            self.location.text = "horizontal: \(data.horizontalAccuracy)"
         }
     }
 }

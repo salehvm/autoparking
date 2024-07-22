@@ -9,6 +9,7 @@ import UIKit
 import FirebaseCore
 import FirebaseMessaging
 import UserNotifications
+//import FirebaseAnalytics
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUserNotificationCenterDelegate {
@@ -19,6 +20,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         FirebaseApp.configure()
+        
+        // Enable Firebase Analytics debug logging
+//        Analytics.setAnalyticsCollectionEnabled(true)
+//        Analytics.setUserProperty("debug_mode", forName: "mode")
         
         Messaging.messaging().delegate = self
         UNUserNotificationCenter.current().delegate = self
@@ -50,9 +55,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
     }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-     
         print("Received remote notification: \(userInfo)")
-        
         completionHandler(.newData)
     }
     
@@ -83,7 +86,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
                     print("Top view controller: \(topViewController)")
                     let alertController = UIAlertController(title: "Confirm Parking", message: "Do you want us to park for you?", preferredStyle: .alert)
                     alertController.addAction(UIAlertAction(title: "Yes", style: .default, handler: { _ in
-               
                         AudioPortManager.shared.startBook(selectedCardId: AudioPortManager.shared.activeCar?.id ?? "", parkId: parkId)
                     }))
                     alertController.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))

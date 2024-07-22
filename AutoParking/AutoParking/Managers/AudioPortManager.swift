@@ -4,12 +4,15 @@
 //
 //  Created by Saleh Majidov on 27/06/2024.
 //
+
 import Foundation
 import AVFoundation
 import RealmSwift
 import AutoParkingNetwork
 import UserNotifications
 import CoreLocation
+import Turf
+//import FirebaseAnalytics
 
 protocol AudioRouteChangeDelegate: AnyObject {
     func didChangeAudioRoute(output: String, type: String, message: String)
@@ -24,19 +27,24 @@ final class AudioPortManager: NSObject, CLLocationManagerDelegate {
     static let shared = AudioPortManager()
     
     weak var delegate: AudioRouteChangeDelegate?
-    private var locationManager = CLLocationManager()
+    var locationManager = CLLocationManager()
+    
+//    private let analytics = Analytics.self
     
     private var location: CLLocation?
     
     private var service: ServiceProtocol = App.service
     
-    var selectedPaymentMethod: [PaymentMethod]? = []
+    var allPaymentMethods: [PaymentMethod]? = []
+    var selectedPaymentMethod: PaymentMethod?
     
     var cars: Results<VehicleRealm>!
     
     var activeCar: VehicleRealm?
     
     var parks: [Park]? = []
+    
+    var customLocationArray: [CustomModelLocation] = []
     
     let delegates = MulticastDelegate<AudioPortManagerDelegate>()
     
@@ -83,7 +91,7 @@ final class AudioPortManager: NSObject, CLLocationManagerDelegate {
         content.body = body
         content.sound = .default
         content.badge = NSNumber(value: 1)
-        content.userInfo = ["parkId": parkId] 
+        content.userInfo = ["parkId": parkId]
         
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
         
@@ -137,12 +145,12 @@ final class AudioPortManager: NSObject, CLLocationManagerDelegate {
             return
         }
 
-        if let defaultPaymentMethod = selectedPaymentMethod?.first(where: { $0.default == 1 }) {
+        if let defaultPaymentMethod = selectedPaymentMethod {
             self.service.auth.startBook(token: token, parkId: parkId, selectedCarId: selectedCardId, selectedPaymentMethod: defaultPaymentMethod) { [weak self] result in
                 
                 guard self != nil else { return }
                 switch result {
-                case .success(let response):
+                case .success(_):
                     print("success response start book")
                     
                     completion?(true)
@@ -170,7 +178,7 @@ final class AudioPortManager: NSObject, CLLocationManagerDelegate {
         self.service.auth.stopBook(token: token, userParkId: userParkId) {  [weak self] result in
             guard let self = self else { return }
             switch result {
-            case .success(let response):
+            case .success(_):
                 print("success response stop book")
                 self.sendPushNotification(title: "Successfully Stopped Park", body: "Your parking session has ended successfully.", parkId: userParkId)
                 completion?(true)
@@ -247,8 +255,6 @@ final class AudioPortManager: NSObject, CLLocationManagerDelegate {
             let realm = try! Realm()
             cars = realm.objects(VehicleRealm.self)
             
-            print("cars list")
-            print(cars)
 
             if cars.isEmpty {
                 print("No vehicle found with device name: \(output.portName)")
@@ -260,7 +266,7 @@ final class AudioPortManager: NSObject, CLLocationManagerDelegate {
                         fetchAndStopBooking(for: car)
                     } else {
                         if self.activeCar?.id == car.id {
-                            locationManager.requestLocation()
+                            locationManager.startUpdatingLocation()
                         }
                     }
                 }
@@ -278,10 +284,29 @@ final class AudioPortManager: NSObject, CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let bestLocation = locations.last, bestLocation.horizontalAccuracy > 0 else {
+        print("location -> :")
+        print(locations.count)
+        print(locations)
+        
+        print("horizontalAccuracy: \(locations.last?.horizontalAccuracy)")
+        print("verticalAccuracy: \(locations.last?.verticalAccuracy)")
+        
+        
+        guard let bestLocation = locations.last, bestLocation.horizontalAccuracy < 15 else {
             print("Failed to get a valid location")
             return
         }
+        
+        
+        let customLocation = CustomModelLocation(
+            horizontalAccuracy: bestLocation.horizontalAccuracy
+        )
+        
+        self.customLocationArray.append(customLocation)
+        
+        
+        locationManager.stopUpdatingLocation()
+        
         self.location = bestLocation
         print("Best location updated: \(bestLocation)")
             
@@ -289,12 +314,19 @@ final class AudioPortManager: NSObject, CLLocationManagerDelegate {
         self.service.auth.getPaymentCards(token: token) { result in
             switch result {
             case .success(let response):
-                self.selectedPaymentMethod = response.data
+                self.allPaymentMethods = response.data
+                
+                self.selectedPaymentMethod = response.data.first(where: { $0.default == 1 })
                 
                 print("Location received: \(bestLocation)")
                 self.fetchParks { success, data in
+                    
+                    print(data)
+                    
                     if success,
+                       
                        let closestPark = LocationManager.shared.calculateClosestPoints(location: bestLocation, parks: data) {
+                        
                         print("Closest park id found: \(closestPark.id ?? "No park found")")
                         
                         let realm = try! Realm()
@@ -302,7 +334,7 @@ final class AudioPortManager: NSObject, CLLocationManagerDelegate {
                             self.sendPushNotification(title: "For you", body: "We detect you stay here \(closestPark.code ?? "") if you want us to park for you, let us", parkId: closestPark.id ?? "")
                         } else {
                             self.sendPushNotification(title: "Start Booked Park", body: "Your parking session has started successfully.", parkId: closestPark.id ?? "")
-                            self.startBook(selectedCardId: self.activeCar?.id ?? "", parkId: closestPark.id ?? "")
+//                            self.startBook(selectedCardId: self.activeCar?.id ?? "", parkId: closestPark.id ?? "")
                         }
                         
                     } else {
@@ -317,14 +349,12 @@ final class AudioPortManager: NSObject, CLLocationManagerDelegate {
                 print("Wrong response: \(message)")
             }
         }
-
     }
 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("Failed to get current location: \(error.localizedDescription)")
     }
 
-    
     @objc private func handleRouteChange(notification: Notification) {
         guard let userInfo = notification.userInfo,
               let reasonValue = userInfo[AVAudioSessionRouteChangeReasonKey] as? UInt,
@@ -346,4 +376,8 @@ final class AudioPortManager: NSObject, CLLocationManagerDelegate {
 
         delegate?.didChangeAudioRoute(output: currentOutput, type: currentType, message: routeChangeMessage)
     }
+}
+
+struct CustomModelLocation {
+    let horizontalAccuracy: Double
 }
