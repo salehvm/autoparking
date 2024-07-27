@@ -73,46 +73,83 @@ public struct BookedListRequest: Encodable {
 
 // Response
 
+import Foundation
+
 public struct BookingListResponse: Codable {
     public let status: String?
     public let data: [Booking]?
-    public let total_amount: Double?
+    public let totalAmount: Double?
     public let code: Int?
 }
 
-public struct Booking: Codable, Identifiable {
+public struct Booking: Codable {
     public let id: String?
     public var park: ParkDetail?
     public var car: CarDetail?
     public var slot: SlotDetail?
-    public var start_date: String?
-    public var end_date: String?
-    public var end_date_color: String?
-    public var header_date: String?
+    public var startDate: String?
+    public var endDate: String?
+    public var endDateColor: String?
+    public var headerDate: String?
     public var date: String?
     public var price: String?
-    public var price_float: Double?
-    public var payment_method: String?
-    public var parking_required: Bool?
+    public var priceFloat: Double?
+    public var paymentMethod: String?
+    public var parkingRequired: Int?
     public var paid: Int?
-    public var duration: Double?
-    public var is_left: Bool?
-    public var is_fined: Bool?
-    public var allow_current_pay: Bool?
-    public var allow_fine: Bool?
+    public var duration: Int?
+    public var isLeft: Int?
+    public var isFined: Int?
+    public var allowCurrentPay: Int?
+    public var allowFine: Bool?
     public var editable: Bool?
-    public var allow_increase: Bool?
-    public var allow_left: Bool?
-    public var from_park: String?
-    public var to_park: String?
-    public var left_time: Double?
-    public var start_time: Int?
-    public var count_type: String?
-    public var allow_stop: Bool?
-    public var allow_stop_before: Bool?
+    public var allowIncrease: Bool?
+    public var allowLeft: Bool?
+    public var fromPark: String?
+    public var toPark: String?
+    public var leftTime: Int?
+    public var startTime: Int?
+    public var countType: String?
+    public var allowStop: Bool?
+    public var allowStopBefore: Bool?
     public var left: LeftDetail?
     public var status: BookingStatus?
     public var icons: [BookingIcon]?
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case park
+        case car
+        case slot
+        case startDate = "start_date"
+        case endDate = "end_date"
+        case endDateColor = "end_date_color"
+        case headerDate = "header_date"
+        case date
+        case price
+        case priceFloat = "price_float"
+        case paymentMethod = "payment_method"
+        case parkingRequired = "parking_required"
+        case paid
+        case duration
+        case isLeft = "is_left"
+        case isFined = "is_fined"
+        case allowCurrentPay = "allow_current_pay"
+        case allowFine = "allow_fine"
+        case editable
+        case allowIncrease = "allow_increase"
+        case allowLeft = "allow_left"
+        case fromPark = "from_park"
+        case toPark = "to_park"
+        case leftTime = "left_time"
+        case startTime = "start_time"
+        case countType = "count_type"
+        case allowStop = "allow_stop"
+        case allowStopBefore = "allow_stop_before"
+        case left
+        case status
+        case icons
+    }
 }
 
 public struct ParkDetail: Codable {
@@ -121,39 +158,82 @@ public struct ParkDetail: Codable {
     public let title: String?
     public let center: CoordinatePoint?
     public let address: String?
-    public let booked_slot_count: Int?
-    public let total_slot_count: Int?
-    public let disabled: Bool?
-    public let slot_required: Bool?
+    public let bookedSlotCount: Int?
+    public let totalSlotCount: Int?
+    public let disabled: Int?
+    public let slotRequired: Int?
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case code
+        case title
+        case center
+        case address
+        case bookedSlotCount = "booked_slot_count"
+        case totalSlotCount = "total_slot_count"
+        case disabled
+        case slotRequired = "slot_required"
+    }
 }
 
 public struct CarDetail: Codable {
     public let id: String?
     public let number: String?
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case number
+    }
 }
 
 public struct SlotDetail: Codable {
     public let id: Int?
     public let title: String?
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case title
+    }
 }
 
 public struct CoordinatePoint: Codable {
     public let type: String?
     public let coordinates: [Double]?
+
+    enum CodingKeys: String, CodingKey {
+        case type
+        case coordinates
+    }
 }
 
 public struct LeftDetail: Codable {
     public let background: String?
-    public let time: Double?
+    public let time: Int?
+
+    enum CodingKeys: String, CodingKey {
+        case background
+        case time
+    }
 }
 
 public struct BookingStatus: Codable {
     public let value: String?
     public let label: String?
     public let color: String?
+
+    enum CodingKeys: String, CodingKey {
+        case value
+        case label
+        case color
+    }
 }
 
 public struct BookingIcon: Codable {
     public let icon: String?
     public let color: String?
+
+    enum CodingKeys: String, CodingKey {
+        case icon
+        case color
+    }
 }

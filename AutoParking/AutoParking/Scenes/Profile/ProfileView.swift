@@ -6,143 +6,217 @@
 //
 
 import UIKit
+import SnapKit
 
 protocol ProfileViewDelegate: AnyObject {
     func logout()
     func manageAutoSwcViewChange(_ isOn: Bool)
+    func getLocation()
 }
 
 final class ProfileView: UIView {
     
     weak var delegate: ProfileViewDelegate?
     
-    private lazy var userName: UILabel = {
+    lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 28)
-        return label
-    }()
-    
-    private lazy var number: UILabel = {
-        let label = UILabel()
+        label.text = "Profil"
         label.font = .boldSystemFont(ofSize: 22)
+        label.textColor = UIColor(hex: "113264")
         return label
     }()
     
-    private lazy var collectionLayout: UICollectionViewFlowLayout = {
-        let layout = UICollectionViewFlowLayout()
-        layout.minimumLineSpacing = 12
-        layout.minimumInteritemSpacing = 12
-        layout.itemSize = CGSize(width: 96.0, height: 152.0)
-        layout.sectionInset = .init(top: 0, left: 16, bottom: 24, right: 16)
-        layout.scrollDirection = .horizontal
-        return layout
+    lazy var switchView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(hex: "ACD8FC").withAlphaComponent(0.1)
+        view.layer.borderColor = UIColor(hex: "ACD8FC").cgColor
+        view.layer.borderWidth = 1
+        view.layer.cornerRadius = 12
+        return view
     }()
     
-    lazy var collectionView: UICollectionView = {
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: self.collectionLayout)
-        collectionView.backgroundColor = .clear
-        collectionView.decelerationRate = .fast
-        collectionView.showsVerticalScrollIndicator = false
-        collectionView.showsHorizontalScrollIndicator = false
-        collectionView.alwaysBounceVertical = false
-        collectionView.alwaysBounceHorizontal = true
-        collectionView.clipsToBounds = false
-        collectionView.register(PaymentCardCell.self, forCellWithReuseIdentifier: PaymentCardCell.reuseIdentifier)
-        return collectionView
+    private lazy var switchTitle: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 20)
+        label.textColor = UIColor(hex: "113264")
+        label.text = "Autopilot"
+        return label
+    }()
+    
+    private lazy var switchInfoButton: UIButton = {
+        let button = UIButton()
+        var config = UIButton.Configuration.plain()
+        config.title = "Lorem ipsum dolor sit amet"
+        config.image = UIImage(named: "info_icon")
+        config.imagePadding = 8
+        config.baseForegroundColor = UIColor(hex: "0D74CE")
+        config.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 12)
+        button.configuration = config
+        return button
     }()
     
     lazy var switchBtn: UISwitch = {
         let switchBtn = UISwitch()
+        switchBtn.onTintColor = UIColor(hex: "0090FF")
         switchBtn.addTarget(self, action: #selector(stateChange(_:)), for: .valueChanged)
         return switchBtn
     }()
     
-    private lazy var logoutButton: UIButton = {
+    lazy var bankCardView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(hex: "ACD8FC").withAlphaComponent(0.1)
+        view.layer.borderColor = UIColor(hex: "ACD8FC").cgColor
+        view.layer.borderWidth = 1
+        view.layer.cornerRadius = 12
+        return view
+    }()
+    
+    private lazy var cardTitle: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 20)
+        label.textColor = UIColor(hex: "113264")
+        label.text = "Aktiv bank kartın"
+        return label
+    }()
+    
+    lazy var cardNumberLabel: UILabel = {
+        let label = UILabel()
+        label.font = .boldSystemFont(ofSize: 24)
+        label.textColor = UIColor(hex: "113264")
+        return label
+    }()
+    
+    lazy var logoutButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Logout", for: .normal)
-        button.backgroundColor = .red
-        button.setTitleColor(UIColor.white, for: .normal)
+        var config = UIButton.Configuration.plain()
+        config.title = "Çıxış et"
+        config.image = UIImage(named: "logout_icon")
+        config.imagePadding = 8
+        config.baseForegroundColor = UIColor(hex: "CE2C31")
+        config.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 12)
         button.addTarget(self, action: #selector(logoutAction), for: .touchUpInside)
-        button.layer.cornerRadius = 12
+        button.configuration = config
+        button.layer.borderWidth = 1
+        button.layer.cornerRadius = 8
+        button.layer.borderColor = UIColor(hex: "CE2C31").cgColor
         return button
+    }()
+    
+    lazy var locPermissionView: GlobalLocationPermissionView = {
+        let view = GlobalLocationPermissionView()
+        view.isHidden = true
+        view.delegate = self
+        return view
     }()
     
     init() {
         super.init(frame: .zero)
-        
-        self.addSubviews()
-        self.setupUI()
+        setupUI()
+        addSubviews()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Private
+    
+    private func setupUI() {
+        backgroundColor = .white
+        
+    }
+    
     override func updateConstraints() {
         
-        self.userName.snp.updateConstraints { make in
-            make.leading.equalToSuperview().offset(16)
+        self.titleLabel.snp.makeConstraints { make in
+            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(5)
+            make.leading.trailing.equalToSuperview().inset(28)
+        }
+
+        self.switchView.snp.makeConstraints { make in
+            make.top.equalTo(self.titleLabel.snp.bottom).offset(24)
+            make.leading.trailing.equalToSuperview().inset(28)
+            make.height.equalTo(84)
+        }
+
+        self.switchTitle.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(16)
+            make.leading.equalToSuperview().offset(24)
         }
-        
-        self.number.snp.updateConstraints { make in
-            make.top.equalTo(self.userName.snp.bottom).offset(16)
-            make.leading.equalToSuperview().offset(16)
+
+        self.switchInfoButton.snp.makeConstraints { make in
+            make.top.equalTo(self.switchTitle.snp.bottom).offset(8)
+            make.leading.equalToSuperview().offset(10)
         }
-        
-        self.collectionView.snp.updateConstraints { make in
-            make.top.equalTo(self.number.snp.bottom).offset(16)
-            make.leading.trailing.equalToSuperview()
-            make.height.equalTo(80)
-        }
-        
-        self.switchBtn.snp.updateConstraints { make in
-            make.width.equalTo(80)
+
+        self.switchBtn.snp.makeConstraints { make in
+            make.trailing.equalToSuperview().offset(-24)
+            make.centerY.equalToSuperview()
+            make.width.equalTo(42)
             make.height.equalTo(24)
-            make.trailing.equalToSuperview().offset(-16)
-            make.top.equalTo(self.collectionView.snp.bottom).offset(16)
+        }
+
+        self.bankCardView.snp.makeConstraints { make in
+            make.top.equalTo(self.switchView.snp.bottom).offset(16)
+            make.leading.trailing.equalToSuperview().inset(28)
+            make.height.equalTo(84)
+        }
+
+        self.cardTitle.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(16)
+            make.leading.equalToSuperview().offset(24)
+        }
+
+        self.cardNumberLabel.snp.makeConstraints { make in
+            make.top.equalTo(self.cardTitle.snp.bottom).offset(8)
+            make.leading.equalToSuperview().offset(24)
+        }
+
+        self.logoutButton.snp.makeConstraints { make in
+            make.top.equalTo(self.bankCardView.snp.bottom).offset(32)
+            make.leading.trailing.equalToSuperview().inset(28)
+            make.height.equalTo(48)
         }
         
-        self.logoutButton.snp.updateConstraints { make in
-            make.height.equalTo(58)
-            make.width.equalTo(250)
-            make.bottom.equalToSuperview().offset(-32)
-            make.centerX.equalToSuperview()
+        self.locPermissionView.snp.makeConstraints { make in
+            make.top.equalTo(self.safeAreaLayoutGuide.snp.top).offset(80)
+            make.leading.trailing.equalToSuperview()
+            make.height.equalTo(500)
         }
         
         super.updateConstraints()
     }
     
-    // MARK: - Private
-    
     private func addSubviews() {
+        self.addSubview(self.locPermissionView)
+        self.addSubview(self.titleLabel)
+        self.addSubview(self.switchView)
         
-        self.addSubview(self.userName)
-        self.addSubview(self.number)
-        self.addSubview(self.collectionView)
-        self.addSubview(self.switchBtn)
+        self.switchView.addSubview(self.switchTitle)
+        self.switchView.addSubview(self.switchInfoButton)
+        self.switchView.addSubview(self.switchBtn)
+        self.addSubview(self.bankCardView)
+        self.bankCardView.addSubview(self.cardTitle)
+        self.bankCardView.addSubview(self.cardNumberLabel)
         self.addSubview(self.logoutButton)
+        
         self.updateConstraints()
     }
     
-    private func setupUI() {
-        self.backgroundColor = .white
-        
-        let session = SessionManager.shared
-        
-        self.userName.text = "\(session.user?.firstname ?? "") \(session.user?.lastname ?? "")"
-        self.number.text = session.user?.msisdn ?? ""
+    @objc private func stateChange(_ swc: UISwitch) {
+        delegate?.manageAutoSwcViewChange(swc.isOn)
     }
     
-    @objc func stateChange(_ swc: UISwitch) {
-        if let delegate = delegate {
-            delegate.manageAutoSwcViewChange(swc.isOn)
-        }
+    @objc private func logoutAction() {
+        delegate?.logout()
     }
+}
+
+extension ProfileView: GlobalLocationPermissionViewDelegate {
     
-    @objc func logoutAction() {
+    func getLocation() {
         if let delegate = self.delegate {
-            delegate.logout()
+            delegate.getLocation()
         }
     }
 }

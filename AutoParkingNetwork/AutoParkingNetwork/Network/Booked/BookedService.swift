@@ -32,7 +32,7 @@ public class BookedService: BaseService, BookedServiceProtocol {
     }
     
     public func getBookedList(request: BookedListRequest, completion: @escaping (Result<BookingListResponse, WrongResponse>) -> ()) {
-        self.request(provider, target: .fetchBookingList(request: request)) { result in
+        self.request(provider, target: .fetchBookingList(request: request), keyDecodingStrategy: .useDefaultKeys) { result in
     
             completion(result)
         }

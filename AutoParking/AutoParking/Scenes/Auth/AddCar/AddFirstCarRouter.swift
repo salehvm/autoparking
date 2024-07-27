@@ -9,7 +9,7 @@ import UIKit
 
 @objc protocol AddFirstCarRoutingLogic {
     
-    //func routeToSomewhere()
+    func routeToPermissionScreen()
 }
 
 protocol AddFirstCarDataPassing {
@@ -24,22 +24,22 @@ final class AddFirstCarRouter: NSObject, AddFirstCarRoutingLogic, AddFirstCarDat
     
     // MARK: Routing
 
-//    func routeToSomewhere() {
-//        let destinationVC = SomewhereViewController()
-//        SomewhereConfigurator.configure(destinationVC)
-//
+    func routeToPermissionScreen() {
+        let destinationVC = PermissionAuthViewController()
+        PermissionAuthConfigurator.configure(destinationVC)
+
 //        var destinationDS = destinationVC.router!.dataStore!
 //        passDataToSomewhere(source: dataStore!, destination: &destinationDS)
-//
-//        navigateToSomewhere(source: viewController!, destination: destinationVC)
-//    }
+
+        navigateToPermission(source: viewController!, destination: destinationVC)
+    }
 
     
     // MARK: Navigation
 
-//    func navigateToSomewhere(source: AddFirstCarViewController, destination: SomewhereViewController) {
-//        source.show(destination, sender: nil)
-//    }
+    func navigateToPermission(source: AddFirstCarViewController, destination: PermissionAuthViewController) {
+        source.show(destination, sender: nil)
+    }
 
     
     // MARK: Passing data

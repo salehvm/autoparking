@@ -43,6 +43,7 @@ final class SignInInteractor: SignInBusinessLogic, SignInDataStore {
     func sign(request: SignIn.Sign.Request) {
         self.worker.sign(operatorValue: request.operatorValue, number: request.number) { [weak self] data in
             guard let self = self else { return }
+            self.phoneNumber = request.number
             if let data = data {
                 let response = SignIn.Sign.Response(expirationTime: data.data?.expiration_time ?? 0)
                 self.hash = data.data?.hash

@@ -17,6 +17,8 @@ protocol VerifyBusinessLogic {
 protocol VerifyDataStore {
     
     var hash: String? { get set }
+    
+    var phoneNumber: String? { get set }
 }
 
 final class VerifyInteractor: VerifyBusinessLogic, VerifyDataStore {
@@ -25,11 +27,13 @@ final class VerifyInteractor: VerifyBusinessLogic, VerifyDataStore {
     lazy var worker: VerifyWorkingLogic = VerifyWorker()
     
     var hash: String?
+    
+    var phoneNumber: String?
   
     // MARK: Business Logic
   
     func load(request: Verify.Load.Request) {
-        let response = Verify.Load.Response()
+        let response = Verify.Load.Response(phoneNumber: self.phoneNumber ?? "")
         presenter?.presentLoad(response: response)
     }
     
@@ -48,7 +52,7 @@ final class VerifyInteractor: VerifyBusinessLogic, VerifyDataStore {
                 success = true
             }
             
-            let response = Verify.CheckOTP.Response(success: success, message: message)
+            let response = Verify.CheckOTP.Response(success: success, message: message, status: response?.status)
             self.presenter?.presentCheckOTP(response: response)
         }
     }

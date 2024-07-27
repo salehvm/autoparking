@@ -9,61 +9,84 @@ import UIKit
 import AutoParkingUIKit
 import SnapKit
 
-enum OperatorValue: String, CaseIterable {
-    case one = "1"
-    case two = "2"
-    case three = "3"
-    
-    var codes: [String] {
-        switch self {
-        case .one: return ["50", "51"]
-        case .two: return ["55", "99"]
-        case .three: return ["70", "77"]
-        }
-    }
-}
-
 protocol SignInViewDelegate: AnyObject {
-    func didTapGetVerificationCode(operatorValue: String, number: String)
+    func didTapGetVerificationCode(number: String)
+    func callPrefixBottom()
 }
 
 final class SignInView: UIView {
     
     weak var delegate: SignInViewDelegate?
     
-    private var selectedOperator: OperatorValue = .one {
-        didSet {
-            updateCodePicker()
-        }
-    }
-    private var selectedCodeIndex: Int = 0
-    
-    private var selectedCode: String {
-        return selectedOperator.codes[selectedCodeIndex]
-    }
-    
-    private let operatorSegmentedControl: UISegmentedControl = {
-        let control = UISegmentedControl(items: OperatorValue.allCases.map { $0.rawValue })
-        control.selectedSegmentIndex = 0
-        return control
+    private lazy var logoIcon: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "parkingo_auth")
+        return imageView
     }()
     
-    private let codePicker: UIPickerView = UIPickerView()
+    private lazy var descLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .black
+        label.text = "Parkinq prosesini sürətləndirmək üçün sizə dəstək olacağıq!"
+        label.numberOfLines = 2
+        label.textAlignment = .center
+        label.font = .systemFont(ofSize: 18)
+        return label
+    }()
+    
+    private lazy var hStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.spacing = 16
+        return stackView
+    }()
+    
+    private lazy var prefixView: UIView = {
+        let view = UIView()
+        view.layer.borderColor = UIColor(hex: "00062E").cgColor
+        view.layer.borderWidth = 1
+        view.layer.cornerRadius = 20
+        return view
+    }()
+    
+    lazy var prefixLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Prefiks"
+        label.textColor = UIColor(hex: "00071B")
+        label.font = .systemFont(ofSize: 14)
+        return label
+    }()
+    
+    private lazy var prefixIcon: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "chevron-down")
+        return imageView
+    }()
+    
+    private lazy var numberView: UIView = {
+        let view = UIView()
+        view.layer.borderColor = UIColor(hex: "00062E").cgColor
+        view.layer.borderWidth = 1
+        view.layer.cornerRadius = 20
+        return view
+    }()
     
     private let numberTextField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "Enter Number"
         textField.keyboardType = .numberPad
-        textField.borderStyle = .roundedRect
+        textField.borderStyle = .none
+        textField.placeholder = "xxx xx xx"
         return textField
     }()
     
     private let getVerificationCodeButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Get Verification Code", for: .normal)
-        button.backgroundColor = .black
-        button.setTitleColor(.white, for: .normal)
-        button.layer.cornerRadius = 12
+        button.setTitle("Daxil ol", for: .normal)
+        button.backgroundColor = UIColor(hex: "ECEEF4")
+        button.isEnabled = false
+        button.setTitleColor(UIColor(hex: "000830"), for: .normal)
+        button.layer.cornerRadius = 24
+        button.addTarget(self, action: #selector(getVerificationCodeTapped), for: .touchUpInside)
         return button
     }()
     
@@ -71,8 +94,14 @@ final class SignInView: UIView {
         super.init(frame: frame)
         setupUI()
         setupConstraints()
-        setupActions()
-        updateCodePicker()
+        
+        numberTextField.delegate = self
+        
+        self.prefixView.addTapGesture {
+            if let delegate = self.delegate {
+                delegate.callPrefixBottom()
+            }
+        }
     }
     
     required init?(coder: NSCoder) {
@@ -80,84 +109,111 @@ final class SignInView: UIView {
     }
     
     private func setupUI() {
-        addSubview(self.operatorSegmentedControl)
-        addSubview(self.codePicker)
-        addSubview(self.numberTextField)
-        addSubview(self.getVerificationCodeButton)
         
-        self.codePicker.delegate = self
-        self.codePicker.dataSource = self
+        self.addSubview(self.logoIcon)
+        self.addSubview(self.descLabel)
+        
+        self.addSubview(self.hStackView)
+        
+        self.hStackView.addArrangedSubview(self.prefixView)
+        self.hStackView.addArrangedSubview(self.numberView)
+        
+        self.prefixView.addSubview(self.prefixIcon)
+        self.prefixView.addSubview(self.prefixLabel)
+        
+        self.numberView.addSubview(self.numberTextField)
+        
+        self.addSubview(self.getVerificationCodeButton)
         
         self.backgroundColor = .white
     }
     
     private func setupConstraints() {
-        self.operatorSegmentedControl.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(32)
-            make.leading.trailing.equalToSuperview().inset(16)
+        
+        self.logoIcon.snp.updateConstraints { make in
+            make.top.equalToSuperview().offset(100)
+            make.width.equalTo(168)
+            make.height.equalTo(38)
+            make.centerX.equalToSuperview()
         }
         
-        self.codePicker.snp.makeConstraints { make in
-            make.top.equalTo(self.operatorSegmentedControl.snp.bottom).offset(16)
-            make.leading.trailing.equalToSuperview().inset(16)
+        self.descLabel.snp.updateConstraints { make in
+            make.top.equalTo(self.logoIcon.snp.bottom).offset(40)
+            make.leading.equalToSuperview().offset(38)
+            make.trailing.equalToSuperview().offset(-38)
+            make.height.equalTo(52)
         }
         
-        self.numberTextField.snp.makeConstraints { make in
-            make.top.equalTo(self.codePicker.snp.bottom).offset(16)
-            make.leading.trailing.equalToSuperview().inset(16)
+        self.hStackView.snp.updateConstraints { make in
+            make.height.equalTo(40)
+            make.top.equalTo(self.descLabel.snp.bottom).offset(48)
+            make.leading.equalToSuperview().offset(38)
+            make.trailing.equalToSuperview().offset(-38)
+        }
+        
+        self.prefixView.snp.updateConstraints { make in
+            make.width.equalTo(114)
+        }
+        
+        self.prefixLabel.snp.updateConstraints { make in
+            make.leading.equalToSuperview().offset(16)
+            make.top.equalToSuperview().offset(8)
+            make.bottom.equalToSuperview().offset(-8)
+            make.width.equalTo(52)
+        }
+        
+        self.prefixIcon.snp.updateConstraints { make in
+            make.leading.equalTo(self.prefixLabel.snp.trailing).offset(12)
+            make.trailing.equalToSuperview().offset(-16)
+            make.centerY.equalToSuperview()
+            make.size.equalTo(18)
+        }
+        
+        self.numberTextField.snp.updateConstraints { make in
+            make.edges.equalToSuperview().inset(8)
         }
         
         self.getVerificationCodeButton.snp.makeConstraints { make in
-            make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom).offset(-16)
-            make.height.equalTo(58)
-            make.width.equalTo(250)
-            make.centerX.equalToSuperview()
+            make.top.equalTo(self.hStackView.snp.bottom).offset(42)
+            make.leading.equalToSuperview().offset(38)
+            make.trailing.equalToSuperview().offset(-38)
+            make.height.equalTo(48)
         }
-    }
-    
-    private func setupActions() {
-        self.operatorSegmentedControl.addTarget(self, action: #selector(self.operatorChanged), for: .valueChanged)
-        self.getVerificationCodeButton.addTarget(self, action: #selector(self.getVerificationCodeTapped), for: .touchUpInside)
-    }
-    
-    @objc private func operatorChanged() {
-        let index = self.operatorSegmentedControl.selectedSegmentIndex
-        self.selectedOperator = OperatorValue.allCases[index]
-        self.selectedCodeIndex = 0
-        self.numberTextField.text = self.selectedCode
     }
     
     @objc private func getVerificationCodeTapped() {
         let number = (numberTextField.text ?? "")
-        
-        if let delegate = self.delegate {
-            delegate.didTapGetVerificationCode(operatorValue: self.selectedOperator.rawValue, number: number)
-        }
+        delegate?.didTapGetVerificationCode(number: number)
     }
     
-    private func updateCodePicker() {
-        self.codePicker.reloadAllComponents()
-        self.codePicker.selectRow(selectedCodeIndex, inComponent: 0, animated: false)
-        self.numberTextField.text = self.selectedCode 
+    private func updateButtonState() {
+        let text = numberTextField.text ?? ""
+        let isEnabled = !text.isEmpty
+        getVerificationCodeButton.isEnabled = isEnabled
+        if isEnabled {
+            getVerificationCodeButton.setTitleColor(UIColor(hex: "FFFFFF"), for: .normal)
+            getVerificationCodeButton.backgroundColor = UIColor(hex: "0090FF")
+        } else {
+            getVerificationCodeButton.setTitleColor(UIColor(hex: "000830"), for: .normal)
+            getVerificationCodeButton.backgroundColor = UIColor(hex: "ECEEF4")
+        }
     }
 }
 
-extension SignInView: UIPickerViewDelegate, UIPickerViewDataSource {
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
+extension SignInView: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let currentText = textField.text ?? ""
+        guard let stringRange = Range(range, in: currentText) else { return false }
+        let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
+        updateButtonState()
+        return true
     }
     
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return self.selectedOperator.codes.count
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        updateButtonState()
     }
     
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return self.selectedOperator.codes[row]
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        self.selectedCodeIndex = row
-        let selectedCode = self.selectedOperator.codes[row]
-        self.numberTextField.text = selectedCode
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        updateButtonState()
     }
 }

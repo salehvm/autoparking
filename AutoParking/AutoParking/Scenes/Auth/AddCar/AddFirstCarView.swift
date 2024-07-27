@@ -10,61 +10,93 @@ import SnapKit
 import AutoParkingNetwork
 
 protocol AddFirstCarViewDelegate: AnyObject {
-    func didTapAddCar(selectedCar: Vehicle?, deviceName: String)
+    func didTapAddCar(deviceName: String)
+    
+    func showCarList()
 }
 
 final class AddFirstCarView: UIView {
     
     weak var delegate: AddFirstCarViewDelegate?
     
-    var cars: [Vehicle] = [] {
-        didSet {
-            self.carPicker.reloadAllComponents()
-            if !cars.isEmpty {
-                self.carPicker.selectRow(selectedCarIndex, inComponent: 0, animated: false)
-                self.selectedCar = cars[selectedCarIndex]
-            }
-        }
-    }
-    
-    private var selectedCarIndex: Int = 0
-    private var selectedCar: Vehicle?
-    
-    private let titleLabel: UILabel = {
+    private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Ilk maşınınızı daxil edin"
-        label.font = .systemFont(ofSize: 32, weight: .bold)
-        label.textAlignment = .center
+        label.text = "Avtomobil əlavə et"
+        label.font = .boldSystemFont(ofSize: 22)
+        label.textColor = UIColor.init(hex: "113264")
         return label
     }()
     
-    private let descriptionLabel: UILabel = {
+    lazy var descriptionLabel: UILabel = {
         let label = UILabel()
-        label.text = "Maşınıza bağlı olan cihazı əlavə edərək, parklanma əməliyyatını sürətləndirməyə dəstək olacağıq."
         label.font = .systemFont(ofSize: 16)
-        label.textAlignment = .center
-        label.numberOfLines = 0
+        label.numberOfLines = 2
+        label.text = "Qeydiyyatda olan maşınlardan biri və ya bir neçəsini əlavə edə bilərsiniz"
+        label.textColor = UIColor.init(hex: "113264")
         return label
     }()
     
-    let carPicker: UIPickerView = {
-        let picker = UIPickerView()
-        return picker
+    private lazy var selectCarLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Avtomobili seç"
+        label.font = .systemFont(ofSize: 16)
+        label.textColor = UIColor.init(hex: "1C2024")
+        return label
+    }()
+    
+    private lazy var selectCarView: UIView = {
+        let view = UIView()
+        view.layer.borderColor = UIColor.init(hex: "000932").cgColor
+        view.layer.borderWidth = 1
+        view.layer.cornerRadius = 20
+        return view
+    }()
+    
+    lazy var selectCarViewLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Seç"
+        label.font = .systemFont(ofSize: 16)
+        label.textColor = .black
+        return label
+    }()
+    
+    private lazy var selectCarViewIcon: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "chevron-down")
+        return imageView
+    }()
+    
+    private lazy var deviceTitle: UILabel = {
+        let label = UILabel()
+        label.text = "Cihazın adı"
+        label.font = .systemFont(ofSize: 16)
+        label.textColor = UIColor.init(hex: "1C2024")
+        return label
+    }()
+    
+    private lazy var deviceView: UIView = {
+        let view = UIView()
+        view.layer.borderColor = UIColor.init(hex: "000932").cgColor
+        view.layer.borderWidth = 1
+        view.layer.cornerRadius = 20
+        return view
     }()
     
     private let deviceNameTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "Maşına bağlı cihaz adı"
-        textField.borderStyle = .roundedRect
+        textField.borderStyle = .none
+        textField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         return textField
     }()
     
     private let addButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Add Car", for: .normal)
-        button.backgroundColor = .black
-        button.setTitleColor(.white, for: .normal)
-        button.layer.cornerRadius = 12
+        button.setTitle("Əlavə et", for: .normal)
+        button.backgroundColor = UIColor(hex: "ECEEF4")
+        button.setTitleColor(UIColor(hex: "000830"), for: .normal)
+        button.layer.cornerRadius = 22
+        button.isEnabled = false
         return button
     }()
     
@@ -75,8 +107,6 @@ final class AddFirstCarView: UIView {
         setupConstraints()
         setupActions()
         
-        self.carPicker.delegate = self
-        self.carPicker.dataSource = self
     }
     
     required init?(coder: NSCoder) {
@@ -84,41 +114,90 @@ final class AddFirstCarView: UIView {
     }
     
     private func setupUI() {
-        addSubview(self.titleLabel)
-        addSubview(self.descriptionLabel)
-        addSubview(self.carPicker)
-        addSubview(self.deviceNameTextField)
-        addSubview(self.addButton)
-        
+        self.addSubview(self.titleLabel)
+        self.addSubview(self.descriptionLabel)
+        self.addSubview(self.selectCarLabel)
+        self.addSubview(self.selectCarView)
+        self.selectCarView.addSubview(self.selectCarViewLabel)
+        self.selectCarView.addSubview(self.selectCarViewIcon)
+        self.addSubview(self.deviceTitle)
+
+        self.addSubview(self.deviceView)
+        self.deviceView.addSubview(self.deviceNameTextField)
+
+        self.addSubview(self.addButton)
+
+        self.selectCarView.addTapGesture {
+            if let delegate = self.delegate {
+                delegate.showCarList()
+            }
+        }
+
         self.backgroundColor = .white
+
+        updateButtonState()
     }
     
     private func setupConstraints() {
+        
         self.titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(self.safeAreaLayoutGuide.snp.top).offset(32)
-            make.leading.trailing.equalToSuperview().inset(16)
+            make.top.equalTo(self.safeAreaLayoutGuide.snp.top).offset(16)
+            make.leading.trailing.equalToSuperview().offset(28)
         }
         
         self.descriptionLabel.snp.makeConstraints { make in
-            make.top.equalTo(self.titleLabel.snp.bottom).offset(10)
-            make.leading.trailing.equalToSuperview().inset(16)
+            make.top.equalTo(self.titleLabel.snp.bottom).offset(16)
+            make.leading.trailing.equalToSuperview().inset(28)
         }
         
-        self.carPicker.snp.makeConstraints { make in
-            make.top.equalTo(self.descriptionLabel.snp.bottom).offset(20)
-            make.leading.trailing.equalToSuperview().inset(16)
-            make.height.equalTo(200)
+        self.selectCarLabel.snp.updateConstraints { make in
+            make.top.equalTo(self.descriptionLabel.snp.bottom).offset(32)
+            make.leading.equalToSuperview().offset(28)
+            make.trailing.equalToSuperview().offset(-28)
         }
         
-        self.deviceNameTextField.snp.makeConstraints { make in
-            make.top.equalTo(self.carPicker.snp.bottom).offset(20)
-            make.leading.trailing.equalToSuperview().inset(16)
+        self.selectCarView.snp.updateConstraints { make in
+            make.top.equalTo(self.selectCarLabel.snp.bottom).offset(8)
+            make.leading.equalToSuperview().offset(28)
+            make.trailing.equalToSuperview().offset(-28)
+            make.height.equalTo(40)
+        }
+        
+        self.selectCarViewLabel.snp.updateConstraints { make in
+            make.leading.equalToSuperview().offset(16)
+            make.top.equalToSuperview().offset(8)
+            make.bottom.equalToSuperview().offset(-8)
+            make.trailing.equalTo(self.selectCarViewIcon.snp.leading).offset(8)
+        }
+        
+        self.selectCarViewIcon.snp.updateConstraints { make in
+            make.size.equalTo(20)
+            make.trailing.equalToSuperview().offset(-14)
+            make.centerY.equalToSuperview()
+        }
+        
+        self.deviceTitle.snp.updateConstraints { make in
+            make.top.equalTo(self.selectCarView.snp.bottom).offset(20)
+            make.leading.equalToSuperview().offset(28)
+            make.trailing.equalToSuperview().offset(-28)
+        }
+        
+        self.deviceView.snp.updateConstraints { make in
+            make.top.equalTo(self.deviceTitle.snp.bottom).offset(20)
+            make.leading.equalToSuperview().offset(28)
+            make.trailing.equalToSuperview().offset(-28)
+            make.height.equalTo(40)
+        }
+        
+        self.deviceNameTextField.snp.updateConstraints { make in
+            make.trailing.bottom.top.equalToSuperview().inset(8)
+            make.leading.equalToSuperview().inset(16)
         }
         
         self.addButton.snp.makeConstraints { make in
-            make.top.equalTo(self.deviceNameTextField.snp.bottom).offset(20)
-            make.leading.trailing.equalToSuperview().inset(16)
-            make.height.equalTo(50)
+            make.top.equalTo(self.deviceView.snp.bottom).offset(32)
+            make.leading.trailing.equalToSuperview().inset(28)
+            make.height.equalTo(48)
         }
     }
     
@@ -126,40 +205,26 @@ final class AddFirstCarView: UIView {
         self.addButton.addTarget(self, action: #selector(addCarButtonTapped), for: .touchUpInside)
     }
     
+    @objc private func textFieldDidChange() {
+        updateButtonState()
+    }
+    
     @objc private func addCarButtonTapped() {
         if let delegate = self.delegate {
-            delegate.didTapAddCar(selectedCar: selectedCar, deviceName: self.deviceNameTextField.text ?? "")
+            delegate.didTapAddCar(deviceName: self.deviceNameTextField.text ?? "")
         }
     }
-}
-
-extension AddFirstCarView: UIPickerViewDelegate, UIPickerViewDataSource {
     
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return cars.count
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
-        var label: UILabel
-        if let v = view as? UILabel {
-            label = v
+    private func updateButtonState() {
+        let text = deviceNameTextField.text ?? ""
+        let isEnabled = !text.isEmpty
+        addButton.isEnabled = isEnabled
+        if isEnabled {
+            addButton.setTitleColor(UIColor(hex: "FFFFFF"), for: .normal)
+            addButton.backgroundColor = UIColor(hex: "0090FF")
         } else {
-            label = UILabel()
+            addButton.setTitleColor(UIColor(hex: "000830"), for: .normal)
+            addButton.backgroundColor = UIColor(hex: "ECEEF4")
         }
-        
-        label.font = UIFont.systemFont(ofSize: 18)
-        label.text = "\(cars[row].mark?.label ?? "") - \(cars[row].number ?? "")"
-        label.textAlignment = .center
-        
-        return label
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        selectedCarIndex = row 
-        selectedCar = cars[row]
     }
 }

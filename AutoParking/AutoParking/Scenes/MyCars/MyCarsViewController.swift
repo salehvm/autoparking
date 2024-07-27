@@ -7,6 +7,7 @@
 
 import UIKit
 import RealmSwift
+import CoreLocation
 
 protocol MyCarsDisplayLogic: AnyObject {
     
@@ -21,6 +22,7 @@ final class MyCarsViewController: UIViewController {
     var interactor: MyCarsBusinessLogic?
     var router: (MyCarsRoutingLogic & MyCarsDataPassing)?
     
+    var locationManager = CLLocationManager()
     var cars: Results<VehicleRealm>!
   
     // MARK: - Lifecycle Methods
@@ -34,17 +36,18 @@ final class MyCarsViewController: UIViewController {
         self.mainView?.tableView.delegate = self
         self.mainView?.tableView.dataSource = self
         
-        self.title = "My cars"
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.checkLocationPermission()
         loadCars()
         self.load()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.checkLocationPermission()
         loadCars()
     }
   
@@ -105,6 +108,21 @@ final class MyCarsViewController: UIViewController {
         let request = MyCars.VehicleList.Request()
         interactor?.getCarlist(request: request)
     }
+    
+    private func checkLocationPermission() {
+        let authorizationStatus = locationManager.authorizationStatus
+        if authorizationStatus == .notDetermined || authorizationStatus == .denied {
+            mainView?.locPermissionView.isHidden = false
+            mainView?.addButton.isHidden = true
+            mainView?.title.isHidden = true
+            mainView?.tableView.isHidden = true
+        } else {
+            mainView?.locPermissionView.isHidden = true
+            mainView?.addButton.isHidden = false
+            mainView?.title.isHidden = false
+            mainView?.tableView.isHidden = false
+        }
+    }
 }
 
 // MARK: - Display Logic
@@ -132,7 +150,7 @@ extension MyCarsViewController: MyCarsDisplayLogic {
                 selectView.carPicker.reloadAllComponents()
             }
             
-            self.showBottomUp(selectView, sizes: [.fixed(350)])
+            self.showBottomUp(selectView, sizes: [.fixed(500)])
         }
     }
 
@@ -142,14 +160,20 @@ extension MyCarsViewController: MyCarsDisplayLogic {
 
 extension MyCarsViewController: MyCarsViewDelegate {
     
+    func getLocation() {
+        if let url = URL(string: UIApplication.openSettingsURLString) {
+            UIApplication.shared.open(url)
+        }
+    }
+    
     func canAddVehicle() {
-        
         self.getCarList()
     }
     
 }
 
 extension MyCarsViewController: UITableViewDelegate, UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return cars.count
     }
@@ -166,21 +190,16 @@ extension MyCarsViewController: UITableViewDelegate, UITableViewDataSource {
 
 }
 
+
 extension MyCarsViewController: CarTableViewCellDelegate {
     
-    func canDelete(vehicleId: String) {
-        let realm = try! Realm()
-        if let vehicleToDelete = realm.object(ofType: VehicleRealm.self, forPrimaryKey: vehicleId) {
-            do {
-                try realm.write {
-                    realm.delete(vehicleToDelete)
-                    print("Vehicle deleted: \(vehicleId)")
-                    self.loadCars()
-                }
-            } catch {
-                print("Error deleting vehicle: \(error)")
-            }
-        }
+    func canDelete(vehicleId: String, vehicleName: String) {
+        let deleteConfirmationVC = DeleteConfirmationViewController()
+        deleteConfirmationVC.vehicleId = vehicleId
+        deleteConfirmationVC.delegate = self
+        deleteConfirmationVC.modalPresentationStyle = .overCurrentContext
+        deleteConfirmationVC.modalTransitionStyle = .crossDissolve
+        self.present(deleteConfirmationVC, animated: true, completion: nil)
     }
     
     func canEdit(vehicleId: String, deviceName: String) {
@@ -200,5 +219,22 @@ extension MyCarsViewController: CarTableViewCellDelegate {
             print("Vehicle not found with ID \(vehicleId)")
         }
     }
+}
+
+extension MyCarsViewController: DeleteConfirmationDelegate {
     
+    func didConfirmDeletion(vehicleId: String) {
+        let realm = try! Realm()
+        if let vehicleToDelete = realm.object(ofType: VehicleRealm.self, forPrimaryKey: vehicleId) {
+            do {
+                try realm.write {
+                    realm.delete(vehicleToDelete)
+                    print("Vehicle deleted: \(vehicleId)")
+                    self.loadCars()
+                }
+            } catch {
+                print("Error deleting vehicle: \(error)")
+            }
+        }
+    }
 }

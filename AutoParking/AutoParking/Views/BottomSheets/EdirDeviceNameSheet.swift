@@ -19,15 +19,15 @@ final class EdirDeviceNameSheet: UIViewController, ThemeableViewController {
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Edit device name"
-        label.textColor = .black
-        label.font = .boldSystemFont(ofSize: 14)
+        label.text = "Düzəliş et"
+        label.textColor = UIColor.init(hex: "113264")
+        label.font = .boldSystemFont(ofSize: 16)
         return label
     }()
     
     private lazy var closeButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("X", for: .normal)
+        let button = UIButton()
+        button.setImage(UIImage(named: "close_icon"), for: .normal)
         button.addTarget(self, action: #selector(closeButtonTouchUp), for: .touchUpInside)
         return button
     }()
@@ -38,16 +38,28 @@ final class EdirDeviceNameSheet: UIViewController, ThemeableViewController {
         return view
     }()
     
+    private lazy var deviceLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Blutuzun adı:"
+        label.textColor = UIColor.init(hex: "1C2024")
+        label.font = .systemFont(ofSize: 14)
+        return label
+    }()
+    
     private lazy var editTextField: UITextField = {
         let textField = UITextField()
+        textField.borderStyle = .roundedRect
+        textField.layer.cornerRadius = 24
         return textField
     }()
     
     private lazy var saveButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Save", for: .normal)
-        button.backgroundColor = .clear
-        button.setTitleColor(.black, for: .normal)
+        button.setTitle("Yadda saxla", for: .normal)
+        button.titleLabel?.font = .boldSystemFont(ofSize: 16)
+        button.backgroundColor = UIColor.init(hex: "0090FF")
+        button.setTitleColor(.white, for: .normal)
+        button.layer.cornerRadius = 24
         button.addTarget(self, action: #selector(saveButtonTouchUp), for: .touchUpInside)
         return button
     }()
@@ -84,9 +96,9 @@ final class EdirDeviceNameSheet: UIViewController, ThemeableViewController {
         }
         
         self.closeButton.snp.updateConstraints { make in
-            make.top.equalTo(8)
-            make.trailing.equalTo(-8)
-            make.size.equalTo(CGSize(width: 48, height: 48))
+            make.top.equalTo(20)
+            make.trailing.equalTo(-16)
+            make.size.equalTo(CGSize(width: 20, height: 20))
         }
         
         self.lineView.snp.updateConstraints { make in
@@ -95,8 +107,14 @@ final class EdirDeviceNameSheet: UIViewController, ThemeableViewController {
             make.height.equalTo(1)
         }
         
-        self.editTextField.snp.updateConstraints { make in
+        self.deviceLabel.snp.updateConstraints { make in
             make.top.equalTo(self.lineView.snp.bottom).offset(16)
+            make.leading.equalToSuperview().offset(16)
+            make.trailing.equalToSuperview().offset(-16)
+        }
+        
+        self.editTextField.snp.updateConstraints { make in
+            make.top.equalTo(self.deviceLabel.snp.bottom).offset(16)
             make.leading.equalToSuperview().offset(16)
             make.trailing.equalToSuperview().offset(-16)
             make.height.equalTo(48)
@@ -105,8 +123,8 @@ final class EdirDeviceNameSheet: UIViewController, ThemeableViewController {
         self.saveButton.snp.updateConstraints { make in
             make.height.equalTo(48)
             make.bottom.equalToSuperview().offset(-32)
-            make.leading.equalToSuperview().offset(16)
-            make.trailing.equalToSuperview().offset(-16)
+            make.leading.equalToSuperview().offset(32)
+            make.trailing.equalToSuperview().offset(-32)
         }
         
         super.updateViewConstraints()
@@ -120,6 +138,7 @@ final class EdirDeviceNameSheet: UIViewController, ThemeableViewController {
         self.view.addSubview(self.closeButton)
         self.view.addSubview(self.lineView)
         
+        self.view.addSubview(self.deviceLabel)
         self.view.addSubview(self.editTextField)
         self.view.addSubview(self.saveButton)
         

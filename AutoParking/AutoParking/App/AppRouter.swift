@@ -16,16 +16,15 @@ final class AppRouter {
     
     func start() {
         self.splash()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            self.checkStart()
-        }
+        
+//        self.addCar()
     }
     
     func checkStart() {
         if SessionManager.shared.hasLogin {
             self.main()
         } else {
-            self.signIn()
+            self.onboarding()
         }
     }
     
@@ -53,6 +52,19 @@ final class AppRouter {
     func addCar() {
         let viewController = AddFirstCarViewController()
         self.window.rootViewController = AddFirstCarConfigurator.configure(viewController)
+        self.window.makeKeyAndVisible()
+    }
+    
+    func verify() {
+        let viewController = VerifyViewController()
+        self.window.rootViewController = VerifyConfigurator.configure(viewController)
+        self.window.makeKeyAndVisible()
+    }
+    
+    func onboarding() {
+        let viewController = OnboardingViewController()
+        OnboardingConfigurator.configure(viewController)
+        self.window.rootViewController = MainNavigation(rootViewController: viewController)
         self.window.makeKeyAndVisible()
     }
 }

@@ -8,6 +8,7 @@
 import UIKit
 import AutoParkingNetwork
 import RealmSwift
+import CoreLocation
 
 protocol ProfileDisplayLogic: AnyObject {
     func displayLoad(viewModel: Profile.Load.ViewModel)
@@ -20,74 +21,96 @@ final class ProfileViewController: UIViewController {
     var mainView: ProfileView?
     var interactor: ProfileBusinessLogic?
     var router: (ProfileRoutingLogic & ProfileDataPassing)?
-    
-    private var items: [PaymentMethod] = [] {
-        didSet {
-            self.mainView?.collectionView.reloadData()
-        }
-    }
-  
     var session = SessionManager.shared
+    var locationManager = CLLocationManager()
     
     // MARK: - Lifecycle Methods
-
+    
     override func loadView() {
         super.loadView()
-        self.view = mainView
+        mainView = ProfileView()
         mainView?.delegate = self
-        self.mainView?.collectionView.dataSource = self
-        self.mainView?.collectionView.delegate = self
+        view = mainView
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.load()
+        loadProfile()
+        checkLocationPermission()
     }
-  
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        checkLocationPermission()
+    }
+    
     // MARK: - Public Methods
-  
-    func load() {
+    
+    private func loadProfile() {
         let request = Profile.Load.Request()
         interactor?.load(request: request)
     }
     
-    func logoutApi() {
+    private func logoutApi() {
         let request = Profile.Logout.Request()
         interactor?.logout(request: request)
     }
     
-    func paymentCardList() {
+    private func paymentCardList() {
         let request = Profile.PaymentCardList.Request()
         interactor?.getCardList(request: request)
+    }
+    
+    private func checkLocationPermission() {
+        let authorizationStatus = locationManager.authorizationStatus
+        if authorizationStatus == .notDetermined || authorizationStatus == .denied {
+            mainView?.locPermissionView.isHidden = false
+            mainView?.bankCardView.isHidden = true
+            mainView?.switchView.isHidden = true
+            mainView?.logoutButton.isHidden = true
+            mainView?.titleLabel.isHidden = true
+        } else {
+            mainView?.locPermissionView.isHidden = true
+            mainView?.bankCardView.isHidden = false
+            mainView?.switchView.isHidden = false
+            mainView?.logoutButton.isHidden = false
+            mainView?.titleLabel.isHidden = false
+        }
     }
 }
 
 // MARK: - Display Logic
 
 extension ProfileViewController: ProfileDisplayLogic {
-
+    
     func displayLogout(viewModel: Profile.Logout.ViewModel) {
         if viewModel.check == true {
             session.logout()
-            App.router.signIn()
+            App.router.onboarding()
         } else {
-            print("error")
+            showError(message: "Logout failed. Please try again.")
         }
     }
     
     func displayPaymentList(viewModel: Profile.PaymentCardList.ViewModel) {
-        self.items = viewModel.data
+        if let defaultPaymentMethod = viewModel.data.first(where: { $0.default == 1 }) {
+            let lastFourDigits = defaultPaymentMethod.title.suffix(4)
+            mainView?.cardNumberLabel.text = "**\(lastFourDigits)"
+        }
     }
     
     func displayLoad(viewModel: Profile.Load.ViewModel) {
-        self.paymentCardList()
-        
+        paymentCardList()
         let realm = try! Realm()
         if let autoNotification = realm.objects(AutoNotification.self).first {
-            self.mainView?.switchBtn.isOn = autoNotification.isAutoCheck
-        } else {
-            print("No AutoNotification found")
+            mainView?.switchBtn.isOn = autoNotification.isAutoCheck
         }
+    }
+    
+    private func showError(message: String) {
+        let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
     }
 }
 
@@ -95,54 +118,26 @@ extension ProfileViewController: ProfileDisplayLogic {
 
 extension ProfileViewController: ProfileViewDelegate {
     
+    func getLocation() {
+        if let url = URL(string: UIApplication.openSettingsURLString) {
+            UIApplication.shared.open(url)
+        }
+    }
+    
     func manageAutoSwcViewChange(_ isOn: Bool) {
         let realm = try! Realm()
-        if let autoNotification = realm.objects(AutoNotification.self).first {
-            try! realm.write {
+        try! realm.write {
+            if let autoNotification = realm.objects(AutoNotification.self).first {
                 autoNotification.isAutoCheck = isOn
-                print("Updated isAutoCheck to \(isOn)")
-            }
-        } else {
-            let newAutoNotification = AutoNotification()
-            newAutoNotification.isAutoCheck = isOn
-            try! realm.write {
+            } else {
+                let newAutoNotification = AutoNotification()
+                newAutoNotification.isAutoCheck = isOn
                 realm.add(newAutoNotification)
-                print("Created new AutoNotification with isAutoCheck: \(isOn)")
             }
         }
     }
     
     func logout() {
-        self.logoutApi()
-    }
-}
-
-extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.items.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PaymentCardCell.reuseIdentifier, for: indexPath) as! PaymentCardCell
-        let item = self.items[indexPath.row]
-        
-        if item.default == 1 {
-            cell.bodyView.backgroundColor = .systemRed
-            cell.bodyView.layer.opacity = 0.6
-        }
-        
-        let maskedTitle = "**" + item.title.suffix(4)
-        cell.title.text = maskedTitle
-
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 100, height: 30)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-       
+        logoutApi()
     }
 }

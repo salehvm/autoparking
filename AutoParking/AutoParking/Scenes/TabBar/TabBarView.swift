@@ -21,13 +21,13 @@ class AppTabBar: UITabBar, ThemeableView {
     
     init() {
         super.init(frame: .zero)
-        self.tintColor = .black
+        self.tintColor = UIColor.init(hex: "0D74CE")
         self.unselectedItemTintColor = .systemGray2
         self.backgroundColor = .clear
         self.isTranslucent = false
         self.barTintColor = .white
-        
     }
+    
     required init?(coder: NSCoder) {
         fatalError()
     }
@@ -36,13 +36,14 @@ class AppTabBar: UITabBar, ThemeableView {
         let shapeLayer = CAShapeLayer()
         shapeLayer.path = createPath()
         shapeLayer.strokeColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
-        shapeLayer.fillColor = #colorLiteral(red: 0.9782002568, green: 0.9782230258, blue: 0.9782107472, alpha: 1)
+        shapeLayer.fillColor = UIColor.white.cgColor
         shapeLayer.lineWidth = 0.5
-        shapeLayer.shadowOffset = CGSize(width:0, height:0)
-        shapeLayer.shadowRadius = 10
-        shapeLayer.shadowColor = UIColor.white.cgColor
+        
+        shapeLayer.shadowColor = UIColor.black.cgColor
         shapeLayer.shadowOpacity = 0.3
-
+        shapeLayer.shadowOffset = CGSize(width: 0, height: 2)
+        shapeLayer.shadowRadius = 8
+        
         if let oldShapeLayer = self.shapeLayer {
             self.layer.replaceSublayer(oldShapeLayer, with: shapeLayer)
         } else {
@@ -52,22 +53,24 @@ class AppTabBar: UITabBar, ThemeableView {
     }
 
     func createPath() -> CGPath {
-        let height: CGFloat = 86.0
+        let radius: CGFloat = 8.0
         let path = UIBezierPath()
-        let centerWidth = self.frame.width / 2
-        path.move(to: CGPoint(x: 0, y: 0))
-        path.addLine(to: CGPoint(x: (centerWidth - height ), y: 0))
         
-        path.addCurve(to: CGPoint(x: centerWidth, y: height - 40),
-                      controlPoint1: CGPoint(x: (centerWidth - 30), y: 0), controlPoint2: CGPoint(x: centerWidth - 35, y: height - 40))
+        path.move(to: CGPoint(x: radius, y: 0))
+        path.addLine(to: CGPoint(x: self.frame.width - radius, y: 0))
+        path.addArc(withCenter: CGPoint(x: self.frame.width - radius, y: radius), radius: radius, startAngle: CGFloat(3 * Double.pi / 2), endAngle: 0, clockwise: true)
         
-        path.addCurve(to: CGPoint(x: (centerWidth + height ), y: 0),
-                      controlPoint1: CGPoint(x: centerWidth + 35, y: height - 40), controlPoint2: CGPoint(x: (centerWidth + 30), y: 0))
+        path.addLine(to: CGPoint(x: self.frame.width, y: self.frame.height - radius))
+        path.addArc(withCenter: CGPoint(x: self.frame.width - radius, y: self.frame.height - radius), radius: radius, startAngle: 0, endAngle: CGFloat(Double.pi / 2), clockwise: true)
         
-        path.addLine(to: CGPoint(x: self.frame.width, y: 0))
-        path.addLine(to: CGPoint(x: self.frame.width, y: self.frame.height))
-        path.addLine(to: CGPoint(x: 0, y: self.frame.height))
+        path.addLine(to: CGPoint(x: radius, y: self.frame.height))
+        path.addArc(withCenter: CGPoint(x: radius, y: self.frame.height - radius), radius: radius, startAngle: CGFloat(Double.pi / 2), endAngle: CGFloat(Double.pi), clockwise: true)
+        
+        path.addLine(to: CGPoint(x: 0, y: radius))
+        path.addArc(withCenter: CGPoint(x: radius, y: radius), radius: radius, startAngle: CGFloat(Double.pi), endAngle: CGFloat(3 * Double.pi / 2), clockwise: true)
+        
         path.close()
+        
         return path.cgPath
     }
 
@@ -85,7 +88,7 @@ class AppTabBar: UITabBar, ThemeableView {
 extension UITabBar {
     override open func sizeThatFits(_ size: CGSize) -> CGSize {
         var sizeThatFits = super.sizeThatFits(size)
-        sizeThatFits.height = 74
+        sizeThatFits.height = 90 // Set the desired height
         return sizeThatFits
     }
 }

@@ -8,9 +8,7 @@
 import UIKit
 
 protocol SignInDisplayLogic: AnyObject {
-    
     func displayLoad(viewModel: SignIn.Load.ViewModel)
-    
     func displaySign(viewModel: SignIn.Sign.ViewModel)
 }
 
@@ -19,13 +17,13 @@ final class SignInViewController: UIViewController {
     var mainView: SignInView?
     var interactor: SignInBusinessLogic?
     var router: (SignInRoutingLogic & SignInDataPassing)?
-  
+    var selectedOperator: OperatorValue?
+    var code: String?
     
     // MARK: - Lifecycle Methods
 
     override func loadView() {
         super.loadView()
-        
         self.view = mainView
         mainView?.delegate = self
     }
@@ -33,10 +31,11 @@ final class SignInViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.showBackButton = false
+        
         self.hideKeyboardWhenTappedAround()
         self.load()
     }
-  
     
     // MARK: - Public Methods
   
@@ -60,7 +59,7 @@ final class SignInViewController: UIViewController {
 extension SignInViewController: SignInDisplayLogic {
     
     func displayLoad(viewModel: SignIn.Load.ViewModel) {
-        //nameTextField.text = viewModel.name
+        // nameTextField.text = viewModel.name
     }
     
     func displaySign(viewModel: SignIn.Sign.ViewModel) {
@@ -72,11 +71,19 @@ extension SignInViewController: SignInDisplayLogic {
 
 extension SignInViewController: SignInViewDelegate {
     
-    func didTapGetVerificationCode(operatorValue: String, number: String) {
-        
-        let timestamp = getTimestamp()
-        
-        self.sign(operatorValue: operatorValue, number: number, ts: timestamp)
+    func callPrefixBottom() {
+        let selectView = PrefixBottomSheet { [weak self] code, operatorValue in
+            self?.mainView?.prefixLabel.text = code
+            self?.selectedOperator = operatorValue
+            self?.code = code
+        }
+        self.showBottomUp(selectView, sizes: [.fixed(300)])
     }
     
+    func didTapGetVerificationCode(number: String) {
+        let timestamp = getTimestamp()
+        guard let operatorValue = self.selectedOperator else { return }
+        self.sign(operatorValue: operatorValue.rawValue, number: "\(code ?? "")\(number)", ts: timestamp)
+    }
 }
+

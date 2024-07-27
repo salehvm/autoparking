@@ -36,11 +36,13 @@ final class ActiveParkingInteractor: ActiveParkingBusinessLogic, ActiveParkingDa
     func bookedList(request: ActiveParking.BookedList.Request) {
         let token = SessionManager.shared.accessToken ?? ""
         
-        self.worker.getBookedList(token: token) { [weak self] data, message in
-            guard let self = self else { return }
-            if let data = data {
-                let response = ActiveParking.BookedList.Response(data: data.data ?? [])
-                presenter?.presentBookedList(response: response)
+        worker.getBookedList(token: token) { response, error in
+            if let response = response {
+                print("Successfully retrieved booking list")
+                let response = ActiveParking.BookedList.Response(data: response.data ?? [])
+                self.presenter?.presentBookedList(response: response)
+            } else if let error = error {
+                print("Error: \(error)")
             }
         }
     }

@@ -22,12 +22,12 @@ final class VerifyPresenter: VerifyPresentationLogic {
     // MARK: Presentation
   
     func presentLoad(response: Verify.Load.Response) {
-        let viewModel = Verify.Load.ViewModel()
+        let viewModel = Verify.Load.ViewModel(phoneNumber: response.phoneNumber)
         viewController?.displayLoad(viewModel: viewModel)
     }
     
     func presentCheckOTP(response: Verify.CheckOTP.Response) {
-        let viewModel = Verify.CheckOTP.ViewModel(success: response.success, errorMessage: response.message)
+        let viewModel = Verify.CheckOTP.ViewModel(success: response.success, errorMessage: response.message, status: response.status)
         viewController?.displayCheckOTP(viewModel: viewModel)
     }
 }
