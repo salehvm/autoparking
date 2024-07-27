@@ -12,7 +12,6 @@ import AutoParkingNetwork
 import UserNotifications
 import CoreLocation
 import Turf
-//import FirebaseAnalytics
 
 protocol AudioRouteChangeDelegate: AnyObject {
     func didChangeAudioRoute(output: String, type: String, message: String)
@@ -28,8 +27,6 @@ final class AudioPortManager: NSObject, CLLocationManagerDelegate {
     
     weak var delegate: AudioRouteChangeDelegate?
     var locationManager = CLLocationManager()
-    
-//    private let analytics = Analytics.self
     
     private var location: CLLocation?
     
@@ -74,7 +71,7 @@ final class AudioPortManager: NSObject, CLLocationManagerDelegate {
         }
     }
     
-    private func setupLocationManager() {
+    func setupLocationManager() {
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
@@ -181,6 +178,9 @@ final class AudioPortManager: NSObject, CLLocationManagerDelegate {
             case .success(_):
                 print("success response stop book")
                 self.sendPushNotification(title: "Successfully Stopped Park", body: "Your parking session has ended successfully.", parkId: userParkId)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    App.router.main()
+                }
                 completion?(true)
             case .failure(let error):
                 print("Booking failed with error: \(error.localizedDescription)")
@@ -334,7 +334,10 @@ final class AudioPortManager: NSObject, CLLocationManagerDelegate {
                             self.sendPushNotification(title: "For you", body: "We detect you stay here \(closestPark.code ?? "") if you want us to park for you, let us", parkId: closestPark.id ?? "")
                         } else {
                             self.sendPushNotification(title: "Start Booked Park", body: "Your parking session has started successfully.", parkId: closestPark.id ?? "")
-//                            self.startBook(selectedCardId: self.activeCar?.id ?? "", parkId: closestPark.id ?? "")
+                            self.startBook(selectedCardId: self.activeCar?.id ?? "", parkId: closestPark.id ?? "")
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                App.router.main()
+                            }
                         }
                         
                     } else {

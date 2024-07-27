@@ -23,8 +23,6 @@ enum TabBar {
 
 enum TabBarModels {
     case activeParking
-    case parks
-    case programs
     case cars
     case profile
 }
@@ -34,30 +32,22 @@ extension TabBarModels {
     var tabbarItemTitle: String? {
         switch self {
         case .activeParking:
-            return "Booked"
-        case .parks:
-            return "Parks"
-        case .programs:
-            return nil
+            return "Aktiv"
         case .cars:
-            return "Cars"
+            return "Avtomobillər"
         case .profile:
-            return "Profile"
+            return "Profil"
         }
     }
     
     var tabbarItemImage: UIImage? {
         switch self {
         case .activeParking:
-            return UIImage(systemName: "bookmark.fill")
-        case .parks:
-            return UIImage(systemName: "list.bullet")
-        case .programs:
-            return nil
+            return UIImage(named: "tabbar_time_icon")
         case .cars:
-            return UIImage(systemName: "car.2")
+            return UIImage(named: "tabbar_car_icon")
         case .profile:
-            return UIImage(systemName: "person.circle.fill")
+            return UIImage(named: "tabbar_user_icon")
         }
     }
 }

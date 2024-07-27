@@ -8,15 +8,14 @@
 import UIKit
 
 protocol VerifyDisplayLogic: AnyObject {
-    
     func displayLoad(viewModel: Verify.Load.ViewModel)
-    
     func displayCheckOTP(viewModel: Verify.CheckOTP.ViewModel)
+//    func displayResendOTP(viewModel: Verify.ResendOTP.ViewModel)
 }
 
 final class VerifyViewController: UIViewController {
     
-    var mainView: VerifyView?
+    var mainView: VerifyView = VerifyView()
     var interactor: VerifyBusinessLogic?
     var router: (VerifyRoutingLogic & VerifyDataPassing)?
   
@@ -24,12 +23,8 @@ final class VerifyViewController: UIViewController {
 
     override func loadView() {
         super.loadView()
-        
         self.view = mainView
-        mainView?.delegate = self
-        
-        self.title = "Verify"
-        
+        mainView.delegate = self
         self.showBackButton = true
     }
     
@@ -50,6 +45,11 @@ final class VerifyViewController: UIViewController {
         let request = Verify.CheckOTP.Request(code: otp)
         interactor?.verify(request: request)
     }
+    
+//    func resendOTP() {
+//        let request = Verify.ResendOTP.Request()
+//        interactor?.resend(request: request)
+//    }
 }
 
 // MARK: - Display Logic
@@ -58,20 +58,30 @@ extension VerifyViewController: VerifyDisplayLogic {
     
     func displayCheckOTP(viewModel: Verify.CheckOTP.ViewModel) {
         
-        if viewModel.success {
-            self.router?.routeToAddFirstCar()
+        if viewModel.status == "error" {
+            mainView.updateMessage("Təsdiq kodu səhvdir", isError: true)
+            self.mainView.verifyOTPButton.isEnabled = false
+            self.mainView.verifyOTPButton.backgroundColor = UIColor(hex: "ECEEF4")
+            self.mainView.verifyOTPButton.setTitleColor(UIColor(hex: "000830"), for: .normal)
         } else {
-            if let message = viewModel.errorMessage {
-                let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
-                
-                self.showBottomUp(alert)
-            }
+            self.router?.routeToAddFirstCar()
         }
+        
     }
     
     func displayLoad(viewModel: Verify.Load.ViewModel) {
-        //nameTextField.text = viewModel.name
+        self.mainView.subTitle.text = "\(viewModel.phoneNumber) nömrəsinə göndərdiyimiz doğrulama kodunu daxil edin."
     }
+    
+//    func displayResendOTP(viewModel: Verify.ResendOTP.ViewModel) {
+//        if viewModel.success {
+//            mainView.updateMessage("OTP yenidən göndərildi", isError: false)
+//        } else {
+//            if let message = viewModel.errorMessage {
+//                mainView.updateMessage(message, isError: true)
+//            }
+//        }
+//    }
 }
 
 // MARK: - View Delegate
@@ -80,5 +90,9 @@ extension VerifyViewController: VerifyViewDelegate {
     
     func didTapVerifyOTP(otp: String) {
         self.checkOTP(otp: otp)
+    }
+    
+    func didTapResendOTP() {
+//        self.resendOTP()
     }
 }

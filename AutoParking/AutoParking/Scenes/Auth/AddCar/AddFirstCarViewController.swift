@@ -20,6 +20,8 @@ final class AddFirstCarViewController: UIViewController {
     var interactor: AddFirstCarBusinessLogic?
     var router: (AddFirstCarRoutingLogic & AddFirstCarDataPassing)?
     
+    var selectedCar: Vehicle?
+    
     // MARK: - Lifecycle Methods
 
     override func loadView() {
@@ -27,7 +29,6 @@ final class AddFirstCarViewController: UIViewController {
         self.view = mainView
         mainView?.delegate = self
         self.showBackButton = false
-        self.title = "Add First Car"
     }
     
     override func viewDidLoad() {
@@ -58,12 +59,20 @@ extension AddFirstCarViewController: AddFirstCarDisplayLogic {
     }
     
     func displayGetCarList(viewModel: AddFirstCar.VehicleList.ViewModel) {
-        DispatchQueue.main.async {
-            self.mainView?.cars = viewModel.data
-            self.mainView?.carPicker.reloadAllComponents()
+        let view = SelectCarBottomSheet(cars: viewModel.data) { selectCar in
+            self.selectedCar = selectCar
+            self.mainView?.selectCarViewLabel.text = selectCar.mark?.label
+        }
+        
+        self.showBottomUp(view)
+        if viewModel.data.isEmpty {
+            self.mainView?.selectCarViewLabel.text = "No cars available"
+        } else {
+            self.selectedCar = viewModel.data.first // Select the first car by default
+            self.mainView?.selectCarViewLabel.text = viewModel.data.first?.mark?.label
         }
     }
-    
+
     private func addNewCarToDevice(car: Vehicle?, deviceName: String) {
         guard let car = car else {
             print("Error: Car information is incomplete or not provided.")
@@ -112,12 +121,16 @@ extension AddFirstCarViewController: AddFirstCarDisplayLogic {
 
 extension AddFirstCarViewController: AddFirstCarViewDelegate {
 
-    func didTapAddCar(selectedCar: Vehicle?, deviceName: String) {
+    func didTapAddCar(deviceName: String) {
         guard !deviceName.isEmpty else {
             showAlert("Device name is required.")
             return
         }
-        addNewCarToDevice(car: selectedCar, deviceName: deviceName)
-        App.router.main()
+        addNewCarToDevice(car: self.selectedCar, deviceName: deviceName)
+        self.router?.routeToPermissionScreen()
+    }
+
+    func showCarList() {
+        self.getCarList()
     }
 }

@@ -7,6 +7,7 @@
 
 import UIKit
 import AutoParkingNetwork
+import CoreLocation
 
 protocol ActiveParkingDisplayLogic: AnyObject {
     
@@ -20,6 +21,8 @@ final class ActiveParkingViewController: UIViewController {
     var mainView: ActiveParkingView?
     var interactor: ActiveParkingBusinessLogic?
     var router: (ActiveParkingRoutingLogic & ActiveParkingDataPassing)?
+    
+    var locationManager = CLLocationManager()
     
     private var items: [Booking] = [] {
         didSet {
@@ -38,13 +41,18 @@ final class ActiveParkingViewController: UIViewController {
         self.mainView?.tableView.dataSource = self
         self.mainView?.tableView.delegate = self
         
-        self.title = "Bookings"
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         AudioPortManager.shared.delegate = self
-        
+        self.checkLocationPermission()
+        self.bookedList()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.checkLocationPermission()
         self.bookedList()
     }
   
@@ -59,6 +67,17 @@ final class ActiveParkingViewController: UIViewController {
         let request = ActiveParking.BookedList.Request()
         interactor?.bookedList(request: request)
     }
+    
+    private func checkLocationPermission() {
+        let authorizationStatus = locationManager.authorizationStatus
+        if authorizationStatus == .notDetermined || authorizationStatus == .denied {
+            mainView?.locPermissionView.isHidden = false
+            mainView?.tableView.isHidden = true
+        } else {
+            mainView?.locPermissionView.isHidden = true
+            mainView?.tableView.isHidden = false
+        }
+    }
 }
 
 // MARK: - Display Logic
@@ -66,11 +85,20 @@ final class ActiveParkingViewController: UIViewController {
 extension ActiveParkingViewController: ActiveParkingDisplayLogic {
     
     func displayBookingList(viewModel: ActiveParking.BookedList.ViewModel) {
-        self.items = viewModel.data
+        
+        
+        if viewModel.data.isEmpty == true {
+            self.mainView?.emptyText.isHidden = false
+            self.mainView?.emptyImage.isHidden = false
+        } else {
+            self.items = viewModel.data
+            self.mainView?.emptyText.isHidden = true
+            self.mainView?.emptyImage.isHidden = true
+        }
     }
 
     func displayLoad(viewModel: ActiveParking.Load.ViewModel) {
-        
+        self.bookedList()
     }
 }
 
@@ -78,6 +106,11 @@ extension ActiveParkingViewController: ActiveParkingDisplayLogic {
 
 extension ActiveParkingViewController: ActiveParkingViewDelegate {
     
+    func getLocation() {
+        if let url = URL(string: UIApplication.openSettingsURLString) {
+            UIApplication.shared.open(url)
+        }
+    }
 }
 
 extension ActiveParkingViewController: UITableViewDataSource, UITableViewDelegate {

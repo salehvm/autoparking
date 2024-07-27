@@ -23,15 +23,15 @@ final class AddCarAndDeviceBottomSheet: UIViewController, ThemeableViewControlle
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Add car and device name"
-        label.textColor = .black
-        label.font = .boldSystemFont(ofSize: 14)
+        label.text = "Avtomobil əlavə et"
+        label.textColor = UIColor.init(hex: "113264")
+        label.font = .boldSystemFont(ofSize: 16)
         return label
     }()
     
     private lazy var closeButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("X", for: .normal)
+        let button = UIButton()
+        button.setImage(UIImage(named: "close_icon"), for: .normal)
         button.addTarget(self, action: #selector(closeButtonTouchUp), for: .touchUpInside)
         return button
     }()
@@ -47,18 +47,35 @@ final class AddCarAndDeviceBottomSheet: UIViewController, ThemeableViewControlle
         return picker
     }()
     
+    private lazy var deviceLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Cihazın adı"
+        label.textColor = UIColor.init(hex: "000033")
+        return label
+    }()
+    
+    private lazy var editView: UIView = {
+        let view = UIView()
+        view.layer.borderColor = UIColor.init(hex: "000033").withAlphaComponent(0.3).cgColor
+        view.layer.borderWidth = 1
+        view.layer.cornerRadius = 20
+        return view
+    }()
+    
     private lazy var editTextField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "set the new bluetooth name in you device"
-        textField.borderStyle = .line
+        textField.placeholder = "Cihazın adı"
+        textField.borderStyle = .none
         return textField
     }()
     
     private lazy var saveButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Save", for: .normal)
-        button.backgroundColor = .clear
-        button.setTitleColor(.black, for: .normal)
+        button.setTitle("Əlavə et", for: .normal)
+        button.titleLabel?.font = .boldSystemFont(ofSize: 16)
+        button.backgroundColor = UIColor.init(hex: "0090FF")
+        button.setTitleColor(.white, for: .normal)
+        button.layer.cornerRadius = 24
         button.addTarget(self, action: #selector(saveButtonTouchUp), for: .touchUpInside)
         return button
     }()
@@ -86,9 +103,13 @@ final class AddCarAndDeviceBottomSheet: UIViewController, ThemeableViewControlle
         self.carPicker.delegate = self
         self.carPicker.dataSource = self
         
-        
         self.addSubviews()
         self.setupUI()
+
+        if !vehicles.isEmpty {
+            selectedCar = vehicles[0]
+            carPicker.selectRow(0, inComponent: 0, animated: false)
+        }
     }
     
     override func updateViewConstraints() {
@@ -111,17 +132,28 @@ final class AddCarAndDeviceBottomSheet: UIViewController, ThemeableViewControlle
         }
         
         self.carPicker.snp.updateConstraints { make in
-            make.height.equalTo(100)
+            make.height.equalTo(140)
             make.top.equalTo(self.lineView.snp.bottom).offset(8)
             make.leading.equalToSuperview().offset(16)
             make.trailing.equalToSuperview().offset(-16)
         }
         
-        self.editTextField.snp.updateConstraints { make in
+        self.deviceLabel.snp.updateConstraints { make in
             make.top.equalTo(self.carPicker.snp.bottom).offset(16)
             make.leading.equalToSuperview().offset(16)
             make.trailing.equalToSuperview().offset(-16)
-            make.height.equalTo(48)
+            make.height.equalTo(24)
+        }
+        
+        self.editView.snp.updateConstraints { make in
+            make.top.equalTo(self.deviceLabel.snp.bottom).offset(8)
+            make.leading.equalToSuperview().offset(16)
+            make.trailing.equalToSuperview().offset(-16)
+            make.height.equalTo(40)
+        }
+        
+        self.editTextField.snp.updateConstraints { make in
+            make.edges.equalToSuperview().inset(8)
         }
        
         self.saveButton.snp.updateConstraints { make in
@@ -141,9 +173,11 @@ final class AddCarAndDeviceBottomSheet: UIViewController, ThemeableViewControlle
         self.view.addSubview(self.titleLabel)
         self.view.addSubview(self.closeButton)
         self.view.addSubview(self.lineView)
+        self.view.addSubview(self.deviceLabel)
         
         self.view.addSubview(self.carPicker)
-        self.view.addSubview(self.editTextField)
+        self.view.addSubview(self.editView)
+        self.editView.addSubview(self.editTextField)
         self.view.addSubview(self.saveButton)
         
         self.updateViewConstraints()
@@ -166,6 +200,7 @@ final class AddCarAndDeviceBottomSheet: UIViewController, ThemeableViewControlle
     @objc func saveButtonTouchUp() {
         self.dismiss(animated: true) { [weak self] in
             guard let self = self else { return }
+            
             
             if let selectedCar = self.selectedCar {
                 self.selectCompletion(self.editTextField.text ?? "", selectedCar)
@@ -195,7 +230,6 @@ extension AddCarAndDeviceBottomSheet: UIPickerViewDelegate, UIPickerViewDataSour
         label.font = UIFont.systemFont(ofSize: 18)
         label.text = "\(vehicles[row].mark?.label ?? "") - \(vehicles[row].number ?? "")"
         label.textAlignment = .center
-        
         
         return label
     }

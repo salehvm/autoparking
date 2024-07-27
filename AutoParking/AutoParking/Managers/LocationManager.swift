@@ -12,7 +12,6 @@ import Turf
 import UserNotifications
 
 protocol LocationManagerDelegate {
-    
     func fetchParksCompletion(status: Bool)
 }
 
@@ -26,7 +25,7 @@ final class LocationManager: NSObject {
     
     let delegates = MulticastDelegate<LocationManagerDelegate>()
     
-    private var locationManager = CLLocationManager()
+    var locationManager = CLLocationManager()
     var location: CLLocation?
     var locationError: Error?
     var parkId: String?
@@ -53,14 +52,11 @@ final class LocationManager: NSObject {
             switch result {
             case .success(let park):
                 self.parks = park.data
-                
                 completion?(true)
                 self.fetchParksCompletion(status: true)
-                
             case .wrong(_):
                 completion?(false)
                 self.fetchParksCompletion(status: false)
-                
             default:
                 completion?(false)
                 self.fetchParksCompletion(status: false)
@@ -69,10 +65,7 @@ final class LocationManager: NSObject {
     }
     
     override init() {
-        
-        locationManager = CLLocationManager()
         super.init()
-        
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
         locationManager.distanceFilter = 1
@@ -117,30 +110,24 @@ final class LocationManager: NSObject {
             if let closestPoint = closestPoint(on: park.polylineCoords ?? [], to: userLocation) {
                 closestCoordinates[park.code ?? ""] = closestPoint
                 
-                print(" park code: \(park.code) --- closestPoint: \(closestPoint)")
+                print("park code: \(park.code) --- closestPoint: \(closestPoint)")
                 
                 if closestPoint < 10 {
                     if closestPoint < minDistance {
                         minDistance = closestPoint
                         parkObject = park
-                        
                     }
                 }
             }
         }
         
-        
-        
         print("parkObject -> \(parkObject)")
         
-        
         let formattedDistance = String(format: "%.2f", minDistance)
-        
         
         if let parkOBJ = parkObject {
             self.sendPushNotification(title: "Parks List", body: "\(parkOBJ.code ?? "") \(formattedDistance)")
         }
-        
         
         self.userLocationLat = userLocation.latitude
         self.userLocationLong = userLocation.longitude
@@ -152,9 +139,7 @@ final class LocationManager: NSObject {
         guard polyline.count > 1 else { return nil }
         
         let point = Turf.Point(location)
-        
         let line = Turf.LineString([.init(latitude: polyline.first?.latitude ?? 0.0, longitude: polyline.first?.longitude ?? 0.0),.init(latitude: polyline.last?.latitude ?? 0.0, longitude: polyline.last?.longitude ?? 0.0)])
-        
         let linePoint = line.closestCoordinate(to: point.coordinates)
 
         return linePoint?.coordinate.distance(to: point.coordinates)
@@ -171,9 +156,7 @@ final class LocationManager: NSObject {
         let Δφ = toRadians(lat2 - lat1)
         let Δλ = toRadians(lng2 - lng1)
 
-        let a = sin(Δφ / 2) * sin(Δφ / 2) +
-                cos(φ1) * cos(φ2) *
-                sin(Δλ / 2) * sin(Δλ / 2)
+        let a = sin(Δφ / 2) * sin(Δφ / 2) + cos(φ1) * cos(φ2) * sin(Δλ / 2) * sin(Δλ / 2)
         let c = 2 * atan2(sqrt(a), sqrt(1 - a))
 
         return R * c
@@ -214,7 +197,6 @@ extension LocationManager: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         if status == .authorizedWhenInUse || status == .authorizedAlways {
-            
             self.userLocationLat = manager.location?.coordinate.latitude
             self.userLocationLong = manager.location?.coordinate.longitude
         }

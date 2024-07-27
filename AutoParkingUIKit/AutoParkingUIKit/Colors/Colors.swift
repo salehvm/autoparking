@@ -10,6 +10,7 @@ import UIKit
 public enum ColorStyle: String, CaseIterable {
     
     case mainColor = "Main"
+    case splashColor = "Splash"
 }
 
 extension ColorStyle {

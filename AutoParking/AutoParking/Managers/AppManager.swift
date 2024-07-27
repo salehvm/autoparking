@@ -29,7 +29,7 @@ final class AppManager {
     func logout() {
         self.session.logout()
         
-        App.router.signIn()
+        App.router.onboarding()
     }
 }
 

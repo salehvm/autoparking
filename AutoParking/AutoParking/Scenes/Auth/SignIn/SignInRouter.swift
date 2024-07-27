@@ -43,5 +43,6 @@ final class SignInRouter: NSObject, SignInRoutingLogic, SignInDataPassing {
 
     func passDataToVerify(source: SignInDataStore, destination: inout VerifyDataStore) {
         destination.hash = source.hash
+        destination.phoneNumber = source.phoneNumber
     }
 }

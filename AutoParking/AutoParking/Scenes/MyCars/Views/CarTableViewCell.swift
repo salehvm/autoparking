@@ -10,7 +10,7 @@ import AutoParkingUIKit
 
 protocol CarTableViewCellDelegate: AnyObject {
     func canEdit(vehicleId: String, deviceName: String)
-    func canDelete(vehicleId: String)
+    func canDelete(vehicleId: String, vehicleName: String)
 }
 
 final class CarTableViewCell: UITableViewCell, ThemeableView {
@@ -25,8 +25,8 @@ final class CarTableViewCell: UITableViewCell, ThemeableView {
     
     private lazy var bodyView: UIView = {
         let view = UIView()
-        view.backgroundColor = .white
-        view.layer.borderColor = UIColor.lightGray.cgColor
+        view.backgroundColor = UIColor.init(hex: "ACD8FC").withAlphaComponent(0.1)
+        view.layer.borderColor = UIColor.init(hex: "ACD8FC").cgColor
         view.layer.borderWidth = 1
         view.layer.cornerRadius = 12
         return view
@@ -34,23 +34,31 @@ final class CarTableViewCell: UITableViewCell, ThemeableView {
     
     private lazy var carName: UILabel = {
         let label = UILabel()
+        label.text = "Avtomobilin adı:"
+        label.font = .systemFont(ofSize: 16)
+        label.textColor = UIColor.init(hex: "838383")
+        return label
+    }()
+    
+    private lazy var carLabel: UILabel = {
+        let label = UILabel()
         label.font = .boldSystemFont(ofSize: 16)
-        label.textColor = .darkGray
+        label.textColor = UIColor.init(hex: "113264")
         return label
     }()
     
     private lazy var deviceNameTitle: UILabel = {
         let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 16)
-        label.textColor = .systemBrown
-        label.text = "Bluetooth name: "
+        label.font = .systemFont(ofSize: 16)
+        label.textColor = UIColor.init(hex: "838383")
+        label.text = "Blutuzun adı:"
         return label
     }()
     
     private lazy var deviceName: UILabel = {
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 16)
-        label.textColor = .systemBrown
+        label.textColor = UIColor.init(hex: "113264")
         return label
     }()
     
@@ -58,36 +66,50 @@ final class CarTableViewCell: UITableViewCell, ThemeableView {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
-        stackView.spacing = 6
+        stackView.spacing = 16
         return stackView
     }()
     
     private lazy var editButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Edit", for: .normal)
-        button.backgroundColor = .white
-        button.setTitleColor(.black, for: .normal)
-        button.layer.cornerRadius = 8
-        button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.black.cgColor
+        let button = UIButton(type: .system)
+        var config = UIButton.Configuration.plain()
+        config.title = "Düzəliş et"
+        config.image = UIImage(named: "edit_icon")
+        config.imagePadding = 8
+        config.baseForegroundColor = UIColor.init(hex: "006DCB")
+        config.background.cornerRadius = 16
+        config.background.strokeWidth = 1
+        config.background.strokeColor = UIColor.init(hex: "006DCB")
+        config.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 12)
+        
+        button.configuration = config
         button.addTarget(self, action: #selector(editDeviceName), for: .touchUpInside)
+        
         return button
     }()
-    
+
     private lazy var deleteButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Delete", for: .normal)
-        button.backgroundColor = .red
-        button.setTitleColor(.white, for: .normal)
-        button.layer.cornerRadius = 8
-        button.layer.borderColor = UIColor.black.cgColor
+        let button = UIButton(type: .system)
+        var config = UIButton.Configuration.plain()
+        config.title = "Sil"
+        config.image = UIImage(named: "delete_icon")
+        config.imagePadding = 8
+        config.baseForegroundColor = UIColor.init(hex: "CE2C31")
+        config.background.cornerRadius = 16
+        config.background.strokeWidth = 1
+        config.background.strokeColor = UIColor.init(hex: "CE2C31")
+        config.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 12)
+        
+        button.configuration = config
         button.addTarget(self, action: #selector(onDeleteCar), for: .touchUpInside)
+        
         return button
     }()
+
     
     func configure(with vehicle: VehicleRealm) {
         self.vehicle = vehicle
-        self.carName.text = "Car name: \(vehicle.markLabel)"
+        self.carLabel.text = "\(vehicle.markLabel)"
         self.deviceName.text = vehicle.deviceName
     }
     
@@ -110,30 +132,36 @@ final class CarTableViewCell: UITableViewCell, ThemeableView {
         
 
         self.bodyView.snp.updateConstraints { make in
-            make.edges.equalToSuperview().inset(16)
-            make.height.equalTo(140)
+            make.leading.trailing.bottom.equalToSuperview().inset(16)
+            make.top.equalToSuperview()
+            make.height.equalTo(204)
         }
         
         self.carName.snp.updateConstraints { make in
-            make.top.equalToSuperview().offset(8)
-            make.leading.equalToSuperview().offset(8)
+            make.top.equalToSuperview().offset(24)
+            make.leading.equalToSuperview().offset(24)
+        }
+        
+        self.carLabel.snp.updateConstraints { make in
+            make.top.equalTo(self.carName.snp.bottom).offset(4)
+            make.leading.equalToSuperview().offset(24)
         }
         
         self.deviceNameTitle.snp.updateConstraints { make in
-            make.top.equalTo(self.carName.snp.bottom).offset(8)
-            make.leading.equalToSuperview().offset(8)
+            make.top.equalTo(self.carLabel.snp.bottom).offset(12)
+            make.leading.equalToSuperview().offset(24)
         }
         
         self.deviceName.snp.updateConstraints { make in
-            make.top.equalTo(self.carName.snp.bottom).offset(8)
-            make.leading.equalTo(self.deviceNameTitle.snp.trailing).offset(6)
+            make.top.equalTo(self.deviceNameTitle.snp.bottom).offset(8)
+            make.leading.equalToSuperview().offset(24)
         }
         
         self.hStachView.snp.updateConstraints { make in
-            make.top.equalTo(self.deviceName.snp.bottom).offset(8)
-            make.bottom.equalToSuperview().offset(-8)
-            make.leading.equalToSuperview().offset(8)
-            make.trailing.equalToSuperview().offset(-8)
+            make.height.equalTo(32)
+            make.bottom.equalToSuperview().offset(-24)
+            make.leading.equalToSuperview().offset(24)
+            make.trailing.equalToSuperview().offset(-24)
         }
         
         
@@ -148,6 +176,7 @@ final class CarTableViewCell: UITableViewCell, ThemeableView {
         self.contentView.addSubview(self.bodyView)
         
         self.bodyView.addSubview(self.carName)
+        self.bodyView.addSubview(self.carLabel)
         self.bodyView.addSubview(self.deviceNameTitle)
         self.bodyView.addSubview(self.deviceName)
         
@@ -169,10 +198,10 @@ final class CarTableViewCell: UITableViewCell, ThemeableView {
             delegate.canEdit(vehicleId: self.vehicle.id, deviceName: self.deviceName.text ?? "")
         }
     }
-    
+
     @objc func onDeleteCar() {
         if let delegate = self.delegate {
-            delegate.canDelete(vehicleId: self.vehicle.id)
+            delegate.canDelete(vehicleId: self.vehicle.id, vehicleName: self.vehicle.modelValue)
         }
     }
 }

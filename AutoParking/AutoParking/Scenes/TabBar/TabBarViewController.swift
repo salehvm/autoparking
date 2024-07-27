@@ -12,18 +12,28 @@ protocol TabBarDisplayLogic: AnyObject {
     func displaySomething(viewModel: TabBar.Something.ViewModel)
 }
 
+
 final class TabBarController: UITabBarController, ThemeableViewController {
     var interactor: TabBarBusinessLogic?
     var router: (NSObjectProtocol & TabBarRoutingLogic & TabBarDataPassing)?
-    
-    
+
     var theme: ThemeProvider = App.theme
     
-    private lazy var tabbarView : AppTabBar = {
+    private lazy var tabbarView: AppTabBar = {
         let view = AppTabBar()
         return view
     }()
     
+//    private lazy var centerButton: UIButton = {
+//        let button = UIButton()
+//        button.setImage(UIImage(named: "centerButtonIcon"), for: .normal)
+//        button.addTarget(self, action: #selector(centerButtonTapped), for: .touchUpInside)
+//        button.layer.shadowColor = UIColor.black.cgColor
+//        button.layer.shadowOpacity = 0.2
+//        button.layer.shadowOffset = CGSize(width: 0, height: 4)
+//        button.layer.shadowRadius = 6
+//        return button
+//    }()
 
     override func loadView() {
         super.loadView()
@@ -38,19 +48,19 @@ final class TabBarController: UITabBarController, ThemeableViewController {
         self.addControllers()
     }
     
-    
     private func addSubviews() {
-//        self.tabBar.addSubview(self.menuButton)
+//        self.tabBar.addSubview(self.centerButton)
     }
     
     private func addConstraints() {
-//        self.menuButton.snp.updateConstraints { make in
-//            make.width.height.equalTo(58)
-//            make.bottom.equalToSuperview().offset(-50)
-//            make.centerX.equalToSuperview()
-//        }
+//        self.centerButton.translatesAutoresizingMaskIntoConstraints = false
+//        NSLayoutConstraint.activate([
+//            self.centerButton.centerXAnchor.constraint(equalTo: self.tabBar.centerXAnchor),
+//            self.centerButton.centerYAnchor.constraint(equalTo: self.tabBar.topAnchor, constant: 10),
+//            self.centerButton.widthAnchor.constraint(equalToConstant: 58),
+//            self.centerButton.heightAnchor.constraint(equalToConstant: 58)
+//        ])
     }
-
 
     private func addControllers() {
         let activeParkingVC = ActiveParkingViewController()
@@ -58,29 +68,23 @@ final class TabBarController: UITabBarController, ThemeableViewController {
         activeParkingView.tabBarItem = UITabBarItem()
         activeParkingView.tabBarItem.title = TabBarModels.activeParking.tabbarItemTitle
         activeParkingView.tabBarItem.image = TabBarModels.activeParking.tabbarItemImage
-        
-        let parkListVC = ParkListViewController()
-        let parkListView = MainNavigation(rootViewController: ParkListConfigurator.configure(parkListVC))
-        parkListView.tabBarItem = UITabBarItem()
-        parkListView.tabBarItem.title = TabBarModels.parks.tabbarItemTitle
-        parkListView.tabBarItem.image = TabBarModels.parks.tabbarItemImage
+        activeParkingView.tabBarItem.imageInsets = UIEdgeInsets(top: 6, left: 0, bottom: -6, right: 0)
         
         let myCarsVC = MyCarsViewController()
         let myCarsView = MainNavigation(rootViewController: MyCarsConfigurator.configure(myCarsVC))
         myCarsView.tabBarItem = UITabBarItem()
         myCarsView.tabBarItem.title = TabBarModels.cars.tabbarItemTitle
         myCarsView.tabBarItem.image = TabBarModels.cars.tabbarItemImage
+        myCarsView.tabBarItem.imageInsets = UIEdgeInsets(top: 6, left: 0, bottom: -6, right: 0)
         
         let accountVC = ProfileViewController()
         let accountView = MainNavigation(rootViewController: ProfileConfigurator.configure(accountVC))
         accountView.tabBarItem = UITabBarItem()
         accountView.tabBarItem.title = TabBarModels.profile.tabbarItemTitle
         accountView.tabBarItem.image = TabBarModels.profile.tabbarItemImage
-  
-        let dummyVC = UIViewController()
-        let dummyView = MainNavigation(rootViewController: dummyVC)
-        
-        let controllers = [activeParkingView, parkListView, dummyView, myCarsView, accountView]
+        accountView.tabBarItem.imageInsets = UIEdgeInsets(top: 6, left: 0, bottom: -6, right: 0)
+
+        let controllers = [activeParkingView, myCarsView, accountView]
         self.viewControllers = controllers
     }
     
@@ -92,9 +96,8 @@ final class TabBarController: UITabBarController, ThemeableViewController {
         self.setValue(tabbarView, forKey: "tabBar")
     }
     
-    func doSomething() {
-//        let request = TabBar.Something.Request()
-//        interactor?.doSomething(request: request)
+    @objc private func centerButtonTapped() {
+        // Handle center button action
     }
 }
 
@@ -104,10 +107,7 @@ extension TabBarController: UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         return tabBarController.selectedIndex != 2
     }
-
 }
-
-
 
 extension TabBarController: TabBarDisplayLogic {
     func displaySomething(viewModel: TabBar.Something.ViewModel) {

@@ -38,6 +38,28 @@
 		C64007202C2D6F1600BCA056 /* MulticastDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C640071F2C2D6F1600BCA056 /* MulticastDelegate.swift */; };
 		C64007222C2D83FA00BCA056 /* AudioPortManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C64007212C2D83FA00BCA056 /* AudioPortManager.swift */; };
 		C65B98B62C4158680057D40F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C65B98B52C4158680057D40F /* GoogleService-Info.plist */; };
+		C66590D72C4E91C500DFA07B /* PrefixBottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66590D62C4E91C500DFA07B /* PrefixBottomSheet.swift */; };
+		C66590DA2C50E23000DFA07B /* SelectCarBottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66590D92C50E23000DFA07B /* SelectCarBottomSheet.swift */; };
+		C66590E42C51148A00DFA07B /* PermissionAuthPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66590DC2C51148A00DFA07B /* PermissionAuthPresenter.swift */; };
+		C66590E52C51148A00DFA07B /* PermissionAuthWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66590DD2C51148A00DFA07B /* PermissionAuthWorker.swift */; };
+		C66590E62C51148A00DFA07B /* PermissionAuthRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66590DE2C51148A00DFA07B /* PermissionAuthRouter.swift */; };
+		C66590E72C51148A00DFA07B /* PermissionAuthModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66590DF2C51148A00DFA07B /* PermissionAuthModels.swift */; };
+		C66590E82C51148A00DFA07B /* PermissionAuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66590E02C51148A00DFA07B /* PermissionAuthViewController.swift */; };
+		C66590E92C51148A00DFA07B /* PermissionAuthInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66590E12C51148A00DFA07B /* PermissionAuthInteractor.swift */; };
+		C66590EA2C51148A00DFA07B /* PermissionAuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66590E22C51148A00DFA07B /* PermissionAuthView.swift */; };
+		C66590EB2C51148A00DFA07B /* PermissionAuthConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66590E32C51148A00DFA07B /* PermissionAuthConfigurator.swift */; };
+		C66590ED2C52664800DFA07B /* DeleteConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66590EC2C52664800DFA07B /* DeleteConfirmationViewController.swift */; };
+		C66590F02C52B5E000DFA07B /* GlobalLocationPermissionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66590EF2C52B5E000DFA07B /* GlobalLocationPermissionView.swift */; };
+		C66590FA2C5468D500DFA07B /* OnboardingPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66590F22C5468D500DFA07B /* OnboardingPresenter.swift */; };
+		C66590FB2C5468D500DFA07B /* OnboardingWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66590F32C5468D500DFA07B /* OnboardingWorker.swift */; };
+		C66590FC2C5468D500DFA07B /* OnboardingRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66590F42C5468D500DFA07B /* OnboardingRouter.swift */; };
+		C66590FD2C5468D500DFA07B /* OnboardingModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66590F52C5468D500DFA07B /* OnboardingModels.swift */; };
+		C66590FE2C5468D500DFA07B /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66590F62C5468D500DFA07B /* OnboardingViewController.swift */; };
+		C66590FF2C5468D500DFA07B /* OnboardingInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66590F72C5468D500DFA07B /* OnboardingInteractor.swift */; };
+		C66591002C5468D500DFA07B /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66590F82C5468D500DFA07B /* OnboardingView.swift */; };
+		C66591012C5468D500DFA07B /* OnboardingConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66590F92C5468D500DFA07B /* OnboardingConfigurator.swift */; };
+		C66591042C54699400DFA07B /* OnboardingItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66591032C54699400DFA07B /* OnboardingItemView.swift */; };
+		C66591072C5469FB00DFA07B /* SegmentedProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66591062C5469FB00DFA07B /* SegmentedProgressBar.swift */; };
 		C67B6CA92C299B9D004FF395 /* AddFirstCarPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67B6CA12C299B9D004FF395 /* AddFirstCarPresenter.swift */; };
 		C67B6CAA2C299B9D004FF395 /* AddFirstCarWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67B6CA22C299B9D004FF395 /* AddFirstCarWorker.swift */; };
 		C67B6CAB2C299B9D004FF395 /* AddFirstCarRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67B6CA32C299B9D004FF395 /* AddFirstCarRouter.swift */; };
@@ -167,6 +189,28 @@
 		C640071F2C2D6F1600BCA056 /* MulticastDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MulticastDelegate.swift; sourceTree = "<group>"; };
 		C64007212C2D83FA00BCA056 /* AudioPortManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPortManager.swift; sourceTree = "<group>"; };
 		C65B98B52C4158680057D40F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../GoogleService-Info.plist"; sourceTree = "<group>"; };
+		C66590D62C4E91C500DFA07B /* PrefixBottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrefixBottomSheet.swift; sourceTree = "<group>"; };
+		C66590D92C50E23000DFA07B /* SelectCarBottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCarBottomSheet.swift; sourceTree = "<group>"; };
+		C66590DC2C51148A00DFA07B /* PermissionAuthPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionAuthPresenter.swift; sourceTree = "<group>"; };
+		C66590DD2C51148A00DFA07B /* PermissionAuthWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionAuthWorker.swift; sourceTree = "<group>"; };
+		C66590DE2C51148A00DFA07B /* PermissionAuthRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionAuthRouter.swift; sourceTree = "<group>"; };
+		C66590DF2C51148A00DFA07B /* PermissionAuthModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionAuthModels.swift; sourceTree = "<group>"; };
+		C66590E02C51148A00DFA07B /* PermissionAuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionAuthViewController.swift; sourceTree = "<group>"; };
+		C66590E12C51148A00DFA07B /* PermissionAuthInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionAuthInteractor.swift; sourceTree = "<group>"; };
+		C66590E22C51148A00DFA07B /* PermissionAuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionAuthView.swift; sourceTree = "<group>"; };
+		C66590E32C51148A00DFA07B /* PermissionAuthConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionAuthConfigurator.swift; sourceTree = "<group>"; };
+		C66590EC2C52664800DFA07B /* DeleteConfirmationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteConfirmationViewController.swift; sourceTree = "<group>"; };
+		C66590EF2C52B5E000DFA07B /* GlobalLocationPermissionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalLocationPermissionView.swift; sourceTree = "<group>"; };
+		C66590F22C5468D500DFA07B /* OnboardingPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPresenter.swift; sourceTree = "<group>"; };
+		C66590F32C5468D500DFA07B /* OnboardingWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingWorker.swift; sourceTree = "<group>"; };
+		C66590F42C5468D500DFA07B /* OnboardingRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingRouter.swift; sourceTree = "<group>"; };
+		C66590F52C5468D500DFA07B /* OnboardingModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingModels.swift; sourceTree = "<group>"; };
+		C66590F62C5468D500DFA07B /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
+		C66590F72C5468D500DFA07B /* OnboardingInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingInteractor.swift; sourceTree = "<group>"; };
+		C66590F82C5468D500DFA07B /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		C66590F92C5468D500DFA07B /* OnboardingConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingConfigurator.swift; sourceTree = "<group>"; };
+		C66591032C54699400DFA07B /* OnboardingItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingItemView.swift; sourceTree = "<group>"; };
+		C66591062C5469FB00DFA07B /* SegmentedProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedProgressBar.swift; sourceTree = "<group>"; };
 		C67B6CA12C299B9D004FF395 /* AddFirstCarPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFirstCarPresenter.swift; sourceTree = "<group>"; };
 		C67B6CA22C299B9D004FF395 /* AddFirstCarWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFirstCarWorker.swift; sourceTree = "<group>"; };
 		C67B6CA32C299B9D004FF395 /* AddFirstCarRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFirstCarRouter.swift; sourceTree = "<group>"; };
@@ -315,6 +359,77 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C66590D52C4E919000DFA07B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				C66590D62C4E91C500DFA07B /* PrefixBottomSheet.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		C66590D82C5060DC00DFA07B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				C66590D92C50E23000DFA07B /* SelectCarBottomSheet.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		C66590DB2C51116400DFA07B /* Permission */ = {
+			isa = PBXGroup;
+			children = (
+				C66590DC2C51148A00DFA07B /* PermissionAuthPresenter.swift */,
+				C66590DD2C51148A00DFA07B /* PermissionAuthWorker.swift */,
+				C66590DE2C51148A00DFA07B /* PermissionAuthRouter.swift */,
+				C66590DF2C51148A00DFA07B /* PermissionAuthModels.swift */,
+				C66590E02C51148A00DFA07B /* PermissionAuthViewController.swift */,
+				C66590E12C51148A00DFA07B /* PermissionAuthInteractor.swift */,
+				C66590E22C51148A00DFA07B /* PermissionAuthView.swift */,
+				C66590E32C51148A00DFA07B /* PermissionAuthConfigurator.swift */,
+			);
+			path = Permission;
+			sourceTree = "<group>";
+		};
+		C66590EE2C52B5D100DFA07B /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				C66590EF2C52B5E000DFA07B /* GlobalLocationPermissionView.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		C66590F12C5468C000DFA07B /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				C66591022C54697F00DFA07B /* Views */,
+				C66590F22C5468D500DFA07B /* OnboardingPresenter.swift */,
+				C66590F32C5468D500DFA07B /* OnboardingWorker.swift */,
+				C66590F42C5468D500DFA07B /* OnboardingRouter.swift */,
+				C66590F52C5468D500DFA07B /* OnboardingModels.swift */,
+				C66590F62C5468D500DFA07B /* OnboardingViewController.swift */,
+				C66590F72C5468D500DFA07B /* OnboardingInteractor.swift */,
+				C66590F82C5468D500DFA07B /* OnboardingView.swift */,
+				C66590F92C5468D500DFA07B /* OnboardingConfigurator.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		C66591022C54697F00DFA07B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				C66591032C54699400DFA07B /* OnboardingItemView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		C66591052C5469EB00DFA07B /* App */ = {
+			isa = PBXGroup;
+			children = (
+				C66591062C5469FB00DFA07B /* SegmentedProgressBar.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
 		C67B6CCA2C2AE1C9004FF395 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -383,6 +498,7 @@
 			isa = PBXGroup;
 			children = (
 				C67B6D0D2C2B70E7004FF395 /* CarTableViewCell.swift */,
+				C66590EC2C52664800DFA07B /* DeleteConfirmationViewController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -495,6 +611,8 @@
 		C691A2082C28DE0A004192D7 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				C66591052C5469EB00DFA07B /* App */,
+				C66590EE2C52B5D100DFA07B /* Main */,
 				C69B47942C2C194900A4CE14 /* BottomSheets */,
 				C691A2092C28DE15004192D7 /* LoadingActivityIndicator.swift */,
 			);
@@ -558,6 +676,7 @@
 		C691A2592C298A21004192D7 /* Auth */ = {
 			isa = PBXGroup;
 			children = (
+				C66590DB2C51116400DFA07B /* Permission */,
 				C691A25C2C298EBF004192D7 /* AddCar */,
 				C691A25B2C298EB8004192D7 /* Verify */,
 				C691A25A2C298EAA004192D7 /* SignIn */,
@@ -568,6 +687,7 @@
 		C691A25A2C298EAA004192D7 /* SignIn */ = {
 			isa = PBXGroup;
 			children = (
+				C66590D52C4E919000DFA07B /* Views */,
 				C691A25D2C298ED9004192D7 /* SignInPresenter.swift */,
 				C691A25E2C298ED9004192D7 /* SignInWorker.swift */,
 				C691A25F2C298ED9004192D7 /* SignInRouter.swift */,
@@ -598,6 +718,7 @@
 		C691A25C2C298EBF004192D7 /* AddCar */ = {
 			isa = PBXGroup;
 			children = (
+				C66590D82C5060DC00DFA07B /* Views */,
 				C67B6CA12C299B9D004FF395 /* AddFirstCarPresenter.swift */,
 				C67B6CA22C299B9D004FF395 /* AddFirstCarWorker.swift */,
 				C67B6CA32C299B9D004FF395 /* AddFirstCarRouter.swift */,
@@ -621,6 +742,7 @@
 		C691A2722C2990EC004192D7 /* Launch */ = {
 			isa = PBXGroup;
 			children = (
+				C66590F12C5468C000DFA07B /* Onboarding */,
 				C691A2732C2990FD004192D7 /* SplashPresenter.swift */,
 				C691A2742C2990FD004192D7 /* SplashWorker.swift */,
 				C691A2752C2990FD004192D7 /* SplashRouter.swift */,
@@ -779,16 +901,20 @@
 				C67B6D072C2B6B00004FF395 /* MyCarsInteractor.swift in Sources */,
 				C691A2922C2995C6004192D7 /* VerifyConfigurator.swift in Sources */,
 				C691A27D2C2990FD004192D7 /* SplashRouter.swift in Sources */,
+				C66590ED2C52664800DFA07B /* DeleteConfirmationViewController.swift in Sources */,
 				C691A27E2C2990FD004192D7 /* SplashModels.swift in Sources */,
 				C67B6CCC2C2AE1D0004FF395 /* BookedListCell.swift in Sources */,
 				C691A1F62C28DCEC004192D7 /* MainNavigation.swift in Sources */,
 				C691A2002C28DD76004192D7 /* LocationManager.swift in Sources */,
+				C66590E92C51148A00DFA07B /* PermissionAuthInteractor.swift in Sources */,
 				C64007222C2D83FA00BCA056 /* AudioPortManager.swift in Sources */,
 				C67B6CAB2C299B9D004FF395 /* AddFirstCarRouter.swift in Sources */,
 				C691A28B2C2995C6004192D7 /* VerifyPresenter.swift in Sources */,
+				C66590E62C51148A00DFA07B /* PermissionAuthRouter.swift in Sources */,
 				C691A28E2C2995C6004192D7 /* VerifyModels.swift in Sources */,
 				C67B6CDE2C2AED4E004FF395 /* ParkListWorker.swift in Sources */,
 				C691A1F82C28DCF9004192D7 /* ViewController+Navigation.swift in Sources */,
+				C66591002C5468D500DFA07B /* OnboardingView.swift in Sources */,
 				C691A1A22C28D587004192D7 /* AppRouter.swift in Sources */,
 				C691A22C2C28E129004192D7 /* ActiveParkingInteractor.swift in Sources */,
 				C691A21D2C28E043004192D7 /* TabBarConfigurator.swift in Sources */,
@@ -797,6 +923,7 @@
 				C691A2692C298ED9004192D7 /* SignInViewController.swift in Sources */,
 				C691A2652C298ED9004192D7 /* SignInPresenter.swift in Sources */,
 				C691A22B2C28E129004192D7 /* ActiveParkingViewController.swift in Sources */,
+				C66590FA2C5468D500DFA07B /* OnboardingPresenter.swift in Sources */,
 				C67B6D0B2C2B705C004FF395 /* VehicleManager.swift in Sources */,
 				C691A2812C2990FD004192D7 /* SplashView.swift in Sources */,
 				C64007202C2D6F1600BCA056 /* MulticastDelegate.swift in Sources */,
@@ -808,7 +935,9 @@
 				C691A21B2C28E043004192D7 /* TabBarInteractor.swift in Sources */,
 				C691A2712C29904D004192D7 /* AppDefaults.swift in Sources */,
 				C691A2072C28DDEE004192D7 /* CacheManager.swift in Sources */,
+				C66590FF2C5468D500DFA07B /* OnboardingInteractor.swift in Sources */,
 				C67B6CAD2C299B9D004FF395 /* AddFirstCarViewController.swift in Sources */,
+				C66590D72C4E91C500DFA07B /* PrefixBottomSheet.swift in Sources */,
 				C67B6CE42C2AED4E004FF395 /* ParkListConfigurator.swift in Sources */,
 				C691A2272C28E129004192D7 /* ActiveParkingPresenter.swift in Sources */,
 				C691A21A2C28E043004192D7 /* TabBarViewController.swift in Sources */,
@@ -816,9 +945,12 @@
 				C67B6D062C2B6B00004FF395 /* MyCarsViewController.swift in Sources */,
 				C691A28C2C2995C6004192D7 /* VerifyWorker.swift in Sources */,
 				C691A2282C28E129004192D7 /* ActiveParkingWorker.swift in Sources */,
+				C66591042C54699400DFA07B /* OnboardingItemView.swift in Sources */,
 				C67B6CE32C2AED4E004FF395 /* ParkListView.swift in Sources */,
 				C691A2802C2990FD004192D7 /* SplashInteractor.swift in Sources */,
+				C66591012C5468D500DFA07B /* OnboardingConfigurator.swift in Sources */,
 				C67B6D032C2B6B00004FF395 /* MyCarsWorker.swift in Sources */,
+				C66590FE2C5468D500DFA07B /* OnboardingViewController.swift in Sources */,
 				C67B6CAA2C299B9D004FF395 /* AddFirstCarWorker.swift in Sources */,
 				C69B479B2C2C7A9700A4CE14 /* PaymentCardCell.swift in Sources */,
 				C691A2672C298ED9004192D7 /* SignInRouter.swift in Sources */,
@@ -827,7 +959,9 @@
 				C67B6CF22C2B552D004FF395 /* ProfileWorker.swift in Sources */,
 				C67B6D0E2C2B70E7004FF395 /* CarTableViewCell.swift in Sources */,
 				C67B6D022C2B6B00004FF395 /* MyCarsPresenter.swift in Sources */,
+				C66590E72C51148A00DFA07B /* PermissionAuthModels.swift in Sources */,
 				C67B6CBD2C29F281004FF395 /* AppManager.swift in Sources */,
+				C66590EB2C51148A00DFA07B /* PermissionAuthConfigurator.swift in Sources */,
 				C691A2182C28E043004192D7 /* TabBarRouter.swift in Sources */,
 				C67B6CE02C2AED4E004FF395 /* ParkListModels.swift in Sources */,
 				C691A2172C28E043004192D7 /* TabBarWorker.swift in Sources */,
@@ -841,24 +975,34 @@
 				C67B6CAF2C299B9D004FF395 /* AddFirstCarView.swift in Sources */,
 				C67B6CA92C299B9D004FF395 /* AddFirstCarPresenter.swift in Sources */,
 				C67B6D092C2B6B00004FF395 /* MyCarsConfigurator.swift in Sources */,
+				C66591072C5469FB00DFA07B /* SegmentedProgressBar.swift in Sources */,
 				C67B6CF62C2B552D004FF395 /* ProfileInteractor.swift in Sources */,
 				C691A26B2C298ED9004192D7 /* SignInView.swift in Sources */,
+				C66590E82C51148A00DFA07B /* PermissionAuthViewController.swift in Sources */,
+				C66590FD2C5468D500DFA07B /* OnboardingModels.swift in Sources */,
 				C691A2662C298ED9004192D7 /* SignInWorker.swift in Sources */,
 				C691A27C2C2990FD004192D7 /* SplashWorker.swift in Sources */,
 				C691A1EF2C28DC32004192D7 /* View+Extension.swift in Sources */,
 				C67B6CE12C2AED4E004FF395 /* ParkListViewController.swift in Sources */,
 				C691A2192C28E043004192D7 /* TabBarModels.swift in Sources */,
 				C691A28F2C2995C6004192D7 /* VerifyViewController.swift in Sources */,
+				C66590DA2C50E23000DFA07B /* SelectCarBottomSheet.swift in Sources */,
 				C691A1A52C28D5A2004192D7 /* AppContainer.swift in Sources */,
+				C66590F02C52B5E000DFA07B /* GlobalLocationPermissionView.swift in Sources */,
 				C69B47982C2C210000A4CE14 /* AddCarAndDeviceBottomSheet.swift in Sources */,
+				C66590FB2C5468D500DFA07B /* OnboardingWorker.swift in Sources */,
 				C67B6CF12C2B552D004FF395 /* ProfilePresenter.swift in Sources */,
+				C66590E42C51148A00DFA07B /* PermissionAuthPresenter.swift in Sources */,
+				C66590FC2C5468D500DFA07B /* OnboardingRouter.swift in Sources */,
 				C691A1ED2C28DC16004192D7 /* Cell+Configurer.swift in Sources */,
+				C66590EA2C51148A00DFA07B /* PermissionAuthView.swift in Sources */,
 				C691A27B2C2990FD004192D7 /* SplashPresenter.swift in Sources */,
 				C67B6CAC2C299B9D004FF395 /* AddFirstCarModels.swift in Sources */,
 				C691A28D2C2995C6004192D7 /* VerifyRouter.swift in Sources */,
 				C691A2822C2990FD004192D7 /* SplashConfigurator.swift in Sources */,
 				C67B6CF42C2B552D004FF395 /* ProfileModels.swift in Sources */,
 				C67B6CBF2C29F2B3004FF395 /* AlertViewManager.swift in Sources */,
+				C66590E52C51148A00DFA07B /* PermissionAuthWorker.swift in Sources */,
 				C67B6CF32C2B552D004FF395 /* ProfileRouter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1003,11 +1147,11 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = AutoParking/AutoParking.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = 5QNRM4SY3X;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AutoParking/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = TezParking;
+				INFOPLIST_KEY_CFBundleDisplayName = ParkinGo;
 				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "We need to access location for nearby park list";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "We need to access location for nearby park list";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need to access location for nearby park list";
@@ -1035,11 +1179,11 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = AutoParking/AutoParking.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = 5QNRM4SY3X;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AutoParking/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = TezParking;
+				INFOPLIST_KEY_CFBundleDisplayName = ParkinGo;
 				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "We need to access location for nearby park list";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "We need to access location for nearby park list";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need to access location for nearby park list";

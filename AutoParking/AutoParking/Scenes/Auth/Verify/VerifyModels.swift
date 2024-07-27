@@ -18,11 +18,11 @@ enum Verify {
         }
         
         struct Response {
-            
+            let phoneNumber: String
         }
         
         struct ViewModel {
-            
+            let phoneNumber: String
         }
     }
     
@@ -35,11 +35,13 @@ enum Verify {
         struct Response {
             let success: Bool
             let message: String?
+            let status: String?
         }
         
         struct ViewModel {
             let success: Bool
             let errorMessage: String?
+            let status: String?
         }
     }
 }

@@ -50,14 +50,16 @@ final class ActiveParkingWorker: ActiveParkingWorkingLogic {
                 completion(response, nil)
             case .failure(let error):
                 print("Error: \(error.localizedDescription)")
-                completion(nil, nil)
+                completion(nil, "Network error")
             case .successNoContent:
-                break
+                print("No content")
+                completion(nil, "No content")
             case .wrong(let response):
                 let message = response.message
                 completion(nil, message)
             }
         }
     }
+    
     
 }
