@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import Lottie
+import SnapKit
 
 protocol PermissionAuthViewDelegate: AnyObject {
     func getLocation()
@@ -33,11 +35,17 @@ final class PermissionAuthView: UIView {
         return label
     }()
     
-    private lazy var locIcon: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "location_icon")
-        imageView.contentMode = .scaleAspectFit
-        return imageView
+    private lazy var locIcon: LottieAnimationView = {
+        let animationView = LottieAnimationView()
+        animationView.translatesAutoresizingMaskIntoConstraints = false
+        if let animation = LottieAnimation.named("locationLottie") {
+            animationView.animation = animation
+        } else {
+            print("Error: Lottie animation file not found.")
+        }
+        animationView.contentMode = .scaleAspectFit
+        animationView.loopMode = .loop
+        return animationView
     }()
     
     private lazy var permissionBtn: UIButton = {
@@ -74,7 +82,7 @@ final class PermissionAuthView: UIView {
         
         self.titleLabel.snp.makeConstraints { make in
             make.top.equalTo(self.safeAreaLayoutGuide.snp.top).offset(16)
-            make.leading.trailing.equalToSuperview().offset(28)
+            make.leading.trailing.equalToSuperview().inset(28)
         }
         
         self.descriptionLabel.snp.makeConstraints { make in
@@ -84,18 +92,18 @@ final class PermissionAuthView: UIView {
         
         self.locIcon.snp.makeConstraints { make in
             make.top.equalTo(self.descriptionLabel.snp.bottom).offset(48)
-            make.size.equalTo(238)
-            make.leading.trailing.equalToSuperview().inset(28)
+            make.height.width.equalTo(500)
+            make.centerX.equalToSuperview()
         }
         
-        self.permissionBtn.snp.updateConstraints { make in
+        self.permissionBtn.snp.makeConstraints { make in
             make.top.equalTo(self.locIcon.snp.bottom).offset(80)
             make.leading.equalToSuperview().offset(28)
             make.trailing.equalToSuperview().offset(-28)
             make.height.equalTo(48)
         }
         
-        self.cancelBtn.snp.updateConstraints { make in
+        self.cancelBtn.snp.makeConstraints { make in
             make.top.equalTo(self.permissionBtn.snp.bottom).offset(16)
             make.leading.equalToSuperview().offset(28)
             make.trailing.equalToSuperview().offset(-28)
@@ -105,33 +113,25 @@ final class PermissionAuthView: UIView {
         super.updateConstraints()
     }
     
-    
-    // MARK: - Private
-    
-    @objc func getLocPermission() {
-        if let delegate = self.delegate {
-            delegate.getLocation()
-        }
+    @objc private func getLocPermission() {
+        delegate?.getLocation()
     }
     
-    @objc func cancelLocPermission() {
-        if let delegate = self.delegate {
-            delegate.cancelLocation()
-        }
+    @objc private func cancelLocPermission() {
+        delegate?.cancelLocation()
     }
     
     private func addSubviews() {
-        
-        self.addSubview(self.titleLabel)
-        self.addSubview(self.descriptionLabel)
-        self.addSubview(self.locIcon)
-        self.addSubview(self.permissionBtn)
-        self.addSubview(self.cancelBtn)
-        
-        self.updateConstraints()
+        addSubview(titleLabel)
+        addSubview(descriptionLabel)
+        addSubview(locIcon)
+        addSubview(permissionBtn)
+        addSubview(cancelBtn)
+        setNeedsUpdateConstraints()
     }
     
     private func setupUI() {
-        self.backgroundColor = .white
+        locIcon.play()
+        backgroundColor = .white
     }
 }

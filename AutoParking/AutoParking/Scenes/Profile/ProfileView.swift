@@ -12,6 +12,7 @@ protocol ProfileViewDelegate: AnyObject {
     func logout()
     func manageAutoSwcViewChange(_ isOn: Bool)
     func getLocation()
+    func getInfoAutoPilot()
 }
 
 final class ProfileView: UIView {
@@ -46,12 +47,13 @@ final class ProfileView: UIView {
     private lazy var switchInfoButton: UIButton = {
         let button = UIButton()
         var config = UIButton.Configuration.plain()
-        config.title = "Lorem ipsum dolor sit amet"
+        config.title = "Ətraflı məlumat"
         config.image = UIImage(named: "info_icon")
         config.imagePadding = 8
         config.baseForegroundColor = UIColor(hex: "0D74CE")
         config.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 12)
         button.configuration = config
+        button.addTarget(self, action: #selector(getInfo), for: .touchUpInside)
         return button
     }()
     
@@ -209,6 +211,12 @@ final class ProfileView: UIView {
     
     @objc private func logoutAction() {
         delegate?.logout()
+    }
+    
+    @objc func getInfo() {
+        if let delegate = self.delegate {
+            delegate.getInfoAutoPilot()
+        }
     }
 }
 

@@ -81,6 +81,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
                 }
             }
         } else {
+            
+//            let gregorian = Calendar(identifier: .gregorian)
+//            let date = Date()
+//            let day = gregorian.component(.weekday, from: date)
+//            if day != 1 {
+//                
+//            }
+            
             DispatchQueue.global().async {
                 AudioPortManager.shared.startBook(selectedCardId: AudioPortManager.shared.activeCar?.id ?? "", parkId: parkId) { success in
                     completionHandler(success ? .newData : .failed)
@@ -144,6 +152,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
     private func presentParkingAlert(on viewController: UIViewController, parkId: String, completionHandler: @escaping () -> Void) {
         let alertController = UIAlertController(title: "Confirm Parking", message: "Do you want us to park for you?", preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "Yes", style: .default, handler: { _ in
+            let gregorian = Calendar(identifier: .gregorian)
+            let date = Date()
+            let day = gregorian.component(.weekday, from: date)
+//            if day != 1 {
+//                
+//            }
+            
             AudioPortManager.shared.startBook(selectedCardId: AudioPortManager.shared.activeCar?.id ?? "", parkId: parkId)
             completionHandler()
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {

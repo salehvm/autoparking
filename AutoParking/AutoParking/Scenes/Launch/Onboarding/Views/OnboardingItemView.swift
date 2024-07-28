@@ -7,6 +7,7 @@
 
 import UIKit
 import AutoParkingUIKit
+import Lottie
 
 final class OnboardingItemView: UIView, ThemeableView {
     
@@ -29,16 +30,18 @@ final class OnboardingItemView: UIView, ThemeableView {
         return label
     }()
     
-    private lazy var imageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .center
-        return imageView
+    lazy var dynamicLottieImage: LottieAnimationView = {
+        let animationView = LottieAnimationView()
+        animationView.translatesAutoresizingMaskIntoConstraints = false
+        animationView.contentMode = .scaleAspectFit
+        animationView.loopMode = .loop
+        return animationView
     }()
     
-    init(image: UIImage?, title: String) {
+    init(lottieName: String?, title: String) {
         super.init(frame: .zero)
         
-        self.imageView.image = image
+        self.dynamicLottieImage.animation = LottieAnimation.named(lottieName ?? "")
         self.titleLabel.text = title
         
         self.addSubviews()
@@ -65,11 +68,11 @@ final class OnboardingItemView: UIView, ThemeableView {
             make.bottom.equalToSuperview()
         }
         
-        self.imageView.snp.updateConstraints { make in
+        self.dynamicLottieImage.snp.updateConstraints { make in
             make.top.equalTo(self.textStackView.snp.bottom).offset(72)
             make.leading.equalToSuperview().offset(16)
             make.trailing.equalToSuperview().offset(-16)
-            make.size.equalTo(175)
+            make.size.equalTo(280)
         }
         
     }
@@ -78,13 +81,14 @@ final class OnboardingItemView: UIView, ThemeableView {
     
     private func addSubviews() {
         self.addSubview(self.textStackView)
-        self.addSubview(self.imageView)
+        self.addSubview(self.dynamicLottieImage)
         
         self.updateConstraints()
     }
     
     private func setupUI() {
         self.backgroundColor = .clear
+        self.dynamicLottieImage.play()
     }
 }
 

@@ -190,7 +190,6 @@ extension MyCarsViewController: UITableViewDelegate, UITableViewDataSource {
 
 }
 
-
 extension MyCarsViewController: CarTableViewCellDelegate {
     
     func canDelete(vehicleId: String, vehicleName: String) {
@@ -205,7 +204,7 @@ extension MyCarsViewController: CarTableViewCellDelegate {
     func canEdit(vehicleId: String, deviceName: String) {
         let realm = try! Realm()
         if let vehicle = realm.object(ofType: VehicleRealm.self, forPrimaryKey: vehicleId) {
-            let carName = vehicle.carName
+            let carName = vehicle.markLabel
 
             let selectView = EdirDeviceNameSheet(deviceName: deviceName) { editedName in
                 print("New Device Name: \(editedName) vehicleId: \(vehicleId)")
@@ -238,3 +237,4 @@ extension MyCarsViewController: DeleteConfirmationDelegate {
         }
     }
 }
+

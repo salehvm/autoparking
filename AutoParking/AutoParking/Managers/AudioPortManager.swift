@@ -262,11 +262,18 @@ final class AudioPortManager: NSObject, CLLocationManagerDelegate {
                 for car in cars {
                     if output.portName == car.deviceName {
                         self.activeCar = car
-                        print("Matching vehicle found: \(car.deviceName)")
                         fetchAndStopBooking(for: car)
                     } else {
                         if self.activeCar?.id == car.id {
-                            locationManager.startUpdatingLocation()
+                            
+//                            let gregorian = Calendar(identifier: .gregorian)
+//                            let date = Date()
+//                            let day = gregorian.component(.weekday, from: date)
+                            
+//                            if day != 1 {
+                                locationManager.startUpdatingLocation()
+//                            }
+                            
                         }
                     }
                 }
@@ -276,34 +283,20 @@ final class AudioPortManager: NSObject, CLLocationManagerDelegate {
             currentType = AVAudioSession.Port.builtInReceiver.rawValue
             self.activeCar = nil
         }
-        
-        print("Current output: \(currentOutput)")
-        print("Current output type: \(currentType)")
-        
         delegate?.didChangeAudioRoute(output: currentOutput, type: currentType, message: routeChangeMessage)
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        print("location -> :")
-        print(locations.count)
-        print(locations)
-        
-        print("horizontalAccuracy: \(locations.last?.horizontalAccuracy)")
-        print("verticalAccuracy: \(locations.last?.verticalAccuracy)")
-        
-        
         guard let bestLocation = locations.last, bestLocation.horizontalAccuracy < 15 else {
             print("Failed to get a valid location")
             return
         }
-        
         
         let customLocation = CustomModelLocation(
             horizontalAccuracy: bestLocation.horizontalAccuracy
         )
         
         self.customLocationArray.append(customLocation)
-        
         
         locationManager.stopUpdatingLocation()
         
@@ -317,8 +310,7 @@ final class AudioPortManager: NSObject, CLLocationManagerDelegate {
                 self.allPaymentMethods = response.data
                 
                 self.selectedPaymentMethod = response.data.first(where: { $0.default == 1 })
-                
-                print("Location received: \(bestLocation)")
+            
                 self.fetchParks { success, data in
                     
                     print(data)
@@ -327,17 +319,17 @@ final class AudioPortManager: NSObject, CLLocationManagerDelegate {
                        
                        let closestPark = LocationManager.shared.calculateClosestPoints(location: bestLocation, parks: data) {
                         
-                        print("Closest park id found: \(closestPark.id ?? "No park found")")
-                        
                         let realm = try! Realm()
                         if let autoNotification = realm.objects(AutoNotification.self).first, !autoNotification.isAutoCheck {
                             self.sendPushNotification(title: "For you", body: "We detect you stay here \(closestPark.code ?? "") if you want us to park for you, let us", parkId: closestPark.id ?? "")
                         } else {
                             self.sendPushNotification(title: "Start Booked Park", body: "Your parking session has started successfully.", parkId: closestPark.id ?? "")
+                          
                             self.startBook(selectedCardId: self.activeCar?.id ?? "", parkId: closestPark.id ?? "")
                             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                                 App.router.main()
                             }
+                            
                         }
                         
                     } else {

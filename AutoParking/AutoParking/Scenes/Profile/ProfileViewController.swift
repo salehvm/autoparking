@@ -5,6 +5,13 @@
 //  Created by Saleh Majidov on 25/06/2024.
 //
 
+//
+//  ProfileViewController.swift
+//  AutoParking
+//
+//  Created by Saleh Majidov on 25/06/2024.
+//
+
 import UIKit
 import AutoParkingNetwork
 import RealmSwift
@@ -118,6 +125,14 @@ extension ProfileViewController: ProfileDisplayLogic {
 
 extension ProfileViewController: ProfileViewDelegate {
     
+    func getInfoAutoPilot() {
+        let getInfoModal = GetInfoAutoPilotModal()
+        getInfoModal.delegate = self
+        getInfoModal.modalPresentationStyle = .overCurrentContext
+        getInfoModal.modalTransitionStyle = .crossDissolve
+        self.present(getInfoModal, animated: true, completion: nil)
+    }
+    
     func getLocation() {
         if let url = URL(string: UIApplication.openSettingsURLString) {
             UIApplication.shared.open(url)
@@ -139,5 +154,12 @@ extension ProfileViewController: ProfileViewDelegate {
     
     func logout() {
         logoutApi()
+    }
+}
+
+extension ProfileViewController: GetInfoAutoPilotModalDelegate {
+    func dismissCompletion() {
+        self.dismiss(animated: true, completion: nil)
+        
     }
 }

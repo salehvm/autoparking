@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 import AutoParkingUIKit
 import AutoParkingNetwork
+import Lottie
 
 final class BookedListCell: UITableViewCell, ThemeableView {
     
@@ -30,10 +31,14 @@ final class BookedListCell: UITableViewCell, ThemeableView {
         return view
     }()
     
-    private lazy var carImage: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "active_car_icon")
-        return imageView
+    lazy var carImage: LottieAnimationView = {
+        let animationView = LottieAnimationView()
+        let animation = LottieAnimation.named("activePark")
+        animationView.animation = animation
+        animationView.translatesAutoresizingMaskIntoConstraints = false
+        animationView.contentMode = .scaleAspectFit
+        animationView.loopMode = .loop
+        return animationView
     }()
     
     private lazy var titleLabel: UILabel = {
@@ -87,7 +92,7 @@ final class BookedListCell: UITableViewCell, ThemeableView {
         let label = UILabel()
         label.text = "Başlama vaxtı:"
         label.textColor = UIColor(hex: "30A46C")
-        label.font = .systemFont(ofSize: 18)
+        label.font = .systemFont(ofSize: 17)
         return label
     }()
     
@@ -258,6 +263,7 @@ final class BookedListCell: UITableViewCell, ThemeableView {
     }
     
     private func setupUI() {
+        self.carImage.play()
         self.selectionStyle = .none
         self.backgroundColor = .white
     }
@@ -364,7 +370,6 @@ final class BookedListCell: UITableViewCell, ThemeableView {
             return
         }
         
-        // Convert start time to today's date
         let calendar = Calendar.current
         let now = Date()
         let components = calendar.dateComponents([.year, .month, .day], from: now)
@@ -378,7 +383,6 @@ final class BookedListCell: UITableViewCell, ThemeableView {
             guard let self = self else { return }
             let now = Date()
             
-            // Ensure countdown is always positive
             if now >= todayStartDate {
                 let countdownComponents = calendar.dateComponents([.hour, .minute, .second], from: todayStartDate, to: now)
                 self.hoursLabel.text = String(format: "%02d", abs(countdownComponents.hour ?? 0))

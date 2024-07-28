@@ -60,6 +60,19 @@
 		C66591012C5468D500DFA07B /* OnboardingConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66590F92C5468D500DFA07B /* OnboardingConfigurator.swift */; };
 		C66591042C54699400DFA07B /* OnboardingItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66591032C54699400DFA07B /* OnboardingItemView.swift */; };
 		C66591072C5469FB00DFA07B /* SegmentedProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66591062C5469FB00DFA07B /* SegmentedProgressBar.swift */; };
+		C6660DC82C55C2CB009E708A /* GetInfoAutoPilotModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6660DC72C55C2CB009E708A /* GetInfoAutoPilotModal.swift */; };
+		C6660DCA2C5644A0009E708A /* carAnimated.gif in Resources */ = {isa = PBXBuildFile; fileRef = C6660DC92C5644A0009E708A /* carAnimated.gif */; };
+		C6660DD22C564BA0009E708A /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = C6660DD12C564BA0009E708A /* Lottie */; };
+		C6660DD92C565582009E708A /* infoanimation.json in Resources */ = {isa = PBXBuildFile; fileRef = C6660DD82C565582009E708A /* infoanimation.json */; };
+		C6660DDF2C56593B009E708A /* caranimation.json in Resources */ = {isa = PBXBuildFile; fileRef = C6660DDE2C56593B009E708A /* caranimation.json */; };
+		C6660DE42C5669FB009E708A /* onboardingLottieThree.json in Resources */ = {isa = PBXBuildFile; fileRef = C6660DE22C5669FB009E708A /* onboardingLottieThree.json */; };
+		C6660DE52C5669FB009E708A /* onboardingLottieTwo.json in Resources */ = {isa = PBXBuildFile; fileRef = C6660DE32C5669FB009E708A /* onboardingLottieTwo.json */; };
+		C6660DE72C566A26009E708A /* onboardingLottieOne.json in Resources */ = {isa = PBXBuildFile; fileRef = C6660DE62C566A26009E708A /* onboardingLottieOne.json */; };
+		C6660DEB2C566CD9009E708A /* activePark.json in Resources */ = {isa = PBXBuildFile; fileRef = C6660DEA2C566CD9009E708A /* activePark.json */; };
+		C6660DED2C566E34009E708A /* locationLottie.json in Resources */ = {isa = PBXBuildFile; fileRef = C6660DEC2C566E34009E708A /* locationLottie.json */; };
+		C6660DF12C5682C5009E708A /* caranimation3.json in Resources */ = {isa = PBXBuildFile; fileRef = C6660DEF2C5682C5009E708A /* caranimation3.json */; };
+		C6660DF42C568485009E708A /* caranimation4.json in Resources */ = {isa = PBXBuildFile; fileRef = C6660DF22C568485009E708A /* caranimation4.json */; };
+		C6660DF52C568485009E708A /* caranimation2.json in Resources */ = {isa = PBXBuildFile; fileRef = C6660DF32C568485009E708A /* caranimation2.json */; };
 		C67B6CA92C299B9D004FF395 /* AddFirstCarPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67B6CA12C299B9D004FF395 /* AddFirstCarPresenter.swift */; };
 		C67B6CAA2C299B9D004FF395 /* AddFirstCarWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67B6CA22C299B9D004FF395 /* AddFirstCarWorker.swift */; };
 		C67B6CAB2C299B9D004FF395 /* AddFirstCarRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67B6CA32C299B9D004FF395 /* AddFirstCarRouter.swift */; };
@@ -211,6 +224,18 @@
 		C66590F92C5468D500DFA07B /* OnboardingConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingConfigurator.swift; sourceTree = "<group>"; };
 		C66591032C54699400DFA07B /* OnboardingItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingItemView.swift; sourceTree = "<group>"; };
 		C66591062C5469FB00DFA07B /* SegmentedProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedProgressBar.swift; sourceTree = "<group>"; };
+		C6660DC72C55C2CB009E708A /* GetInfoAutoPilotModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetInfoAutoPilotModal.swift; sourceTree = "<group>"; };
+		C6660DC92C5644A0009E708A /* carAnimated.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = carAnimated.gif; sourceTree = "<group>"; };
+		C6660DD82C565582009E708A /* infoanimation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = infoanimation.json; sourceTree = "<group>"; };
+		C6660DDE2C56593B009E708A /* caranimation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = caranimation.json; path = ../../../../../../../Downloads/caranimation.json; sourceTree = "<group>"; };
+		C6660DE22C5669FB009E708A /* onboardingLottieThree.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = onboardingLottieThree.json; sourceTree = "<group>"; };
+		C6660DE32C5669FB009E708A /* onboardingLottieTwo.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = onboardingLottieTwo.json; sourceTree = "<group>"; };
+		C6660DE62C566A26009E708A /* onboardingLottieOne.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = onboardingLottieOne.json; path = ../../../../../../../Downloads/onboardingLottieOne.json; sourceTree = "<group>"; };
+		C6660DEA2C566CD9009E708A /* activePark.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = activePark.json; sourceTree = "<group>"; };
+		C6660DEC2C566E34009E708A /* locationLottie.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = locationLottie.json; sourceTree = "<group>"; };
+		C6660DEF2C5682C5009E708A /* caranimation3.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = caranimation3.json; sourceTree = "<group>"; };
+		C6660DF22C568485009E708A /* caranimation4.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = caranimation4.json; sourceTree = "<group>"; };
+		C6660DF32C568485009E708A /* caranimation2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = caranimation2.json; path = ../../../../../../../Downloads/caranimation2.json; sourceTree = "<group>"; };
 		C67B6CA12C299B9D004FF395 /* AddFirstCarPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFirstCarPresenter.swift; sourceTree = "<group>"; };
 		C67B6CA22C299B9D004FF395 /* AddFirstCarWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFirstCarWorker.swift; sourceTree = "<group>"; };
 		C67B6CA32C299B9D004FF395 /* AddFirstCarRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFirstCarRouter.swift; sourceTree = "<group>"; };
@@ -334,6 +359,7 @@
 				C60639362C3B1E4400CA7605 /* FirebaseRemoteConfig in Frameworks */,
 				C60639162C3B1E4400CA7605 /* FirebaseAuthCombine-Community in Frameworks */,
 				C606391A2C3B1E4400CA7605 /* FirebaseDatabase in Frameworks */,
+				C6660DD22C564BA0009E708A /* Lottie in Frameworks */,
 				C60639262C3B1E4400CA7605 /* FirebaseFunctions in Frameworks */,
 				C606392A2C3B1E4400CA7605 /* FirebaseInAppMessaging-Beta in Frameworks */,
 				C691A18C2C28D286004192D7 /* Turf in Frameworks */,
@@ -430,6 +456,31 @@
 			path = App;
 			sourceTree = "<group>";
 		};
+		C6660DD32C564C80009E708A /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				C6660DD42C564C87009E708A /* Lottie */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		C6660DD42C564C87009E708A /* Lottie */ = {
+			isa = PBXGroup;
+			children = (
+				C6660DEF2C5682C5009E708A /* caranimation3.json */,
+				C6660DF32C568485009E708A /* caranimation2.json */,
+				C6660DF22C568485009E708A /* caranimation4.json */,
+				C6660DEC2C566E34009E708A /* locationLottie.json */,
+				C6660DEA2C566CD9009E708A /* activePark.json */,
+				C6660DD82C565582009E708A /* infoanimation.json */,
+				C6660DDE2C56593B009E708A /* caranimation.json */,
+				C6660DE22C5669FB009E708A /* onboardingLottieThree.json */,
+				C6660DE62C566A26009E708A /* onboardingLottieOne.json */,
+				C6660DE32C5669FB009E708A /* onboardingLottieTwo.json */,
+			);
+			path = Lottie;
+			sourceTree = "<group>";
+		};
 		C67B6CCA2C2AE1C9004FF395 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -523,7 +574,9 @@
 		C691A11D2C28D126004192D7 /* AutoParking */ = {
 			isa = PBXGroup;
 			children = (
+				C6660DD32C564C80009E708A /* Resources */,
 				C65B98B52C4158680057D40F /* GoogleService-Info.plist */,
+				C6660DC92C5644A0009E708A /* carAnimated.gif */,
 				C606393F2C3B21A800CA7605 /* AutoParking.entitlements */,
 				C691A2552C28E665004192D7 /* Info.plist */,
 				C691A20C2C28DE2C004192D7 /* Supporting */,
@@ -768,6 +821,7 @@
 			isa = PBXGroup;
 			children = (
 				C69B479A2C2C7A9700A4CE14 /* PaymentCardCell.swift */,
+				C6660DC72C55C2CB009E708A /* GetInfoAutoPilotModal.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -822,6 +876,7 @@
 				C60639392C3B1E4400CA7605 /* FirebaseStorage */,
 				C606393B2C3B1E4400CA7605 /* FirebaseStorageCombine-Community */,
 				C606393D2C3B1E4400CA7605 /* FirebaseVertexAI-Preview */,
+				C6660DD12C564BA0009E708A /* Lottie */,
 			);
 			productName = AutoParking;
 			productReference = C691A11B2C28D126004192D7 /* AutoParking.app */;
@@ -857,6 +912,7 @@
 				C691A1F02C28DCA1004192D7 /* XCRemoteSwiftPackageReference "FittedSheets" */,
 				C691A2012C28DDDF004192D7 /* XCRemoteSwiftPackageReference "realm-swift" */,
 				C60639062C3B1E4400CA7605 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				C6660DD02C564BA0009E708A /* XCRemoteSwiftPackageReference "lottie-ios" */,
 			);
 			productRefGroup = C691A11C2C28D126004192D7 /* Products */;
 			projectDirPath = "";
@@ -872,9 +928,20 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C6660DCA2C5644A0009E708A /* carAnimated.gif in Resources */,
+				C6660DF42C568485009E708A /* caranimation4.json in Resources */,
+				C6660DF52C568485009E708A /* caranimation2.json in Resources */,
+				C6660DF12C5682C5009E708A /* caranimation3.json in Resources */,
+				C6660DD92C565582009E708A /* infoanimation.json in Resources */,
 				C691A12B2C28D127004192D7 /* LaunchScreen.storyboard in Resources */,
 				C691A1282C28D127004192D7 /* Assets.xcassets in Resources */,
+				C6660DE52C5669FB009E708A /* onboardingLottieTwo.json in Resources */,
+				C6660DEB2C566CD9009E708A /* activePark.json in Resources */,
+				C6660DE72C566A26009E708A /* onboardingLottieOne.json in Resources */,
 				C65B98B62C4158680057D40F /* GoogleService-Info.plist in Resources */,
+				C6660DED2C566E34009E708A /* locationLottie.json in Resources */,
+				C6660DE42C5669FB009E708A /* onboardingLottieThree.json in Resources */,
+				C6660DDF2C56593B009E708A /* caranimation.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -893,6 +960,7 @@
 				C67B6D082C2B6B00004FF395 /* MyCarsView.swift in Sources */,
 				C67B6CE72C2AF6BB004FF395 /* ParkListCell.swift in Sources */,
 				C691A2902C2995C6004192D7 /* VerifyInteractor.swift in Sources */,
+				C6660DC82C55C2CB009E708A /* GetInfoAutoPilotModal.swift in Sources */,
 				C691A22E2C28E129004192D7 /* ActiveParkingConfigurator.swift in Sources */,
 				C691A26C2C298ED9004192D7 /* SignInConfigurator.swift in Sources */,
 				C69B47962C2C196300A4CE14 /* EdirDeviceNameSheet.swift in Sources */,
@@ -1157,8 +1225,7 @@
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need to access location for nearby park list";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1189,8 +1256,7 @@
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need to access location for nearby park list";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1234,6 +1300,14 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 10.28.1;
+			};
+		};
+		C6660DD02C564BA0009E708A /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.5.0;
 			};
 		};
 		C691A18A2C28D286004192D7 /* XCRemoteSwiftPackageReference "turf-swift" */ = {
@@ -1410,6 +1484,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = C60639062C3B1E4400CA7605 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = "FirebaseVertexAI-Preview";
+		};
+		C6660DD12C564BA0009E708A /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C6660DD02C564BA0009E708A /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = Lottie;
 		};
 		C691A18B2C28D286004192D7 /* Turf */ = {
 			isa = XCSwiftPackageProductDependency;

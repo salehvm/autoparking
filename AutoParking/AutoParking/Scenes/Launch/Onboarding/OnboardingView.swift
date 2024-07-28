@@ -22,9 +22,9 @@ final class OnboardingView: UIView, ThemeableView {
     // MARK: - Data Onboarding
     
     private let items = [
-        OnboardingItemView(image: UIImage(named: "onboarding_item_one"), title: "Park etməyə və dayandırmağa nəzarət etmək çətin gəlir?"),
-        OnboardingItemView(image: UIImage(named: "onboarding_item_two"), title: "Avtomobilini əlavə et, ParkinGo gerisini həll edəcək!"),
-        OnboardingItemView(image: UIImage(named: "onboarding_item_three"), title: "ParkinGo ilə gözlənilməyən xərclərdən xilas ol")]
+        OnboardingItemView(lottieName: "onboardingLottieOne", title: "Park etməyə və dayandırmağa nəzarət etmək çətin gəlir?"),
+        OnboardingItemView(lottieName: "onboardingLottieTwo", title: "Avtomobilini əlavə et, ParkinGo gerisini həll edəcək!"),
+        OnboardingItemView(lottieName: "onboardingLottieThree", title: "ParkinGo ilə gözlənilməyən xərclərdən xilas ol")]
     
     
     // MARK: - View Components

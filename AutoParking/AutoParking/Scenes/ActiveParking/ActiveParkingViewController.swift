@@ -47,13 +47,14 @@ final class ActiveParkingViewController: UIViewController {
         super.viewDidLoad()
         AudioPortManager.shared.delegate = self
         self.checkLocationPermission()
-        self.bookedList()
+//        self.bookedList()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.checkLocationPermission()
-        self.bookedList()
+        
+        self.mainView?.setRandomAnimation()
     }
   
     // MARK: - Public Methods
@@ -73,9 +74,16 @@ final class ActiveParkingViewController: UIViewController {
         if authorizationStatus == .notDetermined || authorizationStatus == .denied {
             mainView?.locPermissionView.isHidden = false
             mainView?.tableView.isHidden = true
+            mainView?.titleLabel.isHidden = true
+            mainView?.emptyText.isHidden = true
+            mainView?.emptyImage.isHidden = true
         } else {
+            self.bookedList()
             mainView?.locPermissionView.isHidden = true
             mainView?.tableView.isHidden = false
+            mainView?.titleLabel.isHidden = false
+            mainView?.emptyText.isHidden = false
+            mainView?.emptyImage.isHidden = false
         }
     }
 }
@@ -85,13 +93,13 @@ final class ActiveParkingViewController: UIViewController {
 extension ActiveParkingViewController: ActiveParkingDisplayLogic {
     
     func displayBookingList(viewModel: ActiveParking.BookedList.ViewModel) {
-        
+        self.items = viewModel.data
         
         if viewModel.data.isEmpty == true {
             self.mainView?.emptyText.isHidden = false
             self.mainView?.emptyImage.isHidden = false
         } else {
-            self.items = viewModel.data
+            
             self.mainView?.emptyText.isHidden = true
             self.mainView?.emptyImage.isHidden = true
         }
@@ -134,5 +142,4 @@ extension ActiveParkingViewController: UITableViewDataSource, UITableViewDelegat
 extension ActiveParkingViewController: AudioRouteChangeDelegate {
     
     func didChangeAudioRoute(output: String, type: String, message: String) { }
-    
 }

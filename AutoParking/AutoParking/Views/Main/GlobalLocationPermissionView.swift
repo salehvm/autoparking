@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import Lottie
+import SnapKit
 
 protocol GlobalLocationPermissionViewDelegate: AnyObject {
     func getLocation()
@@ -33,11 +35,17 @@ final class GlobalLocationPermissionView: UIView {
         return label
     }()
     
-    private lazy var locIcon: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "location_icon")
-        imageView.contentMode = .scaleAspectFit
-        return imageView
+    private lazy var locIcon: LottieAnimationView = {
+        let animationView = LottieAnimationView()
+        animationView.translatesAutoresizingMaskIntoConstraints = false
+        if let animation = LottieAnimation.named("locationLottie") {
+            animationView.animation = animation
+        } else {
+            print("Error: Lottie animation file not found.")
+        }
+        animationView.contentMode = .scaleAspectFit
+        animationView.loopMode = .loop
+        return animationView
     }()
     
     private lazy var permissionBtn: UIButton = {
@@ -53,7 +61,6 @@ final class GlobalLocationPermissionView: UIView {
     init() {
         super.init(frame: .zero)
         addSubviews()
-        
         setupUI()
     }
     
@@ -62,10 +69,11 @@ final class GlobalLocationPermissionView: UIView {
     }
     
     override func updateConstraints() {
+        super.updateConstraints()
+        
         titleLabel.snp.makeConstraints { make in
             make.top.equalTo(self.safeAreaLayoutGuide.snp.top).offset(16)
-            make.leading.equalToSuperview().offset(28)
-            make.trailing.equalToSuperview().offset(-28)
+            make.leading.trailing.equalToSuperview().inset(28)
         }
         
         descriptionLabel.snp.makeConstraints { make in
@@ -75,18 +83,15 @@ final class GlobalLocationPermissionView: UIView {
         
         locIcon.snp.makeConstraints { make in
             make.top.equalTo(descriptionLabel.snp.bottom).offset(48)
-            make.size.equalTo(238)
-            make.leading.trailing.equalToSuperview().inset(28)
+            make.centerX.equalToSuperview()
+            make.height.width.equalTo(238)
         }
         
         permissionBtn.snp.makeConstraints { make in
             make.top.equalTo(locIcon.snp.bottom).offset(60)
-            make.leading.equalToSuperview().offset(28)
-            make.trailing.equalToSuperview().offset(-28)
+            make.leading.trailing.equalToSuperview().inset(28)
             make.height.equalTo(48)
         }
-        
-        super.updateConstraints()
     }
     
     private func addSubviews() {
@@ -94,17 +99,15 @@ final class GlobalLocationPermissionView: UIView {
         addSubview(descriptionLabel)
         addSubview(locIcon)
         addSubview(permissionBtn)
-        
-        self.updateConstraints()
+        setNeedsUpdateConstraints()
     }
     
     private func setupUI() {
-        self.backgroundColor = .white
+        locIcon.play()
+        backgroundColor = .white
     }
     
     @objc private func getLocPermission() {
-        print("tap")
         delegate?.getLocation()
     }
-    
 }

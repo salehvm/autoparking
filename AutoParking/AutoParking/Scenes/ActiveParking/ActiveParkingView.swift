@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Lottie
 
 protocol ActiveParkingViewDelegate: AnyObject {
     func getLocation()
@@ -48,16 +49,17 @@ final class ActiveParkingView: UIView {
         let label = UILabel()
         label.text = "Aktiv park yoxdur"
         label.isHidden = true
+        label.font = UIFont(name: "Helvetice", size: 26)
         label.textColor = UIColor.init(hex: "113264")
-        label.font = .systemFont(ofSize: 20)
         return label
     }()
     
-    lazy var emptyImage: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "no_parking_icon")
-        imageView.isHidden = true
-        return imageView
+    lazy var emptyImage: LottieAnimationView = {
+        let animationView = LottieAnimationView()
+        animationView.translatesAutoresizingMaskIntoConstraints = false
+        animationView.contentMode = .scaleAspectFit
+        animationView.loopMode = .loop
+        return animationView
     }()
     
     init() {
@@ -91,16 +93,15 @@ final class ActiveParkingView: UIView {
             make.height.equalTo(500)
         }
         
-        self.emptyText.snp.updateConstraints { make in
-            make.top.equalToSuperview().offset(220)
-            make.centerX.equalToSuperview()
+        self.emptyImage.snp.updateConstraints { make in
+            make.size.equalTo(300)
+            make.center.equalToSuperview()
         }
         
-        self.emptyImage.snp.updateConstraints { make in
-            make.top.equalTo(self.emptyText.snp.bottom).offset(16)
-            make.size.equalTo(120)
-            make.centerX.equalTo(self.emptyText)
-        }
+//        self.emptyText.snp.updateConstraints { make in
+//            make.top.equalTo(self.emptyImage.snp.bottom)
+//            make.centerX.equalTo(self.emptyImage)
+//        }
         
         super.updateConstraints()
     }
@@ -112,14 +113,23 @@ final class ActiveParkingView: UIView {
         self.addSubview(self.titleLabel)
         self.addSubview(self.locPermissionView)
         self.addSubview(self.tableView)
-        self.addSubview(self.emptyText)
+//        self.addSubview(self.emptyText)
         self.addSubview(self.emptyImage)
         
         self.updateConstraints()
     }
     
     private func setupUI() {
+        self.setRandomAnimation()
         self.backgroundColor = .white
+    }
+    
+    func setRandomAnimation() {
+        let animations = ["caranimation", "caranimation2", "caranimation3", "caranimation4"]
+        guard let randomAnimationName = animations.randomElement() else { return }
+        let animation = LottieAnimation.named(randomAnimationName)
+        emptyImage.animation = animation
+        emptyImage.play()
     }
 }
 
