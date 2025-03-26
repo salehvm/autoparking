@@ -28,6 +28,8 @@ final class AudioPortManager: NSObject, CLLocationManagerDelegate {
     weak var delegate: AudioRouteChangeDelegate?
     var locationManager = CLLocationManager()
     
+    private var silentAudioPlayer: AVAudioPlayer?
+    
     private var location: CLLocation?
     
     private var service: ServiceProtocol = App.service
@@ -47,6 +49,7 @@ final class AudioPortManager: NSObject, CLLocationManagerDelegate {
     
     @objc dynamic var currentOutput: String = "No device connected"
     @objc dynamic var currentType: String = "No device connected"
+    @objc dynamic var currentUUID: String = ""
     @objc dynamic var routeChangeMessage: String = "Listening for changes..."
     
     override init() {
@@ -108,13 +111,18 @@ final class AudioPortManager: NSObject, CLLocationManagerDelegate {
     }
     
     func fetchParks(completion: ((Bool, [Park]) -> ())? = nil) {
+        
+        // MARK: - TODO remove static values
+        
+//        let loc = CLLocation.init(latitude: 40.383694, longitude: 49.827450)
+        
         let token = SessionManager.shared.accessToken ?? ""
         guard let location = self.location else {
             print("Location is nil, cannot fetch parks")
             completion?(false, [])
             return
         }
-        self.service.park.getParkList(token: token, location: location) { [weak self] result in
+        self.service.park.getParkList(token: token, location:  location) { [weak self] result in
             guard let self = self else { return }
             
             switch result {
@@ -165,32 +173,60 @@ final class AudioPortManager: NSObject, CLLocationManagerDelegate {
         }
     }
     
-    func stopBook(userParkId: String, completion: ((Bool) -> ())? = nil) {
-        guard let token = SessionManager.shared.accessToken else {
-            print("Authentication token or park location key is missing.")
-            completion?(false)
+    private func playSilentAudioClip(delay: TimeInterval = 1.0, completion: @escaping () -> Void) {
+        guard let url = Bundle.main.url(forResource: "silence", withExtension: "mp3") else {
+            print("Silent audio file not found.")
+            completion()
             return
         }
         
-        self.service.auth.stopBook(token: token, userParkId: userParkId) {  [weak self] result in
+        do {
+            let audioPlayer = try AVAudioPlayer(contentsOf: url)
+            audioPlayer.volume = 0.0
+            audioPlayer.prepareToPlay()
+            audioPlayer.play()
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+                completion()
+            }
+        } catch {
+            print("Error playing silent audio clip: \(error.localizedDescription)")
+            completion()
+        }
+    }
+
+    
+    func stopBook(userParkId: String, completion: ((Bool) -> ())? = nil) {
+        playSilentAudioClip(delay: 1.0) { [weak self] in
             guard let self = self else { return }
-            switch result {
-            case .success(_):
-                print("success response stop book")
-                self.sendPushNotification(title: "Successfully Stopped Park", body: "Your parking session has ended successfully.", parkId: userParkId)
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            
+            guard let token = SessionManager.shared.accessToken else {
+                print("Authentication token or park location key is missing.")
+                completion?(false)
+                return
+            }
+            
+            self.service.auth.stopBook(token: token, userParkId: userParkId) { [weak self] result in
+                guard let self = self else { return }
+                switch result {
+                case .success(_):
+                    print("success response stop book")
+                    self.sendPushNotification(title: "Successfully Stopped Park",
+                                              body: "Your parking session has ended successfully.",
+                                              parkId: userParkId)
                     App.router.main()
+                    completion?(true)
+                case .failure(let error):
+                    print("Booking failed with error: \(error.localizedDescription)")
+                    completion?(false)
+                default:
+                    print("Unhandled result in booking process.")
+                    completion?(false)
                 }
-                completion?(true)
-            case .failure(let error):
-                print("Booking failed with error: \(error.localizedDescription)")
-                completion?(false)
-            default:
-                print("Unhandled result in booking process.")
-                completion?(false)
             }
         }
     }
+
     
     private func fetchAndStopBooking(for car: VehicleRealm) {
         guard let token = SessionManager.shared.accessToken else {
@@ -245,36 +281,50 @@ final class AudioPortManager: NSObject, CLLocationManagerDelegate {
     
     private func updateCurrentOutput() {
         let currentRoute = AVAudioSession.sharedInstance().currentRoute
-        if let output = currentRoute.outputs.first {
-            currentOutput = output.portName
-            currentType = output.portType.rawValue
-
-            print("Output port name: \(output.portName)")
-            print("Output port type: \(output.portType.rawValue)")
-
+        print("currentRoute output ----->>>")
+        print(currentRoute.outputs)
+        print("currentRoute output ----->>>")
+        
+        if let uid = currentRoute.outputs.first?.uid {
+            let currentMAC = uid.macAddress
+            
+            print("step 4")
+            print(currentMAC)
+            print("step 4")
+            
             let realm = try! Realm()
             cars = realm.objects(VehicleRealm.self)
             
-
             if cars.isEmpty {
-                print("No vehicle found with device name: \(output.portName)")
+                print("No vehicle found with device uuid: \(currentMAC)")
             } else {
                 for car in cars {
-                    if output.portName == car.deviceName {
+                    let carMAC = car.deviceUUID.macAddress
+                    print("Comparing car MAC: \(carMAC) with current MAC: \(currentMAC)")
+                    
+                    print("step 5")
+                    print(carMAC)
+                    print("step 5")
+                    
+                    if currentMAC == carMAC {
                         self.activeCar = car
                         fetchAndStopBooking(for: car)
+                        
+                        print("step 6")
+                        print(car)
+                        print(self.activeCar)
+                        print("step 6")
+                        
                     } else {
+                        
+                        print("step 7")
+                        print(self.activeCar)
+                        print(car)
                         if self.activeCar?.id == car.id {
-                            
-//                            let gregorian = Calendar(identifier: .gregorian)
-//                            let date = Date()
-//                            let day = gregorian.component(.weekday, from: date)
-                            
-//                            if day != 1 {
-                                locationManager.startUpdatingLocation()
-//                            }
-                            
+                            locationManager.startUpdatingLocation()
                         }
+                        
+                        print("step 7")
                     }
                 }
             }
@@ -285,9 +335,9 @@ final class AudioPortManager: NSObject, CLLocationManagerDelegate {
         }
         delegate?.didChangeAudioRoute(output: currentOutput, type: currentType, message: routeChangeMessage)
     }
-    
+
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let bestLocation = locations.last, bestLocation.horizontalAccuracy < 15 else {
+        guard let bestLocation = locations.last, bestLocation.horizontalAccuracy < 18 else {
             print("Failed to get a valid location")
             return
         }
@@ -350,7 +400,7 @@ final class AudioPortManager: NSObject, CLLocationManagerDelegate {
         print("Failed to get current location: \(error.localizedDescription)")
     }
 
-    @objc private func handleRouteChange(notification: Notification) {
+    @objc func handleRouteChange(notification: Notification) {
         guard let userInfo = notification.userInfo,
               let reasonValue = userInfo[AVAudioSessionRouteChangeReasonKey] as? UInt,
               let reason = AVAudioSession.RouteChangeReason(rawValue: reasonValue) else {

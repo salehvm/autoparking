@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		30705FB32D92DCF70012BBB5 /* silence.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 30705FB22D92DCF70012BBB5 /* silence.mp3 */; };
+		308B5D522D90124D00BB621D /* onboardingLottieOne.json in Resources */ = {isa = PBXBuildFile; fileRef = 308B5D512D90124D00BB621D /* onboardingLottieOne.json */; };
+		308B5D542D90127500BB621D /* caranimation.json in Resources */ = {isa = PBXBuildFile; fileRef = 308B5D532D90127500BB621D /* caranimation.json */; };
+		308B5D562D90128000BB621D /* caranimation2.json in Resources */ = {isa = PBXBuildFile; fileRef = 308B5D552D90128000BB621D /* caranimation2.json */; };
+		308B5D5A2D90164100BB621D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 308B5D592D90164100BB621D /* GoogleService-Info.plist */; };
 		C60639082C3B1E4400CA7605 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = C60639072C3B1E4400CA7605 /* FirebaseAnalytics */; };
 		C606390A2C3B1E4400CA7605 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = C60639092C3B1E4400CA7605 /* FirebaseAnalyticsOnDeviceConversion */; };
 		C606390C2C3B1E4400CA7605 /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = C606390B2C3B1E4400CA7605 /* FirebaseAnalyticsSwift */; };
@@ -37,7 +42,6 @@
 		C606393E2C3B1E4400CA7605 /* FirebaseVertexAI-Preview in Frameworks */ = {isa = PBXBuildFile; productRef = C606393D2C3B1E4400CA7605 /* FirebaseVertexAI-Preview */; };
 		C64007202C2D6F1600BCA056 /* MulticastDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C640071F2C2D6F1600BCA056 /* MulticastDelegate.swift */; };
 		C64007222C2D83FA00BCA056 /* AudioPortManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C64007212C2D83FA00BCA056 /* AudioPortManager.swift */; };
-		C65B98B62C4158680057D40F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C65B98B52C4158680057D40F /* GoogleService-Info.plist */; };
 		C66590D72C4E91C500DFA07B /* PrefixBottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66590D62C4E91C500DFA07B /* PrefixBottomSheet.swift */; };
 		C66590DA2C50E23000DFA07B /* SelectCarBottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66590D92C50E23000DFA07B /* SelectCarBottomSheet.swift */; };
 		C66590E42C51148A00DFA07B /* PermissionAuthPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66590DC2C51148A00DFA07B /* PermissionAuthPresenter.swift */; };
@@ -64,15 +68,12 @@
 		C6660DCA2C5644A0009E708A /* carAnimated.gif in Resources */ = {isa = PBXBuildFile; fileRef = C6660DC92C5644A0009E708A /* carAnimated.gif */; };
 		C6660DD22C564BA0009E708A /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = C6660DD12C564BA0009E708A /* Lottie */; };
 		C6660DD92C565582009E708A /* infoanimation.json in Resources */ = {isa = PBXBuildFile; fileRef = C6660DD82C565582009E708A /* infoanimation.json */; };
-		C6660DDF2C56593B009E708A /* caranimation.json in Resources */ = {isa = PBXBuildFile; fileRef = C6660DDE2C56593B009E708A /* caranimation.json */; };
 		C6660DE42C5669FB009E708A /* onboardingLottieThree.json in Resources */ = {isa = PBXBuildFile; fileRef = C6660DE22C5669FB009E708A /* onboardingLottieThree.json */; };
 		C6660DE52C5669FB009E708A /* onboardingLottieTwo.json in Resources */ = {isa = PBXBuildFile; fileRef = C6660DE32C5669FB009E708A /* onboardingLottieTwo.json */; };
-		C6660DE72C566A26009E708A /* onboardingLottieOne.json in Resources */ = {isa = PBXBuildFile; fileRef = C6660DE62C566A26009E708A /* onboardingLottieOne.json */; };
 		C6660DEB2C566CD9009E708A /* activePark.json in Resources */ = {isa = PBXBuildFile; fileRef = C6660DEA2C566CD9009E708A /* activePark.json */; };
 		C6660DED2C566E34009E708A /* locationLottie.json in Resources */ = {isa = PBXBuildFile; fileRef = C6660DEC2C566E34009E708A /* locationLottie.json */; };
 		C6660DF12C5682C5009E708A /* caranimation3.json in Resources */ = {isa = PBXBuildFile; fileRef = C6660DEF2C5682C5009E708A /* caranimation3.json */; };
 		C6660DF42C568485009E708A /* caranimation4.json in Resources */ = {isa = PBXBuildFile; fileRef = C6660DF22C568485009E708A /* caranimation4.json */; };
-		C6660DF52C568485009E708A /* caranimation2.json in Resources */ = {isa = PBXBuildFile; fileRef = C6660DF32C568485009E708A /* caranimation2.json */; };
 		C67B6CA92C299B9D004FF395 /* AddFirstCarPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67B6CA12C299B9D004FF395 /* AddFirstCarPresenter.swift */; };
 		C67B6CAA2C299B9D004FF395 /* AddFirstCarWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67B6CA22C299B9D004FF395 /* AddFirstCarWorker.swift */; };
 		C67B6CAB2C299B9D004FF395 /* AddFirstCarRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67B6CA32C299B9D004FF395 /* AddFirstCarRouter.swift */; };
@@ -198,10 +199,14 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		30705FB22D92DCF70012BBB5 /* silence.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = silence.mp3; sourceTree = "<group>"; };
+		308B5D512D90124D00BB621D /* onboardingLottieOne.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = onboardingLottieOne.json; sourceTree = "<group>"; };
+		308B5D532D90127500BB621D /* caranimation.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = caranimation.json; sourceTree = "<group>"; };
+		308B5D552D90128000BB621D /* caranimation2.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = caranimation2.json; sourceTree = "<group>"; };
+		308B5D592D90164100BB621D /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C606393F2C3B21A800CA7605 /* AutoParking.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AutoParking.entitlements; sourceTree = "<group>"; };
 		C640071F2C2D6F1600BCA056 /* MulticastDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MulticastDelegate.swift; sourceTree = "<group>"; };
 		C64007212C2D83FA00BCA056 /* AudioPortManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPortManager.swift; sourceTree = "<group>"; };
-		C65B98B52C4158680057D40F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C66590D62C4E91C500DFA07B /* PrefixBottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrefixBottomSheet.swift; sourceTree = "<group>"; };
 		C66590D92C50E23000DFA07B /* SelectCarBottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCarBottomSheet.swift; sourceTree = "<group>"; };
 		C66590DC2C51148A00DFA07B /* PermissionAuthPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionAuthPresenter.swift; sourceTree = "<group>"; };
@@ -227,15 +232,12 @@
 		C6660DC72C55C2CB009E708A /* GetInfoAutoPilotModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetInfoAutoPilotModal.swift; sourceTree = "<group>"; };
 		C6660DC92C5644A0009E708A /* carAnimated.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = carAnimated.gif; sourceTree = "<group>"; };
 		C6660DD82C565582009E708A /* infoanimation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = infoanimation.json; sourceTree = "<group>"; };
-		C6660DDE2C56593B009E708A /* caranimation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = caranimation.json; path = ../../../../../../../Downloads/caranimation.json; sourceTree = "<group>"; };
 		C6660DE22C5669FB009E708A /* onboardingLottieThree.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = onboardingLottieThree.json; sourceTree = "<group>"; };
 		C6660DE32C5669FB009E708A /* onboardingLottieTwo.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = onboardingLottieTwo.json; sourceTree = "<group>"; };
-		C6660DE62C566A26009E708A /* onboardingLottieOne.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = onboardingLottieOne.json; path = ../../../../../../../Downloads/onboardingLottieOne.json; sourceTree = "<group>"; };
 		C6660DEA2C566CD9009E708A /* activePark.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = activePark.json; sourceTree = "<group>"; };
 		C6660DEC2C566E34009E708A /* locationLottie.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = locationLottie.json; sourceTree = "<group>"; };
 		C6660DEF2C5682C5009E708A /* caranimation3.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = caranimation3.json; sourceTree = "<group>"; };
 		C6660DF22C568485009E708A /* caranimation4.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = caranimation4.json; sourceTree = "<group>"; };
-		C6660DF32C568485009E708A /* caranimation2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = caranimation2.json; path = ../../../../../../../Downloads/caranimation2.json; sourceTree = "<group>"; };
 		C67B6CA12C299B9D004FF395 /* AddFirstCarPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFirstCarPresenter.swift; sourceTree = "<group>"; };
 		C67B6CA22C299B9D004FF395 /* AddFirstCarWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFirstCarWorker.swift; sourceTree = "<group>"; };
 		C67B6CA32C299B9D004FF395 /* AddFirstCarRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFirstCarRouter.swift; sourceTree = "<group>"; };
@@ -459,6 +461,7 @@
 		C6660DD32C564C80009E708A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				30705FB22D92DCF70012BBB5 /* silence.mp3 */,
 				C6660DD42C564C87009E708A /* Lottie */,
 			);
 			path = Resources;
@@ -468,14 +471,14 @@
 			isa = PBXGroup;
 			children = (
 				C6660DEF2C5682C5009E708A /* caranimation3.json */,
-				C6660DF32C568485009E708A /* caranimation2.json */,
+				308B5D552D90128000BB621D /* caranimation2.json */,
 				C6660DF22C568485009E708A /* caranimation4.json */,
 				C6660DEC2C566E34009E708A /* locationLottie.json */,
 				C6660DEA2C566CD9009E708A /* activePark.json */,
 				C6660DD82C565582009E708A /* infoanimation.json */,
-				C6660DDE2C56593B009E708A /* caranimation.json */,
+				308B5D532D90127500BB621D /* caranimation.json */,
 				C6660DE22C5669FB009E708A /* onboardingLottieThree.json */,
-				C6660DE62C566A26009E708A /* onboardingLottieOne.json */,
+				308B5D512D90124D00BB621D /* onboardingLottieOne.json */,
 				C6660DE32C5669FB009E708A /* onboardingLottieTwo.json */,
 			);
 			path = Lottie;
@@ -575,8 +578,8 @@
 			isa = PBXGroup;
 			children = (
 				C6660DD32C564C80009E708A /* Resources */,
-				C65B98B52C4158680057D40F /* GoogleService-Info.plist */,
 				C6660DC92C5644A0009E708A /* carAnimated.gif */,
+				308B5D592D90164100BB621D /* GoogleService-Info.plist */,
 				C606393F2C3B21A800CA7605 /* AutoParking.entitlements */,
 				C691A2552C28E665004192D7 /* Info.plist */,
 				C691A20C2C28DE2C004192D7 /* Supporting */,
@@ -928,20 +931,21 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				30705FB32D92DCF70012BBB5 /* silence.mp3 in Resources */,
 				C6660DCA2C5644A0009E708A /* carAnimated.gif in Resources */,
 				C6660DF42C568485009E708A /* caranimation4.json in Resources */,
-				C6660DF52C568485009E708A /* caranimation2.json in Resources */,
+				308B5D522D90124D00BB621D /* onboardingLottieOne.json in Resources */,
 				C6660DF12C5682C5009E708A /* caranimation3.json in Resources */,
+				308B5D542D90127500BB621D /* caranimation.json in Resources */,
 				C6660DD92C565582009E708A /* infoanimation.json in Resources */,
 				C691A12B2C28D127004192D7 /* LaunchScreen.storyboard in Resources */,
 				C691A1282C28D127004192D7 /* Assets.xcassets in Resources */,
 				C6660DE52C5669FB009E708A /* onboardingLottieTwo.json in Resources */,
+				308B5D562D90128000BB621D /* caranimation2.json in Resources */,
+				308B5D5A2D90164100BB621D /* GoogleService-Info.plist in Resources */,
 				C6660DEB2C566CD9009E708A /* activePark.json in Resources */,
-				C6660DE72C566A26009E708A /* onboardingLottieOne.json in Resources */,
-				C65B98B62C4158680057D40F /* GoogleService-Info.plist in Resources */,
 				C6660DED2C566E34009E708A /* locationLottie.json in Resources */,
 				C6660DE42C5669FB009E708A /* onboardingLottieThree.json in Resources */,
-				C6660DDF2C56593B009E708A /* caranimation.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1215,7 +1219,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = AutoParking/AutoParking.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = 5QNRM4SY3X;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AutoParking/Info.plist;
@@ -1233,9 +1237,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = development.AutoParking;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -1246,7 +1254,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = AutoParking/AutoParking.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = 5QNRM4SY3X;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AutoParking/Info.plist;
@@ -1264,9 +1272,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = development.AutoParking;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

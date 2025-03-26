@@ -388,7 +388,7 @@ final class BookedListCell: UITableViewCell, ThemeableView {
                 self.hoursLabel.text = String(format: "%02d", abs(countdownComponents.hour ?? 0))
                 self.minutesLabel.text = String(format: "%02d", abs(countdownComponents.minute ?? 0))
                 self.secondsLabel.text = String(format: "%02d", abs(countdownComponents.second ?? 0))
-                print("Updating countdown: hours: \(countdownComponents.hour ?? 0), minutes: \(countdownComponents.minute ?? 0), seconds: \(countdownComponents.second ?? 0)")
+//                print("Updating countdown: hours: \(countdownComponents.hour ?? 0), minutes: \(countdownComponents.minute ?? 0), seconds: \(countdownComponents.second ?? 0)")
             } else {
                 self.hoursLabel.text = "00"
                 self.minutesLabel.text = "00"

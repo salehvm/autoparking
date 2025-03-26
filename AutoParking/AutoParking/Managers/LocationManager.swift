@@ -102,22 +102,52 @@ final class LocationManager: NSObject {
     
     func calculateClosestPoints(location: CLLocation, parks: [Park]) -> Park? {
         let userLocation = location.coordinate
+        
+        
+        
+        
         var minDistance: Double = .greatestFiniteMagnitude
         var closestCoordinates: [String: Double] = [:]
         var parkObject: Park?
+        print("parks return")
+        print(parks)
+        print("parks return")
+        
         
         for park in parks {
-            if let closestPoint = closestPoint(on: park.polylineCoords ?? [], to: userLocation) {
-                closestCoordinates[park.code ?? ""] = closestPoint
-                
-                if closestPoint < 10 {
-                    if closestPoint < minDistance {
-                        minDistance = closestPoint
-                        parkObject = park
-                    }
+            
+            
+            if park.disabiled == 1 {
+                continue
+            } else {
+                for cordArray in park.multiCoordinates {
+                        if cordArray.count == 2, let startCoord = cordArray.first, let endCoord = cordArray.last {
+                            let startCoordinate = PolyMultiCord.init(latitude: startCoord[1], longitude: startCoord[0])
+                            let endCoordinate = PolyMultiCord.init(latitude: endCoord[1], longitude: endCoord[0])
+                            let polydefs = [startCoordinate, endCoordinate]
+                            
+                            
+                            if let closestPoint = closestPoint(on: polydefs, to: userLocation) {
+                                closestCoordinates[park.code ?? ""] = closestPoint
+                                
+                                if closestPoint < 10 {
+                                    print("closestPoint return")
+                                    print(closestPoint)
+                                    print("closestPoint return")
+                                    if closestPoint < minDistance {
+                                        minDistance = closestPoint
+                                        parkObject = park
+                                    }
+                                }
+                            }
+                        }
                 }
+                
             }
         }
+        print("parkObject return")
+        print(parkObject)
+        print("parkObject return")
         
         self.userLocationLat = userLocation.latitude
         self.userLocationLong = userLocation.longitude
@@ -125,7 +155,7 @@ final class LocationManager: NSObject {
         return parkObject
     }
     
-    private func closestPoint(on polyline: [Coordinates], to location: CLLocationCoordinate2D) -> Double? {
+    private func closestPoint(on polyline: [PolyMultiCord], to location: CLLocationCoordinate2D) -> Double? {
         guard polyline.count > 1 else { return nil }
         
         let point = Turf.Point(location)
@@ -208,4 +238,9 @@ extension LocationManager: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         locationError = error
     }
+}
+
+public struct PolyMultiCord {
+  public let latitude: Double?
+  public let longitude: Double?
 }

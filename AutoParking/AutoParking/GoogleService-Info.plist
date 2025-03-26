@@ -3,28 +3,28 @@
 <plist version="1.0">
 <dict>
 	<key>API_KEY</key>
-	<string>AIzaSyA5nbjSE6OO__EQr5quuR1JxMDtbp_w66M</string>
+	<string>AIzaSyBWmgW0FrX8FGP6pUvzznJ0K8dfZnqsJMY</string>
 	<key>GCM_SENDER_ID</key>
-	<string>525580760624</string>
+	<string>621031664366</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>development.AutoParking</string>
 	<key>PROJECT_ID</key>
-	<string>autoparking-7a531</string>
+	<string>autoparking-91feb</string>
 	<key>STORAGE_BUCKET</key>
-	<string>autoparking-7a531.appspot.com</string>
+	<string>autoparking-91feb.firebasestorage.app</string>
 	<key>IS_ADS_ENABLED</key>
-	<false/>
+	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false/>
+	<false></false>
 	<key>IS_APPINVITE_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>IS_GCM_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:525580760624:ios:91bd43cbda38e9d7f59ff5</string>
+	<string>1:621031664366:ios:5da0d5f60982657c3621ff</string>
 </dict>
 </plist>

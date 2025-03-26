@@ -16,6 +16,7 @@ public struct ParkListResponse: Decodable {
     public let count: Int?
 }
 
+
 public struct Park: Decodable, Identifiable {
     public let id: String?
     public let code: String?
@@ -34,6 +35,7 @@ public struct Park: Decodable, Identifiable {
     public let slotUnit: String?
     public let coordinates: Coordinates?
     public let polylineCoords: [Coordinates]?
+    public let multiCoordinates: [[[Double]]]
     public let slotRequired: Int?
     public let disabiled: Int?
     public let zoom: Double?
@@ -41,17 +43,6 @@ public struct Park: Decodable, Identifiable {
     public let color: String?
     
     
-//    enum CodingKeys: String, CodingKey {
-//        case id,code,number,title,address,cleverciti,sites, distance, price, coordinates, disabiled, zoom, status, color
-//        case totalSlotCount = "total_slot_count"
-//        case bookedSlotCount = "booked_slot_count"
-//        case sitesArray = "sites_array"
-//        case distanceUnit = "distance_unit"
-//        case priceUnit = "price_unit"
-//        case slotUnit = "slot_unit"
-//        case polyLineCor = "polyline_coords"
-//        case slotRequired = "slot_required"
-//    }
 }
 
 public struct SitesArray: Decodable {
@@ -187,3 +178,4 @@ public struct VehicleDetail: Codable {
         self.label = label
     }
 }
+

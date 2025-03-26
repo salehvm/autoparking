@@ -8,6 +8,8 @@
 import UIKit
 import AutoParkingNetwork
 import RealmSwift
+import AVFAudio
+import AVFoundation
 
 protocol AddFirstCarDisplayLogic: AnyObject {
     func displayLoad(viewModel: AddFirstCar.Load.ViewModel)
@@ -68,12 +70,12 @@ extension AddFirstCarViewController: AddFirstCarDisplayLogic {
         if viewModel.data.isEmpty {
             self.mainView?.selectCarViewLabel.text = "No cars available"
         } else {
-            self.selectedCar = viewModel.data.first // Select the first car by default
+            self.selectedCar = viewModel.data.first
             self.mainView?.selectCarViewLabel.text = viewModel.data.first?.mark?.label
         }
     }
 
-    private func addNewCarToDevice(car: Vehicle?, deviceName: String) {
+    private func addNewCarToDevice(car: Vehicle?, deviceName: String, deviceUUID: String) {
         guard let car = car else {
             print("Error: Car information is incomplete or not provided.")
             return
@@ -86,6 +88,7 @@ extension AddFirstCarViewController: AddFirstCarDisplayLogic {
         newVehicle.number = car.number ?? ""
         newVehicle.markLabel = car.mark?.label ?? ""
         newVehicle.modelLabel = car.model?.label ?? ""
+        newVehicle.deviceUUID = deviceUUID
 
         let autoNotification = AutoNotification()
         autoNotification.isAutoCheck = true
@@ -115,6 +118,22 @@ extension AddFirstCarViewController: AddFirstCarDisplayLogic {
         alert.addAction(UIAlertAction(title: "OK", style: .default))
         present(alert, animated: true)
     }
+    
+    func playSilentAudioClip() {
+        guard let url = Bundle.main.url(forResource: "silence", withExtension: "mp3") else {
+            print("Silent audio file not found.")
+            return
+        }
+        
+        do {
+            let audioPlayer = try AVAudioPlayer(contentsOf: url)
+            audioPlayer.volume = 0.0
+            audioPlayer.prepareToPlay()
+            audioPlayer.play()
+        } catch {
+            print("Error playing silent audio clip: \(error.localizedDescription)")
+        }
+    }
 }
 
 // MARK: - View Delegate
@@ -126,11 +145,43 @@ extension AddFirstCarViewController: AddFirstCarViewDelegate {
             showAlert("Device name is required.")
             return
         }
-        addNewCarToDevice(car: self.selectedCar, deviceName: deviceName)
-        self.router?.routeToPermissionScreen()
+        
+        // Silent audio clip oynatmaqla audio sessiyanı yenilə
+        playSilentAudioClip()
+        
+        // 1 saniyə gecikmə əlavə edirik ki, audio sessiya tam yenilənsin
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
+            guard let self = self else { return }
+            
+            let currentRoute = AVAudioSession.sharedInstance().currentRoute
+            print("current route add new car: \(String(describing: currentRoute.outputs.first))")
+            
+            guard let output = currentRoute.outputs.first else {
+                self.showAlert("No audio output detected. Please connect your Bluetooth device.")
+                return
+            }
+            
+            if output.uid == "Built-In Receiver" || output.portName.lowercased().contains("speaker") {
+                self.showAlert("Please connect your Bluetooth device to proceed.")
+                return
+            }
+            
+            // UID-dən yalnız MAC ünvan hissəsini çıxarırıq
+            let uid = output.uid.macAddress
+            print("Device MAC: \(uid)")
+            
+            self.addNewCarToDevice(car: self.selectedCar, deviceName: deviceName, deviceUUID: uid)
+            self.router?.routeToPermissionScreen()
+        }
     }
 
     func showCarList() {
         self.getCarList()
+    }
+}
+
+extension String {
+    var macAddress: String {
+        return self.components(separatedBy: "-").first ?? self
     }
 }

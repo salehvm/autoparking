@@ -59,6 +59,7 @@ class VehicleRealm: Object {
     @objc dynamic var modelValue: String = ""
     @objc dynamic var modelLabel: String = ""
     @objc dynamic var deviceName: String = "" 
+    @objc dynamic var deviceUUID: String = "" 
     @objc dynamic var carName: String = ""
     
 
